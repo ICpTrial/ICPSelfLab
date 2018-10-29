@@ -88,6 +88,11 @@
  
  1. ボタンを開くと、当該アプリケーションをコンテナ化するための様々な構成ファイルがリストされます。
  1. Application Bundle をクリックして、当該のアプリケーションを関連付けます。
+ 1. アプリケーションまで関連付けると、GitHubのサービス および ICP上の CI/CDのための環境 Microclimate まで関連づけていくことが可能です。
+    右の「Application Bundle」を選択します。
+    1. 別途 GitHub 上に作成したプロジェクトのURLを指定します。認証情報も USERID/PASSWORD または TOKEN で指定してください。
+    1. ICP上のMicroclimate の URLを指定します。
+    1. 「Deploy」をクリックします。一連の生成されたコードとアプリケーションがGitHub上に登録され、そこから Mircoclimate のプロジェクトが生成されます。
  
  　
  
