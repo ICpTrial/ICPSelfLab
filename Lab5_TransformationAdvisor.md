@@ -25,7 +25,7 @@
 
 ## Transformation Advisor ワークスペースの作成
 
-1. 解析のための作業スペースとなる ワークスペースを作成します。
+1. 解析のための作業スペースとなる ワークスペースを作成します。<br>
 ![toppage](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/transformationadvisortop.png)
     1. コンソール真ん中の「Add a new workspace」をクリックします。
     1. 「1 / 2　Name a new workspace to begin」で 任意のワークスペース名を付けます。ここでは「workspace01」とします　。
@@ -37,12 +37,12 @@
 
 1. コンソール中央の「DataColletor」のボタンをクリックします。
  ![analyze01](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/analyze01.png)
-1. 既存WebSphereが稼働する環境に応じて、ダウンロードするエージェントを確認します。
+1. 既存WebSphereが稼働する環境に応じて、ダウンロードするエージェントを確認します。<br>
 　　ここでは、「Linux」環境で稼働する「WebSphere」アプリケーション・サーバーを、「App&Configuration（アプリケーションおよび構成）」含めて解析を実施することします。
  ![analyze02](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/analyze02.png)
 1. 「Download for Linux」のボタンをクリックして、TransformationAdvisorのエージェントをダウンロードします。 
-1. 現行アプリケーション・サーバー環境での解析を実施します。
-　　注）このハンズオンでは、便宜上、すでに実行された結果のハンズオンをあとで使用しますので、ここでは手順だけ確認します。
+1. 現行アプリケーション・サーバー環境での解析を実施します。<br>
+　　注）このハンズオンでは、便宜上、すでに実行された結果のハンズオンをあとで使用しますので、ここでは手順だけ確認します。<br>
     1. 実際の環境では、ダウンロードしたエージェントを、現行のアプリケーションが稼働する環境の任意のディレクトリ（/workや/tmpなど）に SCPなどで転送して配置します。
     1. 転送したきたエージェントのファイルを以下のコマンドで解凍します。
     `tar xvfz transformationadvisor-2.1_Linux_collection01.tgz`
