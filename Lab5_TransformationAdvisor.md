@@ -31,7 +31,7 @@
     1. 「1 / 2　Name a new workspace to begin」で 任意のワークスペース名を付けます。ここでは「workspace01」とします　。
     1. 「2 / 2　Create a collection to assign to your workspace」で、集めた情報を収集しておくコレクションの最初のコレクションの名前を付けます。ここでは「collection01」とします。一つのワークスペースの配下に任意の数のコレクションを作成していくことが可能です。システム単位でコレクションを作成するなどがいいかもしれません。
     
- ## Transformation Advisor 解析の実施
+ ## Transformation Advisor エージェントの実行
   
 1. エージェントをしかけて、既存のWebSphereアプリケーションの解析を実施していきますます。
 
@@ -41,7 +41,7 @@
 ここでは、「Linux」環境で稼働する「WebSphere」アプリケーション・サーバーを、「App&Configuration（アプリケーションおよび構成）」含めて解析を実施することします。
  ![analyze02](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/analyze02.png)
 1. 「Download for Linux」のボタンをクリックして、TransformationAdvisorのエージェントをダウンロードします。 
-1. 現行アプリケーション・サーバー環境での解析を実施します。<br>
+1. 現行アプリケーション・サーバー環境でエージェントを実行します。<br>
 注）このハンズオンでは、便宜上、すでに実行された結果のハンズオンをあとで使用しますので、ここでは手順だけ確認します。<br>
     1. 実際の環境では、ダウンロードしたエージェントを、現行のアプリケーションが稼働する環境の任意のディレクトリ（/workや/tmpなど）に SCPなどで転送して配置します。
     1. 転送したきたエージェントのファイルを以下のコマンドで解凍します。<br>
@@ -57,11 +57,11 @@
  ## Transformation Advisor 解析結果の確認
  
  1. エージェントの実行結果が、このハンズオンでは以下のリンクに配置されていますので、ローカルのPCにダウンロードします。<br>
-  [エージェント実行結果](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/DefaultAppSrv01.zip)<br>
+  [エージェント実行結果](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/DefaultAppSrv01.zip) ※開いたGitHubの画面でダウンロードをクリックしてください。
  1. コンソールの中央にある「Upload Data」を選択し、クリックします。
- 1. クリックして開いた画面の「Drop or Add File」を選択し、先にダウンロードした実行結果ファイル `DefaultAppSrv01.zip` を指定します。
+ 1. クリックして開いた画面の「Drop or Add File」を選択し、先にダウンロードした実行結果ファイル `DefaultAppSrv01.zip` を指定し、「Upload」ボタンをクリックします。
  1. レポート結果が開きますので確認していきます。
-
+![report01](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/report01.png)
     1. 収集してきたアプリケーションのプロファイル名が表示され、移行先のターゲットとして「Liberty on Private Cloud」が設定されています。
     1. このプロファイルには、アプリケーションが２つ（CustomOrderServiceApp.earとquery.ear）が含まれていることがわかります。<br>
     それぞれ、アプリケーション移行の複雑さは、<Moderate> （通常レベル）として判断されています。<br>
@@ -69,20 +69,29 @@
     ここでは CustomOrderServiceApp.ear を展開して、詳細を確認していきます。<br>
     
  1. CustomOrderServiceApp.earをクリックして開きます。
-    1. 上部にはアプリケーションの概要や、アプリケーションの変更を行う場合の工数の目安が記載されています（ただしこれはあくまでツールから外から考えられる数字ですので、お客様の実態にあわせて考える必要があります。あくまで目安とお考えください。）
+    1. 上部にはアプリケーションの概要や、アプリケーションの変更を行う場合の工数の目安が記載されています。<br>
+    ただしこれはあくまでツールから外から考えられる数字ですので、お客様の実態にあわせて考える必要があります。あくまで目安とお考えください。<br>
+    ![report02](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/report02.png)
     1. テクニカル・イシューとして１つ重要レベルの課題があがっており、「Behavior change on lookups for Enterprise JavaBeans」が上げられています。
+    ![report03](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/report03.png)
     　　これは赤印がついていますので、マイグレーションの際に実際に対応しないといけない課題です。
 
- 1. テクニカルな稼働を確認するために「Analytics Report」を確認します。先ほどの解析のなかで Issuseとして上がっている内容の詳細を確認できます。
+ 1. テクニカルな稼働を確認するために、最下部にある３つのレポートを確認していきます。<br>
+ まず「Analytics Report」を確認します。先ほどの解析のなかで Issuseとして上がっている内容の詳細を確認できます。
+ ![analyticreport01](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/analyticreport01.png)
     1. 「Detailed Results by Rule」に先ほど確認した課題のリストの詳細があります。
     1. 「Behavior change on lookups for Enterprise JavaBeans」の show result を開いて、どのファイルに問題があるか確認します。showrule help を開くと、どのような課題なのかを確認することができ、場合によっては修正の仕方のガイドがあります。
+    ![analyticreport02](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/analyticreport01.png)
     1. その他の結果についても同様に確認してくださいｓ．
+
     
  1. 「Technical Report」を確認します。これはアプリケーションで利用されているAPIのリストが表示されます。
  　　様々なアプリケーション・サーバー環境がリストされていますが、チェックが入っていない環境では当該のAPIが稼働しません。
    　そのテクノロジーの移行を考えるか、移行先をサポートされるものの中から選ぶかを実施する必要があります。
+    ![techreport02](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/techreport02.png)
     
  1. 「Inventory Report」は、当該のアプリケーションの構造を示してくれます。保守するメンバーがいなくなってしまった場合などに、アプリケーションの作りの概要を理解するのに役立ちます。
+  ![techreport02](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/inventoryreport.png)
       
   
  ## Migration Planの作成
