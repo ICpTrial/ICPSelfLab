@@ -19,9 +19,9 @@
         https://<ICP_ClusterIP:8443/icp/console<br> 
         認証情報　admin : admin<br>
 
-    1. ICPのメニューを開き、Tools > Transformation を開きます。
+    1. ICPのメニューを開き、Tools > Transformation を開きます。<br>
     　　※ Transformation Advisorを構成されていないICP環境ではメニューが含まれていません。<br>
-　　　　　 Transformation Advisorを導入すると、メニューが表示されるようになります。
+      Transformation Advisorを導入すると、メニューが表示されるようになります。
 
 ## Transformation Advisor ワークスペースの作成
 
@@ -38,35 +38,35 @@
 1. コンソール中央の「DataColletor」のボタンをクリックします。
  ![analyze01](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/analyze01.png)
 1. 既存WebSphereが稼働する環境に応じて、ダウンロードするエージェントを確認します。<br>
-　　ここでは、「Linux」環境で稼働する「WebSphere」アプリケーション・サーバーを、「App&Configuration（アプリケーションおよび構成）」含めて解析を実施することします。
+ここでは、「Linux」環境で稼働する「WebSphere」アプリケーション・サーバーを、「App&Configuration（アプリケーションおよび構成）」含めて解析を実施することします。
  ![analyze02](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/analyze02.png)
 1. 「Download for Linux」のボタンをクリックして、TransformationAdvisorのエージェントをダウンロードします。 
 1. 現行アプリケーション・サーバー環境での解析を実施します。<br>
-　　注）このハンズオンでは、便宜上、すでに実行された結果のハンズオンをあとで使用しますので、ここでは手順だけ確認します。<br>
+注）このハンズオンでは、便宜上、すでに実行された結果のハンズオンをあとで使用しますので、ここでは手順だけ確認します。<br>
     1. 実際の環境では、ダウンロードしたエージェントを、現行のアプリケーションが稼働する環境の任意のディレクトリ（/workや/tmpなど）に SCPなどで転送して配置します。
-    1. 転送したきたエージェントのファイルを以下のコマンドで解凍します。
-    `tar xvfz transformationadvisor-2.1_Linux_collection01.tgz`
-
-    1. 解凍されたアプリケーションの transformationAdvisor ディレクトリに移動します。
-    `cd transformationadvisor-2.1`
-    1. binディレクトリ配下にある transoformationAdvisorを実行します。
-    `./bin/transformationadvisor -w <WEBSPHERE_HOME_DIR> -p <PROFILE_NAME> <WSADMIN_USER> <WSADMIN_PASSWORD>`
-        ここで <WEBSPHERE_HOME_DIR> は /opt/IBM/WebSphere ディレクトリ、<PROFILE_NAME> は、WASのプロファイル名 例えば Dmgr01 です。
-        <WSADMIN_USER> <WSADMIN_PASSWORD> には、当該環境に適切なWAS管理ユーザー（wasadmin など）と、パスワードを指定してください。
+    1. 転送したきたエージェントのファイルを以下のコマンドで解凍します。<br>
+    `tar xvfz transformationadvisor-2.1_Linux_collection01.tgz`<br>
+    1. 解凍されたアプリケーションの transformationAdvisor ディレクトリに移動します。<br>
+    `cd transformationadvisor-2.1`<br>
+    1. binディレクトリ配下にある transoformationAdvisorを実行します。<br>
+    `./bin/transformationadvisor -w <WEBSPHERE_HOME_DIR> -p <PROFILE_NAME> <WSADMIN_USER> <WSADMIN_PASSWORD>`<br>
+    ここで <WEBSPHERE_HOME_DIR> は /opt/IBM/WebSphere ディレクトリ、<PROFILE_NAME> は、WASのプロファイル名 例えば Dmgr01 です。<br>
+    <WSADMIN_USER> <WSADMIN_PASSWORD> には、当該環境に適切なWAS管理ユーザー（wasadmin など）と、パスワードを指定してください。
     1. 正常に実行されると、zipファイルが生成されます。
 
  ## Transformation Advisor 解析結果の確認
  
- 1. エージェントの実行結果が以下のリンクに配置されていますので、ローカルのPCにダウンロードします。
+ 1. エージェントの実行結果が、このハンズオンでは以下のリンクに配置されていますので、ローカルのPCにダウンロードします。<br>
+  [エージェント実行結果](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/DefaultAppSrv01.zip)<br>
  1. コンソールの中央にある「Upload Data」を選択し、クリックします。
  1. クリックして開いた画面の「Drop or Add File」を選択し、先にダウンロードした実行結果ファイル `DefaultAppSrv01.zip` を指定します。
  1. レポート結果が開きますので確認していきます。
 
     1. 収集してきたアプリケーションのプロファイル名が表示され、移行先のターゲットとして「Liberty on Private Cloud」が設定されています。
-    1. このプロファイルには、アプリケーションが２つ（CustomOrderServiceApp.earとquery.ear）が含まれていることがわかります。
-    　　それぞれ、アプリケーション移行の複雑さは、<Moderate> （通常レベル）として判断されています。
-    　　この中で、移行に関する課題Issueがそれぞれ、幾つか上がっています。
-    　　ここでは CustomOrderServiceApp.ear を展開して、詳細を確認していきます。
+    1. このプロファイルには、アプリケーションが２つ（CustomOrderServiceApp.earとquery.ear）が含まれていることがわかります。<br>
+    それぞれ、アプリケーション移行の複雑さは、<Moderate> （通常レベル）として判断されています。<br>
+    この中で、移行に関する課題Issueがそれぞれ、幾つか上がっています。<br>
+    ここでは CustomOrderServiceApp.ear を展開して、詳細を確認していきます。<br>
     
  1. CustomOrderServiceApp.earをクリックして開きます。
     1. 上部にはアプリケーションの概要や、アプリケーションの変更を行う場合の工数の目安が記載されています（ただしこれはあくまでツールから外から考えられる数字ですので、お客様の実態にあわせて考える必要があります。あくまで目安とお考えください。）
