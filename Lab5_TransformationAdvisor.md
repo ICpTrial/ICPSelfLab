@@ -1,5 +1,5 @@
 
-# Lab3. ICP上でのTransformation Advisor の実行
+# Lab5. ICP上でのTransformation Advisor の実行
 
 このLabでは、ICP上で Transformation Advisor を実行して、既存JavaEEアプリケーションをモダナイズのためのツールを活用する手順を確認します。
 
@@ -26,17 +26,20 @@
 ## Transformation Advisor ワークスペースの作成
 
 1. 解析のための作業スペースとなる ワークスペースを作成します。
-
+![toppage](https://github.com/ICpTrial/ICPLab/tree/master/trfadvimage/transformationadvisortop.png)
     1. コンソール真ん中の「Add a new workspace」をクリックします。
     1. 「1 / 2　Name a new workspace to begin」で 任意のワークスペース名を付けます。ここでは「workspace01」とします　。
     1. 「2 / 2　Create a collection to assign to your workspace」で、集めた情報を収集しておくコレクションの最初のコレクションの名前を付けます。ここでは「collection01」とします。一つのワークスペースの配下に任意の数のコレクションを作成していくことが可能です。システム単位でコレクションを作成するなどがいいかもしれません。
     
- ## Transformation Advisor 解析の実施   
+ ## Transformation Advisor 解析の実施
   
-1. エージェントをしかけて、既存のWebSphereアプリケーションの解析を実施します。
+1. エージェントをしかけて、既存のWebSphereアプリケーションの解析を実施していきますます。
+
 1. コンソール中央の「DataColletor」のボタンをクリックします。
+ ![analyze01](https://github.com/ICpTrial/ICPLab/tree/master/trfadvimage/analyze01.png)
 1. 既存WebSphereが稼働する環境に応じて、ダウンロードするエージェントを確認します。
 　　ここでは、「Linux」環境で稼働する「WebSphere」アプリケーション・サーバーを、「App&Configuration（アプリケーションおよび構成）」含めて解析を実施することします。
+ ![analyze02](https://github.com/ICpTrial/ICPLab/tree/master/trfadvimage/analyze01.png)
 1. 「Download for Linux」のボタンをクリックして、TransformationAdvisorのエージェントをダウンロードします。 
 1. 現行アプリケーション・サーバー環境での解析を実施します。
 　　注）このハンズオンでは、便宜上、すでに実行された結果のハンズオンをあとで使用しますので、ここでは手順だけ確認します。
