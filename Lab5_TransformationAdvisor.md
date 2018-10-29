@@ -81,30 +81,36 @@
  ![analyticreport01](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/analyticreport01.png)
     1. 「Detailed Results by Rule」に先ほど確認した課題のリストの詳細があります。
     1. 「Behavior change on lookups for Enterprise JavaBeans」の show result を開いて、どのファイルに問題があるか確認します。showrule help を開くと、どのような課題なのかを確認することができ、場合によっては修正の仕方のガイドがあります。
-    ![analyticreport02](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/analyticreport01.png)
+    ![analyticreport02](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/analyticreport02.png)
     1. その他の結果についても同様に確認してください．
 
     
- 1. 「Technical Report」を確認します。これはアプリケーションで利用されているAPIのリストが表示されます。
- 　　様々なアプリケーション・サーバー環境がリストされていますが、チェックが入っていない環境では当該のAPIが稼働しません。
-   　そのテクノロジーの移行を考えるか、移行先をサポートされるものの中から選ぶかを実施する必要があります。
-    ![techreport02](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/techreport02.png)
+ 1. 「Technical Report」を確認します。これはアプリケーションで利用されているAPIのリストが表示されます。<br>
+ 　　様々なアプリケーション・サーバー環境がリストされていますが、チェックが入っていない環境では当該のAPIが稼働しません。<br>
+   　そのテクノロジーの移行を考えるか、移行先をサポートされるものの中から選ぶかを実施する必要があります。<br>
+    ![techreport01](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/techreport01.png)
     
  1. 「Inventory Report」は、当該のアプリケーションの構造を示してくれます。保守するメンバーがいなくなってしまった場合などに、アプリケーションの作りの概要を理解するのに役立ちます。
-  ![techreport02](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/inventoryreport.png)
+  ![migrationreport02](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/inventoryreport.png)
       
   
  ## Migration Planの作成
  
- ツールが作成してくれた構成ファイルを利用して、マイグレーションを検討していきます。Recommendationの画面から「Migration Plan」のボタンをクリックします。
+ ツールが作成してくれた構成ファイルを利用して、マイグレーションを検討していきます。<br>
+ Recommendationの画面から「Migration Plan」のボタンをクリックします。<br>
  
- 1. ボタンを開くと、当該アプリケーションをコンテナ化するための様々な構成ファイルがリストされます。
+ 1. ボタンを開くと、当該アプリケーションをコンテナ化するための様々な構成ファイルがリストされます。<br>
+ それぞれの構成ファイルを開いて確認してみましょう。<br>
+![migration01](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/migration01.png)
  1. Application Bundle をクリックして、当該のアプリケーションを関連付けます。
- 1. アプリケーションまで関連付けると、GitHubのサービス および ICP上の CI/CDのための環境 Microclimate まで関連づけていくことが可能です。
-    右の「Application Bundle」を選択します。
+ ![migration01](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/migration02.png)
+ 1. アプリケーションまで関連付けると、「Deploy Bundle」ボタンを押すことができるようになります。<br>
+ これにより、GitHubのコード・レポジトリ および ICP上の CI/CD環境 Microclimate まで関連づけていくことが可能です。
+    1.右の「Deploy Bundle」を選択します。
+    ![migration03](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/migration03.png)
     1. 別途 GitHub 上に作成したプロジェクトのURLを指定します。認証情報も USERID/PASSWORD または TOKEN で指定してください。
     1. ICP上のMicroclimate の URLを指定します。
-    1. 「Deploy」をクリックします。一連の生成されたコードとアプリケーションがGitHub上に登録され、そこから Mircoclimate のプロジェクトが生成されます。
+    1. 「Deploy」をクリックします。一連の生成されたコードとアプリケーションがGitHub上に登録され、そこから Mircoclimate のプロジェクトが生成されます。![migration04](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/migration04.png)
  
  　
  
