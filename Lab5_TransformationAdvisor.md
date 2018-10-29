@@ -20,7 +20,7 @@
         認証情報　admin : admin<br>
 
     1. ICPのメニューを開き、Tools > Transformation を開きます。<br>
-    　　※ Transformation Advisorを構成されていないICP環境ではメニューが含まれていません。<br>
+    ※ Transformation Advisorを構成されていないICP環境ではメニューが含まれていません。<br>
       Transformation Advisorを導入すると、メニューが表示されるようになります。
 
 ## Transformation Advisor ワークスペースの作成
