@@ -26,7 +26,7 @@
 ## Transformation Advisor ワークスペースの作成
 
 1. 解析のための作業スペースとなる ワークスペースを作成します。
-![toppage](https://github.com/ICpTrial/ICPLab/tree/master/trfadvimage/transformationadvisortop.png "TransformationAdvisor top")
+![toppage](https://github.com/ICpTrial/ICPLab/tree/master/trfadvimage/transformationadvisortop.png)
     1. コンソール真ん中の「Add a new workspace」をクリックします。
     1. 「1 / 2　Name a new workspace to begin」で 任意のワークスペース名を付けます。ここでは「workspace01」とします　。
     1. 「2 / 2　Create a collection to assign to your workspace」で、集めた情報を収集しておくコレクションの最初のコレクションの名前を付けます。ここでは「collection01」とします。一つのワークスペースの配下に任意の数のコレクションを作成していくことが可能です。システム単位でコレクションを作成するなどがいいかもしれません。
