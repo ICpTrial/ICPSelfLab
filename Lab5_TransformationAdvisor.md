@@ -96,20 +96,23 @@
   
  ## Migration Planの作成
  
- ツールが作成してくれた構成ファイルを利用して、マイグレーションを検討していきます。<br>
+ 1. ツールが作成してくれた構成ファイルを利用して、マイグレーションを検討していきます。<br>
  Recommendationの画面から「Migration Plan」のボタンをクリックします。<br>
- 
+ ![migration01](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/migration01.png)
  1. ボタンを開くと、当該アプリケーションをコンテナ化するための様々な構成ファイルがリストされます。<br>
  それぞれの構成ファイルを開いて確認してみましょう。<br>
-![migration01](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/migration01.png)
- 1. Application Bundle をクリックして、当該のアプリケーションを関連付けます。
+
+ 1. Application Bundle をクリックして、アプリケーションを関連付けます。<br>
+ ここでは、[アプリケーション](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/CustomerOrderServicesApp.ear) をダウンロードして利用します。
  ![migration01](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/migration02.png)
+　
  1. アプリケーションまで関連付けると、「Deploy Bundle」ボタンを押すことができるようになります。<br>
  これにより、GitHubのコード・レポジトリ および ICP上の CI/CD環境 Microclimate まで関連づけていくことが可能です。
     1.右の「Deploy Bundle」を選択します。
     ![migration03](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/migration03.png)
-    1. 別途 GitHub 上に作成したプロジェクトのURLを指定します。認証情報も USERID/PASSWORD または TOKEN で指定してください。
-    1. ICP上のMicroclimate の URLを指定します。
+    1. 別途 GitHub 上に作成したプロジェクトのURLを指定します。認証情報を USERID/PASSWORD または TOKEN で指定してください。<br>
+    1. ICP上のMicroclimate の URLを指定します。<br>
+    `http://microclimate.<icp_proxy_address>.nip.io`<br>
     1. 「Deploy」をクリックします。一連の生成されたコードとアプリケーションがGitHub上に登録され、そこから Mircoclimate のプロジェクトが生成されます。![migration04](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/migration04.png)
  
  　
