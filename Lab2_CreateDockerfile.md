@@ -305,7 +305,7 @@
 1. ブラウザーで、`http://localhost:19080/Sum` にアクセスし、サンプル・アプリケーションが表示されることを確認します。
 1. また、今回、mpMetrics-1.1 (MicroProfile Metrics)のフィーチャーを追加していますので、ブラウザーで、`http://localhost:19080/metrics`にアクセスすることでサーバーのGC状況やLibertyのWebコンテナー・スレッド数、HTTPセッションの統計情報が表示されます。
 
-以上で、Lab2は終了です。引き続き、Lab3で、作成したDockerイメージを、IBM Cloud PrivateのKubernetes環境にデプロイします。
+以上で、Lab2は終了です。引き続き、Lab3で、IBM提供のLiberty Helmチャートをデプロイし、IBM Cloud Privateのコンソール操作の体験と、Kubernetesのオブジェクトを確認します。
 
 
 
