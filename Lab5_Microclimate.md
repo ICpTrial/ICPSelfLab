@@ -65,9 +65,9 @@
 ![pipeline02](https://github.com/ICpTrial/ICPLab/blob/master/mcimage/pipeline02.png)
 1. 「資格情報の選択」をクリックし、このGitレポジトリにアクセスするための情報（ユーザーID&パスワードまたはTOKEN)を定義し、「パイプラインの作成」をクリックします。
 ![pipeline03](https://github.com/ICpTrial/ICPLab/blob/master/mcimage/pipeline03.png)
-1.パイプラインが作成されるので、パイプラインを開くをクリックします。
+1. パイプラインが作成されるので、パイプラインを開くをクリックします。
 ![pipeline04](https://github.com/ICpTrial/ICPLab/blob/master/mcimage/pipeline04.png)
-1.このアプリケーションに関連付けられたJenkinsが開きます。
+1. このアプリケーションに関連付けられたJenkinsが開きます。
 ![pipeline05](https://github.com/ICpTrial/ICPLab/blob/master/mcimage/pipeline05.png)
 
 
