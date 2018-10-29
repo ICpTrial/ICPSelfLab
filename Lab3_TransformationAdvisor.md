@@ -39,23 +39,51 @@
 　　ここでは、「Linux」環境で稼働する「WebSphere」アプリケーション・サーバーを、「App&Configuration（アプリケーションおよび構成）」含めて解析を実施することします。
 1. 「Download for Linux」のボタンをクリックして、TransformationAdvisorのエージェントをダウンロードします。 
 1. 現行アプリケーション・サーバー環境での解析を実施します。
+　　注）このハンズオンでは、便宜上、すでに実行された結果のハンズオンをあとで使用しますので、ここでは手順だけ確認します。
     1. 実際の環境では、ダウンロードしたエージェントを、現行のアプリケーションが稼働する環境の任意のディレクトリ（/workや/tmpなど）に SCPなどで転送して配置します。
     1. 転送したきたエージェントのファイルを以下のコマンドで解凍します。
-    * tar xvfz transformationadvisor-2.1_Linux_collection01.tgz
+    `tar xvfz transformationadvisor-2.1_Linux_collection01.tgz`
 
     1. 解凍されたアプリケーションの transformationAdvisor ディレクトリに移動します。
-    * cd transformationadvisor-2.1
+    `cd transformationadvisor-2.1`
     1. binディレクトリ配下にある transoformationAdvisorを実行します。
-    * ./bin/transformationadvisor -w <WEBSPHERE_HOME_DIR> -p <PROFILE_NAME> <WSADMIN_USER> <WSADMIN_PASSWORD>
+    `./bin/transformationadvisor -w <WEBSPHERE_HOME_DIR> -p <PROFILE_NAME> <WSADMIN_USER> <WSADMIN_PASSWORD>`
         ここで <WEBSPHERE_HOME_DIR> は /opt/IBM/WebSphere ディレクトリ、<PROFILE_NAME> は、WASのプロファイル名 例えば Dmgr01 です。
         <WSADMIN_USER> <WSADMIN_PASSWORD> には、当該環境に適切なWAS管理ユーザー（wasadmin など）と、パスワードを指定してください。
     1. 正常に実行されると、zipファイルが生成されます。
+
+ ## Transformation Advisor 解析結果の確認
+ 
+ 1. エージェントの実行結果が以下のリンクに配置されていますので、ローカルのPCにダウンロードします。
+ 1. コンソールの中央にある「Upload Data」を選択し、クリックします。
+ 1. クリックして開いた画面の「Drop or Add File」を選択し、先にダウンロードした実行結果ファイル `DefaultAppSrv01.zip` を指定します。
+ 1. レポート結果が開きますので確認していきます。
+
+    1. 収集してきたアプリケーションのプロファイル名が表示され、移行先のターゲットとして「Liberty on Private Cloud」が設定されています。
+    1. このプロファイルには、アプリケーションが２つ（CustomOrderServiceApp.earとquery.ear）が含まれていることがわかります。
+    　　それぞれ、アプリケーション移行の複雑さは、<Moderate> （通常レベル）として判断されています。
+    　　この中で、移行に関する課題Issueがそれぞれ、幾つか上がっています。
+    　　ここでは CustomOrderServiceApp.ear を展開して、詳細を確認していきます。
     
+ 1. CustomOrderServiceApp.earをクリックして開きます。
+    1. 上部にはアプリケーションの概要や、アプリケーションの変更を行う場合の工数の目安が記載されています（ただしこれはあくまでツールから外から考えられる数字ですので、お客様の実態にあわせて考える必要があります。あくまで目安とお考えください。）
+    1. テクニカル・イシューとして１つ重要レベルの課題があがっており、「Behavior change on lookups for Enterprise JavaBeans」が上げられています。
+    　　これは赤印がついていますので、マイグレーションの際に実際に対応しないといけない課題です。
+
+ 1. テクニカルな稼働を確認するために「Analytics Report」を確認します。先ほどの解析のなかで Issuseとして上がっている内容の詳細を確認できます。
+    1. 「Detailed Results by Rule」に先ほど確認した課題のリストの詳細があります。
+    1. 「Behavior change on lookups for Enterprise JavaBeans」の show result を開いて、どのファイルに問題があるか確認します。showrule help を開くと、どのような課題なのかを確認することができ、場合によっては修正の仕方のガイドがあります。
+    1. その他の結果についても同様に確認してくださいｓ．
     
-        <WSADMIN_USER> <WSADMIN_PASSWORD> には、当該環境に適切なWAS管理ユーザー（wasadmin など）と、パスワードを指定してください1
-        <WSADMIN_USER> <WSADMIN_PASSWORD> には、当該環境に適切なWAS管理ユーザー（wasadmin など）と、パスワードを指定してください。.
-        <WSADMIN_USER> <WSADMIN_PASSWORD> には、当該環境に適切なWAS管理ユーザー（wasadmin など）と、パスワードを指定してください。 
-        <WSADMIN_USER> <WSADMIN_PASSWORD> には、当該環境に適切なWAS管理ユーザー（wasadmin など）と、パスワードを指定してください。
- ## Transformation Advisor 解析結果の確認            
+ 1. 「Technical Report」を確認します。これはアプリケーションで利用されているAPIのリストが表示されます。
+ 　　様々なアプリケーション・サーバー環境がリストされていますが、チェックが入っていない環境では当該のAPIが稼働しません。
+   　そのテクノロジーの移行を考えるか、移行先をサポートされるものの中から選ぶかを実施する必要があります。
+    
+ 1. 「Inventory Report」は、当該のアプリケーションの構造を示してくれます。保守するメンバーがいなくなってしまった場合などに、アプリケーションの作りの概要を理解するのに役立ちます。
+      
+  
+ 
+ 
+ 
   
     
