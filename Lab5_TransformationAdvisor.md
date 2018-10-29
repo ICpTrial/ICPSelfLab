@@ -111,13 +111,10 @@
     1.右の「Deploy Bundle」を選択します。
     ![migration03](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/migration03.png)
     1. 別途 GitHub 上に作成したプロジェクトのURLを指定します。認証情報を USERID/PASSWORD または TOKEN で指定してください。<br>
+    GitHub URL: https://github.com/ICpTrial/lab051/ ハンズオン実施者に確認ください<br>
+    TOKEN: ハンズオン実施者に確認ください<br>
     1. ICP上のMicroclimate の URLを指定します。<br>
     `http://microclimate.<icp_proxy_address>.nip.io`<br>
-    1. 「Deploy」をクリックします。一連の生成されたコードとアプリケーションがGitHub上に登録され、そこから Mircoclimate のプロジェクトが生成されます。![migration04](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/migration04.png)
+    1. 「Deploy」をクリックします。一連の生成されたコードとアプリケーションがGitHub上に登録され、そこから Mircoclimate のプロジェクトが生成されます。<br>
+    ![migration04](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/migration04.png)
  
- 　
- 
- 
- 
-  
-    
