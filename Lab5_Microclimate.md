@@ -56,18 +56,18 @@
 「アプリケーション・モニター」をクリックします。
 ![microclimate11](https://github.com/ICpTrial/ICPLab/blob/master/mcimage/microclimate11.png)
 
-## マイクロサービス
+## Jenkinsパイプラインとの関連付け
 パイプラインの機能を利用して、このアプリケーションに、Jenkinsを利用したCI/CDの仕組みを関連付けます。
 1. 一番下にある「パイプライン」を開き、「パイプラインの作成」をクリックします。
 ![pipeline01](https://github.com/ICpTrial/ICPLab/blob/master/mcimage/pipeline01.png)
 1. パイプラインの名前および このアプリケーションが管理される GitレポジトリのURLを指定します。
     Gitレポジトリの例　https://github.com/ICpTrial/labproject01
 ![pipeline02](https://github.com/ICpTrial/ICPLab/blob/master/mcimage/pipeline02.png)
-1. 「資格情報の選択」をクリックし、このGitレポジトリにアクセスするための情報（ユーザーID&パスワードまたはTOKEN)を定義し、
+1. 「資格情報の選択」をクリックし、このGitレポジトリにアクセスするための情報（ユーザーID&パスワードまたはTOKEN)を定義し、「パイプラインの作成」をクリックします。
 ![pipeline03](https://github.com/ICpTrial/ICPLab/blob/master/mcimage/pipeline03.png)
-1.「パイプラインの作成」をクリックします。
+1.パイプラインが作成されるので、パイプラインを開くをクリックします。
 ![pipeline04](https://github.com/ICpTrial/ICPLab/blob/master/mcimage/pipeline04.png)
-1.パイプラインが作成されるので、パイプラインを開くをクリックします。このアプリケーションに関連付けられたJenkinsが開きます。
+1.このアプリケーションに関連付けられたJenkinsが開きます。
 ![pipeline05](https://github.com/ICpTrial/ICPLab/blob/master/mcimage/pipeline05.png)
 
 
