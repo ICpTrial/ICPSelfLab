@@ -15,12 +15,12 @@
 ## Transformation Advisor 環境の確認
 
 1. ICP環境にログオンし、トランスフォーメーション・アドバイザーを開きます。
-    1. ブラウザで指定されたインスタンスの ICP環境のコンソールを開きます。
-        https://<ICP_ClusterIP:8443/icp/console 
-        認証情報　admin : admin
+    1. ブラウザで指定されたインスタンスの ICP環境のコンソールを開きます。<br>
+        https://<ICP_ClusterIP:8443/icp/console<br> 
+        認証情報　admin : admin<br>
 
     1. ICPのメニューを開き、Tools > Transformation を開きます。
-    　　※ Transformation Advisorを構成されていないICP環境ではメニューが含まれていません。
+    　　※ Transformation Advisorを構成されていないICP環境ではメニューが含まれていません。<br>
 　　　　　 Transformation Advisorを導入すると、メニューが表示されるようになります。
 
 ## Transformation Advisor ワークスペースの作成
@@ -36,10 +36,10 @@
 1. エージェントをしかけて、既存のWebSphereアプリケーションの解析を実施していきますます。
 
 1. コンソール中央の「DataColletor」のボタンをクリックします。
- ![analyze01](https://github.com/ICpTrial/ICPLab/tree/master/trfadvimage/analyze01.png)
+ ![analyze01](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/analyze01.png)
 1. 既存WebSphereが稼働する環境に応じて、ダウンロードするエージェントを確認します。
 　　ここでは、「Linux」環境で稼働する「WebSphere」アプリケーション・サーバーを、「App&Configuration（アプリケーションおよび構成）」含めて解析を実施することします。
- ![analyze02](https://github.com/ICpTrial/ICPLab/tree/master/trfadvimage/analyze01.png)
+ ![analyze02](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/analyze02.png)
 1. 「Download for Linux」のボタンをクリックして、TransformationAdvisorのエージェントをダウンロードします。 
 1. 現行アプリケーション・サーバー環境での解析を実施します。
 　　注）このハンズオンでは、便宜上、すでに実行された結果のハンズオンをあとで使用しますので、ここでは手順だけ確認します。
