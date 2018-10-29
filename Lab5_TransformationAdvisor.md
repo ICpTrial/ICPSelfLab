@@ -64,7 +64,7 @@
 ![report01](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/report01.png)
     1. 収集してきたアプリケーションのプロファイル名が表示され、移行先のターゲットとして「Liberty on Private Cloud」が設定されています。
     1. このプロファイルには、アプリケーションが２つ（CustomOrderServiceApp.earとquery.ear）が含まれていることがわかります。<br>
-    それぞれ、アプリケーション移行の複雑さは、<Moderate> （通常レベル）として判断されています。<br>
+    それぞれ、アプリケーション移行の複雑さは、Moderate （通常レベル）として判断されています。<br>
     この中で、移行に関する課題Issueがそれぞれ、幾つか上がっています。<br>
     ここでは CustomOrderServiceApp.ear を展開して、詳細を確認していきます。<br>
     
@@ -76,13 +76,13 @@
     ![report03](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/report03.png)
     　　これは赤印がついていますので、マイグレーションの際に実際に対応しないといけない課題です。
 
- 1. テクニカルな稼働を確認するために、最下部にある３つのレポートを確認していきます。<br>
- まず「Analytics Report」を確認します。先ほどの解析のなかで Issuseとして上がっている内容の詳細を確認できます。
+ 1. テクニカルな課題を確認するために、最下部にある３つのレポートを確認していきます。<br>
+ まず「Analytics Report」を確認します。先ほどの解析のなかで Issuseとして上がっている内容の詳細を確認できます。<br>
  ![analyticreport01](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/analyticreport01.png)
     1. 「Detailed Results by Rule」に先ほど確認した課題のリストの詳細があります。
     1. 「Behavior change on lookups for Enterprise JavaBeans」の show result を開いて、どのファイルに問題があるか確認します。showrule help を開くと、どのような課題なのかを確認することができ、場合によっては修正の仕方のガイドがあります。
     ![analyticreport02](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/analyticreport01.png)
-    1. その他の結果についても同様に確認してくださいｓ．
+    1. その他の結果についても同様に確認してください．
 
     
  1. 「Technical Report」を確認します。これはアプリケーションで利用されているAPIのリストが表示されます。
