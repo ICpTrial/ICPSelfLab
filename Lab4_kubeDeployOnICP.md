@@ -12,7 +12,7 @@
     [ICP Knowledge Center: kubectl CLI からクラスターへのアクセス](https://www.ibm.com/support/knowledgecenter/ja/SSBS6K_3.1.0/manage_cluster/cfc_cli.html)
     ICPコンソールの[Command Line Tools]>[Cloud Private CLI]の[Install Kubectl CLI]の項目も参照ください
 
-所用時間は、およそ60分です。
+所用時間は、およそ40分です。
 
 ## ハンズオン環境の確認
 
