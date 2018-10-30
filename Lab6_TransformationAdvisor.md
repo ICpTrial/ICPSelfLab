@@ -110,9 +110,11 @@
  これにより、GitHubのコード・レポジトリ および ICP上の CI/CD環境 Microclimate まで関連づけていくことが可能です。
     1.右の「Deploy Bundle」を選択します。
     ![migration03](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/migration03.png)
-    1. 別途 GitHub 上に作成したプロジェクトのURLを指定します。認証情報を USERID/PASSWORD または TOKEN で指定してください。<br>
-    GitHub URL: https://github.com/ICpTrial/lab051/ ハンズオン実施者に確認ください<br>
-    TOKEN: ハンズオン実施者に確認ください<br>
+    1. 別途 GitHub 上に作成したプロジェクトのURLを指定します。認証情報を USERID/PASSWORD で指定してください。<br>
+    GitHub URL<br>
+    一人目　https://github.com/ICpTrial/lab601/ <br>
+    二人目　https://github.com/ICpTrial/lab602/ <br>
+    予備　　https://github.com/ICpTrial/lab603/ <br>
     1. ICP上のMicroclimate の URLを指定します。<br>
     `http://microclimate.<icp_proxy_address>.nip.io`<br>
     1. 「Deploy」をクリックします。一連の生成されたコードとアプリケーションがGitHub上に登録され、そこから Mircoclimate のプロジェクトが生成されます。<br>
