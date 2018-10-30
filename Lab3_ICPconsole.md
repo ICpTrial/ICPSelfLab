@@ -25,6 +25,7 @@ ICP/Kubernetesのクラスターでは、Kubernetesのオブジェクトを名�
 1. ナビゲーション・メニューから、[管理]>[名前空間]を選択します。
 1. 右上の[名前空間の作成]ボタンをクリックします。<br>
     ![createNS](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab3/Lab3_03_createNS.png)
+1. 名前欄に、"handson"と入力し、[作成]ボタンをクリックします。
 1. 名前空間の一覧ページに「handson」名前空間が追加されたことを確認します。<br>
     ![createNSresult](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab3/Lab3_04_createNSresult.png)
 
