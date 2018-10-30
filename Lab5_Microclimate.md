@@ -90,5 +90,7 @@
 ![pipeline07](https://github.com/ICpTrial/ICPLab/blob/master/mcimage/pipeline07.png)
 1. masterパイプライン でのビルドおよびデプロイの状況を確認します。
 ![pipeline08](https://github.com/ICpTrial/ICPLab/blob/master/mcimage/pipeline08.png)
+1. ICPのコンソールに入り、ワークロード > デプロイメントを選択し、名前空間「microclimate-pipeline-deployments」を選択し、デプロイメントが行わていることを確認します。
+![pipeline09](https://github.com/ICpTrial/ICPLab/blob/master/mcimage/pipeline09.png)
 
 
