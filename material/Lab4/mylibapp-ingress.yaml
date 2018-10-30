@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+  name: mylibetyapp-ingress
+  namespace: handson
+spec:
+  rules:
+  - host:
+    http:
+      paths:
+      - path: /hoge
+        backend:
+          serviceName: mylibertyapp-nodeport
+          servicePort: 9080

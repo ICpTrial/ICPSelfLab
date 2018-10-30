@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mylibertyapp-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mylibertyapp
+  template:
+    metadata:
+      labels:
+        app: mylibertyapp
+    spec:
+      containers:
+      - name: myliberty-container
+        image: icpcluster01.icp:8500/handson/mylibertyapp:1.0
+        ports:
+        - containerPort: 9080
