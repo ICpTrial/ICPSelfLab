@@ -8,7 +8,7 @@
 - Docker for WindowsまたはDocker for Macの導入
 - インターネットに接続できる環境
 
-所用時間は、およそ30分です。
+所用時間は、およそ20分です。
 
 ## Docker環境の確認
 
