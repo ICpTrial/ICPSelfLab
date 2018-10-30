@@ -64,7 +64,7 @@
   2人目　https://github.com/ICpTrial/lab502<br>
   予備　 https://github.com/ICpTrial/lab503<br>
     
-1. Terratermを利用して、ICPサーバーにログインします。このハンズオン環境は単体のK8S環境ですので、ローカル・ディレクトリにPersitentVolumeが構成されています。作成されたプロジェクトのroot ディレクトリにおいて、以下のコマンドを実行して、作成されたプロジェクトを Git レポジトリに登録します。
+1. Terratermを利用して、ICPサーバーにログインします。このハンズオン環境は単体のK8S環境ですので、ローカル・ディレクトリにPersitentVolumeが構成されています。作成されたプロジェクトのroot ディレクトリにおいて、以下のコマンドを実行して、作成されたプロジェクトを Git レポジトリに登録します。<br>
 `cd /work/microclimate/admin/labproject01`<br>
 `git init`<br>
 `git add .`<br>
