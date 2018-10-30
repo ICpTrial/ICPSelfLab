@@ -56,15 +56,29 @@
 「アプリケーション・モニター」をクリックします。
 ![microclimate11](https://github.com/ICpTrial/ICPLab/blob/master/mcimage/microclimate11.png)
 
+
+## 作成された プロジェクトをGit に登録します。
+
+ハンズオンで使用するレポジトリ<br>
+  1人目　https://github.com/ICpTrial/lab501<br>
+  2人目　https://github.com/ICpTrial/lab502<br>
+  予備　 https://github.com/ICpTrial/lab503<br>
+    
+1. Terratermを利用して、ICPサーバーにログインします。このハンズオン環境は単体のK8S環境ですので、ローカル・ディレクトリにPersitentVolumeが構成されています。作成されたプロジェクトのroot ディレクトリにおいて、以下のコマンドを実行して、作成されたプロジェクトを Git レポジトリに登録します。
+`cd /work/microclimate/admin/labproject01`<br>
+`git init`<br>
+`git add .`<br>
+`git remote add mygitrepos https://github.com/ICpTrial/labxxx` GitHubはそれぞれのものを利用してください<br> 
+`git push --set-upstream mygitrepos master`
+
+1. Git利用したGitHub を開いて登録されているかご確認ください。
+
 ## Jenkinsパイプラインとの関連付け
 パイプラインの機能を利用して、このアプリケーションに、Jenkinsを利用したCI/CDの仕組みを関連付けます。
 1. 一番下にある「パイプライン」を開き、「パイプラインの作成」をクリックします。
 ![pipeline01](https://github.com/ICpTrial/ICPLab/blob/master/mcimage/pipeline01.png)
 1. パイプラインの名前および このアプリケーションが管理される GitレポジトリのURLを指定します。<br>
-    ハンズオンで使用するレポジトリ<br>
-    1人目　https://github.com/ICpTrial/lab501<br>
-    2人目　https://github.com/ICpTrial/lab502<br>
-    予備　 https://github.com/ICpTrial/lab503<br>
+
 ![pipeline02](https://github.com/ICpTrial/ICPLab/blob/master/mcimage/pipeline02.png)
 1. 「資格情報の選択」をクリックし、このGitレポジトリにアクセスするための情報（ユーザーID&パスワードまたはTOKEN)を定義し、「パイプラインの作成」をクリックします。TOKENは手元のPCの環境情報ファイルをご確認ください。
 ![pipeline03](https://github.com/ICpTrial/ICPLab/blob/master/mcimage/pipeline03.png)
