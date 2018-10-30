@@ -68,6 +68,8 @@
 ![pipeline02](https://github.com/ICpTrial/ICPLab/blob/master/mcimage/pipeline02.png)
 1. 「資格情報の選択」をクリックし、このGitレポジトリにアクセスするための情報（ユーザーID&パスワードまたはTOKEN)を定義し、「パイプラインの作成」をクリックします。TOKENは手元のPCの環境情報ファイルをご確認ください。
 ![pipeline03](https://github.com/ICpTrial/ICPLab/blob/master/mcimage/pipeline03.png)
+1. 「デプロイメントの追加」をクリックし、ここでは、デフォルトのまま Master のブランチを追加します。
+![pipeline06](https://github.com/ICpTrial/ICPLab/blob/master/mcimage/pipeline06.png)
 1. パイプラインが作成されるので、パイプラインを開くをクリックします。
 ![pipeline04](https://github.com/ICpTrial/ICPLab/blob/master/mcimage/pipeline04.png)
 1. このアプリケーションに関連付けられたJenkinsが開きます。
