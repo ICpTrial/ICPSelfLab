@@ -265,10 +265,9 @@ kubectlコマンドで、kubernetesのオブジェクトを作成する場合、
     ```
     上記のIngressの定義ファイルでは、下記のような設定を記述しています。
     - 2行目の"kind: Ingress"で、Ingressの定義であることを指定
-  #  - 6行目の"type: NodePort"で、NodePortを指定。NodePortかkubernetesクラスター内の通信で使用するClusterIPかを指定できます。
-  #  - 7,8行目の"selector: > app: mylibertyapp"で、割り振り先のデプロイメントを選択するラベルを指定
-  #  - 12行目の"targetPort: 9080"で、割り振り先のポートを指定
-  #  - 13行目の"nodePort: 30180"で、クラスター外部からアクセスすることができるポート番号を指定
+    - 13行目の"- path: /hoge"で、Proxyノード宛の"/hoge"のリクエストを対象のサービス(NodePort)に転送するよう指定
+    - 15,16行目のserviceName: mylibertyapp-nodeport"と"servicePort: 9080"で、転送先のサービス(NodePort)を指定
+    - 5行目の"ingress.kubernetes.io/rewrite-target: /"で、ICPのProxyノードで内部的に構成されているnginxコントローラーで固有に利用できるrewrite-tagetの指定で、pathに指定した"/hoge"宛のリクエストを/に変更するよう指定
 1. `kubectl apply -f mylibapp-ingress.yaml` コマンドを入力し、Ingressを作成します。
     ```
     yoshiki-no-air:Lab4 yoshiki$ kubectl apply -f mylibapp-ingress.yaml
@@ -283,15 +282,8 @@ kubectlコマンドで、kubernetesのオブジェクトを作成する場合、
     mylibetyapp-ingress        *         161.202.248.83   80        3m
     yoshiki-no-air:Lab4 yoshiki$
     ```
-1. ICPコンソールからも、ナビゲーション・メニューから[ネットワーク・アクセス]>[サービス]で、「入口」を選択することで確認できます。
-#1. NodePortを作成することで、外部からアクセスできます。ブラウザーで、`http://(ICPのIP):30180/Sum/` と入力します。サンプル・アプリケーションにアクセスできることを確認します。
+1. ICPコンソールからも、ナビゲーション・メニューから[ネットワーク・アクセス]>[サービス]で、「入口」タブを選択することで確認できます。
+#1. Ingressを作成することで、Proxyノード経由の外部から"/hoge"のURLでアクセスできます。Proxy Nodeのデフォルトの構成である80番や443番のポートでアクセスできます。ブラウザーで、`http://(ICPのIP)/hoge/Sum/` と入力します。サンプル・アプリケーションにアクセスできることを確認します。
 
-
-
-
-
-
-
-
-
+以上で、Lab4は終了です。引き続き、Lab4で、Microclimateをご紹介します。
 
