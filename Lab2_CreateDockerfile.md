@@ -46,21 +46,22 @@
     ```
 1. `docker images` コマンドを入力し、ダウンロードしたLibertyのDockerイメージを確認します。
     ```
-    Yoshiki-no-MacBook-Air:Lab2 yoshiki$ docker images
+    $ docker images
     REPOSITORY                                   TAG                 IMAGE ID            CREATED             SIZE
     websphere-liberty                            webProfile8         1fd43b4175ca        38 hours ago        500MB
-    Yoshiki-no-MacBook-Air:Lab2 yoshiki$
+    $
     ```
 
 ## Libertyイメージの稼働確認と内容の確認
 1. `docker run -d -p 19080:9080 --name wlp websphere-liberty:webProfile8` コマンドを入力し、Libertyのコンテナーを起動します。<br>
     `--name wlp` オプションで、コンテナーにwlpの名前をつけて起動しています。dockerコマンドで、コンテナーを指定する場合に、コンテナーIDの代わりに名前で、操作することができます。
     ```
-    Yoshiki-no-MacBook-Air:Lab2 yoshiki$ docker run -d -p 19080:9080 --name wlp websphere-liberty:webProfile8
+    $ docker run -d -p 19080:9080 --name wlp websphere-liberty:webProfile8
     c82c221a570f5808b657b8831626f0ad6eba722ab227ed7efd74ec8efde34a58
-    Yoshiki-no-MacBook-Air:Lab2 yoshiki$
+    $
     ```
 1. LibertyのwebProfileには、デフォルト・コンテキストルートのページが準備されていますので、ブラウザーのアドレス欄に `http://localhost:19080/` を入力しします。デフォルト・コンテキストルートのページが表示され、Libertyのコンテナーが稼働していることが確認できます。
+![LibertyDefaultTop](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab2/Lab2_01_LibertyDefaultPage.png)
 1. Libertyのイメージには、下記の設定が行われています。
     - WAS Liberty を /opt/ibm/wlp にインストール(展開)
     - サーバー defaultServer を作成
@@ -72,7 +73,7 @@
     - server run defaultServer コマンドで、WAS Liberty を起動<br>
 `docker exec -it wlp /bin/bash` のコマンドを入力し、Libertyコンテナーにログインし、設定を確認します。
     ```
-    Yoshiki-no-MacBook-Air:Lab2 yoshiki$ docker exec -it wlp /bin/bash
+    $ docker exec -it wlp /bin/bash
     default@c82c221a570f:/$ 
     ```
     
@@ -159,26 +160,27 @@
     ```
     default@c82c221a570f:/$ exit
     exit
-    Yoshiki-no-MacBook-Air:Lab2 yoshiki$ 
+    $ 
     ```
 1. Libertyのコンテナーを停止します。`docker stop wlp` コマンドを入力します。
     ```
-    Yoshiki-no-MacBook-Air:Lab2 yoshiki$ docker stop wlp
+    $ docker stop wlp
     wlp
-    Yoshiki-no-MacBook-Air:Lab2 yoshiki$ 
+    $ 
     ```
 1. Libertyのコンテナーを削除します。`docker rm wlp` コマンドを入力します。
     ```
-    Yoshiki-no-MacBook-Air:Lab2 yoshiki$ docker rm wlp
+    $ docker rm wlp
     wlp
-    Yoshiki-no-MacBook-Air:Lab2 yoshiki$ 
+    $ 
     ```
     
 ## アプリをデプロイしたDockerイメージの作成
 1. Lab2ディレクトリーには、サンプル・アプリケーション(Sum.war)、Libertyの構成ファイル(server.xml)、Dockerイメージのビルド・ファイル(Dockerfile)が準備されています。
 1. Sum.warは、Servlet 1ファイルとJSP 1ファイルから構成され、2つの数字の入力の足し算の結果を返す簡単なWebアプリケーションです。<br>
     /Sumのエンドポイントにアクセスすると下記の画面が表示され、数値を入力し、"Submit"ボタンを押すと、結果が表示されます。<br>
-    
+    ![SumTop](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab2/Lab2_02_SumTop.png)
+    ![SumResult](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab2/Lab2_03_SumResult.png)
 1. server.xmlは、下記のように、`webProfile-8.0`だけでなく、`mpMetrics-1.1`, `monitor-1.0`のフィーチャーを追加しています。
     ```xml:server.xml
     <?xml version="1.0" encoding="UTF-8"?>
@@ -207,12 +209,12 @@
     ```
 1. Dockerfileを、テキスト・エディター、または、`cat Dockerfile`で内容を表示します。
     ```
-    Yoshiki-no-MacBook-Air:Lab2 yoshiki$ cat Dockerfile
+    $ cat Dockerfile
     FROM websphere-liberty:webProfile8
     COPY Sum.war /config/dropins/
     COPY server.xml /config/
     RUN installUtility install --acceptLicense defaultServer
-    Yoshiki-no-MacBook-Air:Lab2 yoshiki$
+    $
     ```
 1. `docker build` コマンドを実行することで、Dockerfileの内容に基づいて、Dockerイメージが生成されます。<br>
     - 1行目のFROMコマンドで、新しいDockerイメージの元になるDockerイメージを指定しています。この例では、先ほど、稼働確認、内容を確認した、websphere-liberty:webProfile8 のイメージをベースにしています。
@@ -222,7 +224,7 @@
 1. `docker build -t mylibertyapp:1.0 .` コマンドを入力し、Dockerイメージをビルドします。<br>
     `-t  mylibertyapp:1.0` オプションで、作成するDockerイメージと名前(mylibertyapp)とタグ(1.0)を指定しています。最後の`.`を忘れないでください。`docker build` コマンドの最後の引数に、DockerfileのパスまたはURLを指定します。今回は、ローカルのカレント・ディレクトリーのDockerfileを使用してDockerイメージのビルドを行うため、`.` を指定しています。
     ```
-    Yoshiki-no-MacBook-Air:Lab2 yoshiki$ docker build -t mylibertyapp:1.0 .
+    $ docker build -t mylibertyapp:1.0 .
     Sending build context to Docker daemon  20.99kB
     Step 1/4 : FROM websphere-liberty:webProfile8
     　---> 1fd43b4175ca
@@ -267,26 +269,26 @@
     　---> 4027ff6ba2c0
     Successfully built 4027ff6ba2c0
     Successfully tagged mylibertyapp:1.0
-    Yoshiki-no-MacBook-Air:Lab2 yoshiki$  
+    $  
     ```
 1. `docker images` コマンドを入力し、名前mylibertyappのイメージが追加されていることを確認します。
     ```
-    Yoshiki-no-MacBook-Air:Lab2 yoshiki$ docker images
+    $ docker images
     REPOSITORY                                   TAG                 IMAGE ID            CREATED             SIZE
     mylibertyapp                                 1.0                 4027ff6ba2c0        3 minutes ago       508MB
     websphere-liberty                            webProfile8         1fd43b4175ca        41 hours ago        500MB
-    Yoshiki-no-MacBook-Air:Lab2 yoshiki$
+    $
     ```
 ## 作成したイメージの稼働確認
 1. `docker run -d -p 19080:9080 --name=mywlp mylibertyapp:1.0` コマンドを入力し、Dockerコンテナーを起動します。
     ```
-    Yoshiki-no-MacBook-Air:Lab2 yoshiki$ docker run -d -p 19080:9080 --name=mywlp mylibertyapp:1.0
+    $ docker run -d -p 19080:9080 --name=mywlp mylibertyapp:1.0
     a04c4b5fe647482cf6471282bd73ff68e4e9ba7e54ea29f7e55a75f7ef217565
-    Yoshiki-no-MacBook-Air:Lab2 yoshiki$ 
+    $ 
     ```
 1. `docker logs -f mywlp` コマンドを入力し、コンテナーの標準出力をtailします。"[AUDIT   ] CWWKF0011I: The server defaultServer is ready to run a smarter planet."が表示されると、Libertyの起動が完了です。
     ```
-    Yoshiki-no-MacBook-Air:Lab2 yoshiki$ docker logs -f mywlp
+    $ docker logs -f mywlp
     Launching defaultServer (WebSphere Application Server 18.0.0.3/wlp-1.0.22.cl180320180905-2337) on IBM J9 VM, version 8.0.5.22 - pxa6480sr5fp22-20180919_01(SR5 FP22) (en_US)
     [AUDIT   ] CWWKE0001I: The server defaultServer has been launched.
     [AUDIT   ] CWWKE0100I: This product is licensed for development, and limited production use. The full license terms can be viewed here: https://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/license/base_ilan/ilan/18.0.0.3/lafiles/en.html
@@ -304,8 +306,9 @@
 1. [Ctrl]+c で、logのtailを終了します。
 1. ブラウザーで、`http://localhost:19080/Sum` にアクセスし、サンプル・アプリケーションが表示されることを確認します。
 1. また、今回、mpMetrics-1.1 (MicroProfile Metrics)のフィーチャーを追加していますので、ブラウザーで、`http://localhost:19080/metrics`にアクセスすることでサーバーのGC状況やLibertyのWebコンテナー・スレッド数、HTTPセッションの統計情報が表示されます。
+![Metrics](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab2/Lab2_04_Metrics.png)
 
-以上で、Lab2は終了です。引き続き、Lab3で、IBM提供のLiberty Helmチャートをデプロイし、IBM Cloud Privateのコンソール操作の体験と、Kubernetesのオブジェクトを確認します。
+以上で、Lab2は終了です。引き続き、Lab3で、IBM提供のLiberty Helmチャートをデプロイし、IBM Cloud Privateのコンソール操作を体験し、Kubernetesのオブジェクトを確認します。
 
 
 
