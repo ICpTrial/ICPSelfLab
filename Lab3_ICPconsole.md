@@ -48,7 +48,7 @@ IBM提供のLibertyのHelmチャートを用いて、Libertyアプリケーシ�
 1. 以降のLabで、別のLibertyアプリケーションをデプロイするときの参考にするため、「Ingress settings」の項目を下記のように、入力します。
     - Enable ingress (チェックボックス): ON
     - Path: /test1
-    ![LibertyHelmConfig2](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab3/Lab3_09_LibertyHelmConfig2.png)
+    ![LibertyHelmConfig2](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab3/Lab3_09_LibertyConfig2.png)
 1. 他の項目はデフォルトのまま、右下の[インストール]ボタンをクリックします。
 1. 下記のポップアップ・ウィンドウが表示されますので、[Helm リリースの表示]ボタンをクリックします。
 ![HelmReleasePopup](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab3/Lab3_10_HelmReleasePopup.png)
