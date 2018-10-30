@@ -23,7 +23,7 @@
     ここでは、`:webProfile8`のタグを指定しています。LibertyのDockerイメージは、javaee8やkernelなど、複数のタグ付けされたイメージが公開されています。<br>
     [docker store: IBM WebSphere Application Server Liberty](https://store.docker.com/images/websphere-liberty)
     ```
-    Yoshiki-no-MacBook-Air:Lab1 yoshiki$ docker pull websphere-liberty:webProfile8
+    $ docker pull websphere-liberty:webProfile8
     webProfile8: Pulling from library/websphere-liberty
     18d680d61657: Pull complete 
     0addb6fece63: Pull complete 
