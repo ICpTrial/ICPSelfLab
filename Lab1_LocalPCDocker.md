@@ -92,6 +92,7 @@
     <html><body><h1>Hello Apache!</h1></body></html>
     ```
 1. '-v (ホストPCのディレクトリー):(ゲストOSのディレクトリー)' オプションで、ゲストOSのディレクトリーに、ホストOSのディレクトリーをバインドできます。また '-d' オプションで、コンテナーをバックグラウンドで起動します。'docker run -p 20080:80 -v "$PWD":/usr/local/apache2/htdocs/ -d httpd' (Windowsの場合は、`docker run -p 20080:80 -v ${PWD}:/usr/local/apache2/htdocs/ -d httpd`) コマンドを入力します。今回は、ホストOSの20080番ポートに、コンテナーの80番ポートをマッピングしています。
+また、Windowsの場合は、事前にDocker for WindowsのSettingsの、[Shared Drives]の設定で、マウントするホストOSのディレクトリーを設定しておく必要があります。
     ```
     $ docker run -p 20080:80 -v "$PWD":/usr/local/apache2/htdocs/ -d httpd
     c6ee2bd00e8f3882a2a23605e4578e79e36b077eae6aaef5b15fe4a35559eb83
