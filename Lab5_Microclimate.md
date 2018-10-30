@@ -87,6 +87,8 @@
 1. パイプラインが作成されるので、パイプラインを開くをクリックします。
 ![pipeline04](https://github.com/ICpTrial/ICPLab/blob/master/mcimage/pipeline04.png)
 1. このアプリケーションに関連付けられたJenkinsが開きます。
-![pipeline05](https://github.com/ICpTrial/ICPLab/blob/master/mcimage/pipeline05.png)
+![pipeline07](https://github.com/ICpTrial/ICPLab/blob/master/mcimage/pipeline07.png)
+1. masterパイプライン でのビルドおよびデプロイの状況を確認します。
+![pipeline08](https://github.com/ICpTrial/ICPLab/blob/master/mcimage/pipeline08.png)
 
 
