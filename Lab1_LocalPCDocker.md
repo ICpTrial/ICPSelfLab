@@ -5,45 +5,50 @@
 ## 前提
 
 このLabでは、下記の準備を前提としています。
-- Docker for WindowsまたはDocker for Macの導入
+- IBM Cloud上に 導入された Ubuntu環境、docker-ceが導入しています。
 - インターネットに接続できる環境
 
 所用時間は、およそ20分です。
 
 ## Docker環境の確認
 
-1. ハンズオン環境の確認
-    1. コマンド・プロンプトを起動します。
+1. ハンズオン環境へのログイン
+
+    1. 手元のPCがのSSHクライアントを立ち上げ、指定された認証情報でログインしてください。
+    
+    ```
+    ssh username@hostname
+    ```
+    
     1. このLabの作業ディレクトリー (C:¥Handson¥Lab1) に移動します。このディレクトリーには、下記のファイルが事前に準備されています。
         - index.html : Apache httpd稼働確認用のhtmlファイル
 
 1. Docker環境の確認
     1. コマンドプロンプトで、 `docker version` コマンドを入力します。Dockerエンジンのバージョンが表示されます。
         ```
-        $ docker version
+        $root@icp11master:~# docker version
         Client:
-         Version:           18.06.1-ce
-         API version:       1.38
-         Go version:        go1.10.3
-         Git commit:        e68fc7a
-         Built:             Tue Aug 21 17:21:31 2018
-         OS/Arch:           darwin/amd64
-         Experimental:      false
+         Version:      18.03.1-ce
+         API version:  1.37
+         Go version:   go1.9.5
+         Git commit:   9ee9f40
+         Built:        Thu Apr 26 07:17:20 2018
+         OS/Arch:      linux/amd64
+         Experimental: false
+         Orchestrator: swarm
         
         Server:
          Engine:
-          Version:          18.06.1-ce
-          API version:      1.38 (minimum version 1.12)
-          Go version:       go1.10.3
-          Git commit:       e68fc7a
-          Built:            Tue Aug 21 17:29:02 2018
-          OS/Arch:          linux/amd64
-          Experimental:     true
-         Kubernetes:
-          Version:          Unknown
-          StackAPI:         Unknown
+          Version:      18.03.1-ce
+          API version:  1.37 (minimum version 1.12)
+          Go version:   go1.9.5
+          Git commit:   9ee9f40
+          Built:        Thu Apr 26 07:15:30 2018
+          OS/Arch:      linux/amd64
+          Experimental: false
         $ 
         ```
+
     1. 単に `docker` コマンドを入力することで、dockerコマンドのヘルプが、`docker COMMAND --help` と入力することで、`docker run` や `docker build` コマンドのヘルプを表示することができます。
     
 ## Apache httpdイメージのPull(ダウンロード)
@@ -62,9 +67,9 @@
     $ 
     ```
     デフォルトでは、Docker Storeから、ダウンロードされます。
-1. `docker images` コマンドを入力し、ダウンロードしたhttpdのDockerイメージを確認します。
+1. `docker images httpd` コマンドを入力し、ダウンロードしたhttpdのDockerイメージを確認します。
     ```
-    $ docker images           
+    $ docker images httpd           
     REPOSITORY                                   TAG                 IMAGE ID            CREATED             SIZE
     httpd                                        latest              55a118e2a010        3 days ago          132MB
     $ 
@@ -72,7 +77,9 @@
 
 ## httpdのDockerコンテナーの起動とホストOSとのポートマッピング
 ##### 1. `docker run (options) <Image_Name(:Tag)>` コマンドでコンテナーを起動します。
-コンテナーのゲストOSでリッスンしているポートは、デフォルトではホストOS上には公開されませんので、`-p (ホストOSのマッピング・ポート):(ゲストOSのポート)`オプションで、公開するコンテナーのゲストOSのポートと、ホストOS上のポートをマッピングします。下記の `docker run -p 10080:80 httpd` の例では、httpdが公開する80番ポートを、ホストOSの10080番ポートにマッピングしています。この 'docker run' コマンドでは、フォアグラウンドで、コンテナーを起動していますので、コンテナー起動中は、プロンプトが戻らず、標準出力、標準エラー出力が、コンソール上に表示されます。<br>
+コンテナーのゲストOSでリッスンしているポートは、デフォルトではホストOS上には公開されませんので、`-p (ホストOSのマッピング・ポート):(ゲストOSのポート)`オプションで、公開するコンテナーのゲストOSのポートと、ホストOS上のポートをマッピングします。
+
+下記の `docker run -p 10080:80 httpd` の例では、httpdが公開する80番ポートを、ホストOSの10080番ポートにマッピングしています。この 'docker run' コマンドでは、フォアグラウンドでコンテナーを起動していますので、コンテナー起動中は、プロンプトが戻らず、標準出力、標準エラー出力が、コンソール上に表示されます。<br>
 
     ```
     $ docker run -p 10080:80 httpd
