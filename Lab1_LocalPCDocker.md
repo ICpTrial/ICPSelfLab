@@ -95,29 +95,30 @@
 
 1. `docker run -d (options) <Image_Name(:Tag)>` コマンドでコンテナーを バックグラウンドで起動します。
 
-今度はバックグラウンドで起動します。バックグラウンドで起動するには -d オプションを渡します。
+    1. 今度はバックグラウンドで起動します。バックグラウンドで起動するには -d オプションを渡します。
 
     ```
     $ docker run -d -p 10080:80 httpd
     9ac73561ced434e100c33218e007404007d6a936c2077c80be98d4fc73f801e6
     ```
-帰り値として、docker のコンテナーIDが返されます。`docker ps`で docker プロセスの状況を確認します。<br>
-
+    1. 帰り値として、docker のコンテナーIDが返されます。`docker ps`で docker プロセスの状況を確認します。<br>
+    ```
     $ docker ps | grep httpd
     9ac73561ced4        httpd                                            "httpd-foreground"       6 minutes ago       Up 5
     minutes       0.0.0.0:10080->80/tcp   hopeful_brattain
+    ```
 
-
-1.　curl で httpdのコンテナーが稼働していることを確認します。
-
+    1.　curl で httpdのコンテナーが稼働していることを確認します。
+    ```
     $ curl http://localhost:10080/
     <html><body><h1>It works!</h1></body></html>
-
-1. `docker exec -it <コンテナID> /bin/bash` で、起動した コンテナにログインしてみます。
+    ```
+    
+    1. `docker exec -it <コンテナID> /bin/bash` で、起動した コンテナにログインしてみます。
    
-コンテナIDには先ほど docker ps で確認してコンテナIDを指定してください。前方一致で判断されますので、前方数桁を指定すればOKです。
-`hostname` や `cat htdocs/index.html` ログインしたコンテナで 叩いて見てください。
-
+    コンテナIDには先ほど docker ps で確認してコンテナIDを指定してください。前方一致で判断されますので、前方数桁を指定すればOKです。
+    `hostname` や `cat htdocs/index.html` ログインしたコンテナで 叩いて見てください。
+    ```
     # docker exec -it 9ac /bin/bash
     root@9ac73561ced4:/usr/local/apache2# hostname
     9ac73561ced4
@@ -126,85 +127,103 @@
     root@9ac73561ced4:/usr/local/apache2# cat htdocs/index.html
     <html><body><h1>It works!</h1></body></html>
     root@9ac73561ced4:/usr/local/apache2# exit
- 
+    ```
     
-実際には、指定されたコンテナIDで /bin/bash を実行していることになります。
-最後 `exit` してコンテナから抜けます。
+    1. `exit` してコンテナから抜けます。
+    
+## httpdのDockerコンテナーへのホストOSディスクのマウント
 
 1. コンテナにディスク領域をマウントしてみます
 
-1-1.今度は、コンテナに ローカル・ディスクの領域をマウントさせてみます。
-まず準備として、ローカルの /work/contents ディレクトリ配下に HTTPで表示する用のindex.htmlファイルを作成します
-
+    1. 今度は、コンテナに ローカル・ディスクの領域をマウントさせてみます。
+    まず準備として、ローカルの /work/contents ディレクトリ配下に HTTPで表示する用のindex.htmlファイルを作成します
+    ```
     mkdir -p /work/contents
     echo "<html><body><h1>Local Contents</h1></body></html>" >> /work/contents/index.html
+    ```
 
-
-1-1.次に -v オプションで 作成したコンテンツをマウントさせて、起動します。
-なお、先ほどの10080 ポート はまだ使用されていますので、10081を指定しましょう。
-
+    1. 次に -v オプションで 作成したコンテンツをマウントさせて、起動します。
+    なお、先ほどの10080 ポート はまだ使用されていますので、10081を指定しましょう。
+    ```
     $ ~# docker run -d -p 10081:80 -v "/work/contents/:/usr/local/apache2/htdocs/" httpd
     69a5a4d63140d87cf39b1d41e8d01c3c8827de30fa7b8a3027634f8a509ba159
+    ```
+
+    1. 先ほど作成したコンテンツが 返されていることを確認します。<br>
+    ```
     $ curl http://localhost:10081/
     <html><body><h1>Local Contents</h1></body></html>
+    ```
     
-先ほど作成したコンテンツが 返されていることを確認します。<br>
-
-1-1あらためて、docker ps で確認してコンテナIDを確認します。
+    1. あらためて、docker ps で確認してコンテナIDを確認します。
     ```
     root@icp11master:~# docker ps | grep httpd
     69a5a4d63140        httpd                                            "httpd-foreground"       2 hours ago         Up 2 hours          0.0.0.0:10081->80/tcp   youthful_sammet
     9ac73561ced4        httpd                                            "httpd-foreground"       2 hours ago         Up 2 hours          0.0.0.0:10080->80/tcp   hopeful_brattain
     ```
     
+    1. 先ほどと同じ要領で、10081番ポートでListen しているコンテナにログインしてみます。
+        ```
+        # docker exec -it 69a /bin/bash
+        root@69a5a4d63140:/usr/local/apache2# hostname
+        69a5a4d63140
+        root@69a5a4d63140:/usr/local/apache2# ls htdocs
+        index.html
+        root@69a5a4d63140:/usr/local/apache2# cat htdocs/index.html
+        <html><body><h1>Local Contents</h1></body></html>
+        root@69a5a4d63140:/usr/local/apache2# mount | grep htdocs
+        /dev/xvda2 on /usr/local/apache2/htdocs type ext4 (rw,relatime,data=ordered)
+        ```
+    1. `exit` してコンテナから抜けます。
 
+## コンテナーのログの確認
 
-指定してください。前方一致で判断されますので、前方数桁を指定すればOKです。
-`hostname` や `cat htdocs/index.html` ログインしたコンテナで 叩いて見てください。
+1. コンテナーのログの確認を行います
 
-    # docker exec -it 9ac /bin/bash
-    root@9ac73561ced4:/usr/local/apache2# hostname
-    9ac73561ced4
-    root@9ac73561ced4:/usr/local/apache2# ls htdocs
-    index.html
-    root@9ac73561ced4:/usr/local/apache2# cat htdocs/index.html
-    <html><body><h1>It works!</h1></body></html>
-    root@9ac73561ced4:/usr/local/apache2# exit
+    1. `docker logs <コンテナID>` で標準出力、標準エラー出力を表示することができます。
+
+    ```
+    $docker logs 69a
+    AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 172.17.0.3. Set the 'ServerName' directive globally to suppress this message
+    AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 172.17.0.3. Set the 'ServerName' directive globally to suppress this message
+    [Fri Dec 21 04:55:24.154271 2018] [mpm_event:notice] [pid 1:tid 140667565786304] AH00489: Apache/2.4.37 (Unix) configured -- resuming normal operations
+    [Fri Dec 21 04:55:24.154540 2018] [core:notice] [pid 1:tid 140667565786304] AH00094: Command line: 'httpd -D FOREGROUND'
+    172.17.0.1 - - [21/Dec/2018:04:55:58 +0000] "GET / HTTP/1.1" 200 
+    ```
     
-## DockerコンテナーのゲストOSへのログイン
-1. '-d' オプションを付与して、httpdのコンテナーを起動していますので、バックグラウンドで、コンテナーが起動しています。`docker ps` コマンドで、現在稼働中のdockerコンテナーを表示できます。
-```
-    $ docker ps
-    CONTAINER ID        IMAGE               COMMAND              CREATED             STATUS              PORTS                   NAMES
-    99a58c8b3bba        httpd               "httpd-foreground"   18 seconds ago      Up 17 seconds       0.0.0.0:20080->80/tcp   inspiring_bassi
-    $ 
-```
+    1. `docker logs -f  <コンテナID>` で標準出力、標準エラー出力を tail -f のように表示することもできます。
+    
+    ```
+    root@icp11master:~# docker logs -f 69a
+    AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 172.17.0.3. Set the 'ServerName' directive globally to suppress this message
+    AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 172.17.0.3. Set the 'ServerName' directive globally to suppress this message
+    [Fri Dec 21 04:55:24.154271 2018] [mpm_event:notice] [pid 1:tid 140667565786304] AH00489: Apache/2.4.37 (Unix) configured -- resuming normal operations
+    [Fri Dec 21 04:55:24.154540 2018] [core:notice] [pid 1:tid 140667565786304] AH00094: Command line: 'httpd -D FOREGROUND'
+    172.17.0.1 - - [21/Dec/2018:04:55:58 +0000] "GET / HTTP/1.1" 200 50
+    ```
 
-1. `docker logs <CONTAINER ID>` で標準出力、標準エラー出力を表示することができます。
+## コンテナーでのコマンドの実行
 
-    $ docker logs 99a58c8b3bba
-    AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 172.17.0.2. Set the 'ServerName' directive globally to suppress this message
-    AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 172.17.0.2. Set the 'ServerName' directive globally to suppress this message
-    [Sun Oct 28 10:45:14.202693 2018] [mpm_event:notice] [pid 1:tid 139755424806080] AH00489: Apache/2.4.37 (Unix) configured -- resuming normal operations
-    [Sun Oct 28 10:45:14.202869 2018] [core:notice] [pid 1:tid 139755424806080] AH00094: Command line: 'httpd -D FOREGROUND'
-    172.17.0.1 - - [28/Oct/2018:10:45:23 +0000] "GET / HTTP/1.1" 200 49
-    172.17.0.1 - - [28/Oct/2018:10:45:23 +0000] "GET /favicon.ico HTTP/1.1" 404 209
-    $ 
 
-1. `docker exec` コマンドで、起動中のコンテナーOS上で、コマンドを実行することができます。これを利用して、`docker exec -it <CONTAINER ID> /bin/bash` コマンドを実行することで、コンテナーOSにログインすることができます。
+1. `docker exec` コマンドで、コンテナ上で任意のコマンドを実行してみます
+    `docker exec` コマンドで、起動中のコンテナーOS上で、コマンドを実行することができます。
+    
+    1. `pwd` や `ls` 、`hostname`、`uname -a` コマンドなど、任意のコマンドを実行してみてください。
+    
+    1. 先ほどコンテナにログインした際のコマンド　`docker exec -it <CONTAINER ID> /bin/bash` は、指定されたコンテナで /bin/bash を実行しているイメージです。
     ```
     $ docker exec -it 99a58c8b3bba /bin/bash
     root@99a58c8b3bba:/usr/local/apache2# 
     ```
-1. `pwd` や `ls` 、`uname -a` コマンドなど、任意のコマンドを実行してみてください。
-1. `exit` コマンドで、コンテナーOSのターミナルを終了し、元の自身のPCのターミナルに戻ります。
+    
+    1. コンテナOSは、通常 コンテナ実行に必要な最低限のライブラリに限定されていますので、必ずしもホストOS側で使っていたすべてのコマンドが使えるわけではありません。必要なライブラリがない場合は、コンテナをビルドする際に `apt`コマンドでパッケージを追加してください。
     ```
-    root@99a58c8b3bba:/usr/local/apache2# exit
-    exit
-    $ 
+    docker exec -it 69a ipconfig
+    OCI runtime exec failed: exec failed: container_linux.go:348: starting container process caused "exec: \"ipconfig\": executable file not found in $PATH": unknown
     ```
 
 ## コンテナーの停止と削除
+
 1. `docker stop <CONTAINER ID>` コマンドで、起動中のコンテナーを停止します。`<CONTAINER ID>`の確認には、`docker ps`コマンドを入力してください。
     ```
     $ docker stop 99a58c8b3bba
@@ -218,41 +237,56 @@
     $
     ```
     もし、コンテナーが正しく停止できなかった場合には、`docker kill <CONTAINER ID>` コマンドで、コンテナーを強制終了します。
-1. `docker ps -a` コマンドを入力することで、停止しているコンテナーも含めて、表示することができます。最初に10080番ポートにマッピングした、フォアグラウンドで起動し、[Ctrl]+cで停止したコンテナーと、20080番ポートにマッピングした、バックグランドで起動し、docker stopで停止したコンテナーの2つのコンテナーが表示されます。
+    
+1. `docker ps -a` コマンドを入力することで、停止しているコンテナーも含めて、表示することができます。
+    最初にフォアグラウンドで起動したコンテナと、バックグランドで起動した２つのコンテナの３つのコンテナが表示されます。
+
     ```
-    $ docker ps -a
-    CONTAINER ID        IMAGE               COMMAND              CREATED             STATUS                         PORTS               NAMES
-    99a58c8b3bba        httpd               "httpd-foreground"   About an hour ago   Exited (0) 4 minutes ago                           inspiring_bassi
-    dfc909c6e577        httpd               "httpd-foreground"   2 hours ago         Exited (0) 2 hours ago                             eager_zhukovsky
+    $ root@icp11master:~# docker ps -a | grep httpd
+    69a5a4d63140        httpd                                            "httpd-foreground"       2 hours ago         Exited (0) 2 seconds ago                       youthful_sammet
+    9ac73561ced4        httpd                                            "httpd-foreground"       3 hours ago         Exited (0) 2 seconds ago                       hopeful_brattain
+    dde28a828be8        httpd                                            "httpd-foreground"       3 hours ago         Exited (0) 3 hours ago                         hopeful_kowalevski
     $ 
     ```
-1. 停止したコンテナーを、再度、docker startコマンドで起動することもできますが、Dockerのコンテナーは、一度作成したコンテナーに変更を加えていくことは推奨されず、元のイメージから再度作り直すことがベストプラクティスです。今回のハンズオンでも停止したコンテナーを再度利用することはありませんので、`docker rm <CONTAINER ID>` コマンドで、停止しているコンテナーを削除します。<CONTAINER ID> は、複数のCONTAINER IDをリスト形式で並べて記述することも可能です。
+    
+1. コンテナ・インスタンスおよびコンテナ・イメージの削除
+    停止したコンテナーを、再度、`docker start` コマンドで起動することもできますが、Dockerのコンテナーは、一度作成したコンテナーに変更を加えていくことは推奨されず、元のイメージから再度作り直すことがベストプラクティスです。
+    今回のハンズオンでも停止したコンテナーを再度利用することはありませんので、`docker rm <CONTAINER ID>` コマンドで、停止しているコンテナーを削除します。<CONTAINER ID> は、複数のCONTAINER IDをリスト形式で並べて記述することも可能です。
+    
+    1. コンテナ・インスタンスの削除
     ```
-    $ docker rm 99a58c8b3bba dfc909c6e577
-    99a58c8b3bba
-    dfc909c6e577
-    $ 
+    $ root@icp11master:~# docker rm 69a 9ac dde
+    69a
+    9ac
+    dde
     ```
-1. `docker ps -a` コマンドで、停止中のコンテナーが存在しなくなったことを確認します。
+    1. `docker ps -a` コマンドで、停止中のコンテナーが存在しなくなったことを確認します。
     ```
     $ docker ps -a
     CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
     $
     ```
-1. 今回のLabの最初にdocker pullでダウンロードした、httpdのコンテナー・イメージを削除します。Dockerイメージの削除は、`docker rmi <Image_Name(:Tag)>` コマンドで削除します。`docker images`、`docker rmi httpd`、`docker images`の順にコマンドを入力することで、httpdのDockerイメージの削除が行われたことを確認することができます。
+    
+    1. コンテナ・イメージの削除今回のLabの最初にdocker pullでダウンロードした、httpdのコンテナー・イメージを削除します。Dockerイメージの削除は、`docker rmi <Image_Name(:Tag)>` コマンドで削除します。`docker images`、`docker rmi httpd`、`docker images`の順にコマンドを入力することで、httpdのDockerイメージの削除が行われたことを確認することができます。
+    
+    
     ```
-    $ docker rmi httpd
+    root@icp11master:~# docker images | grep httpd
+    httpd                                                                                                latest                         2a51bb06dc8b        5 weeks ago         132MB
+    root@icp11master:~# docker rmi httpd
     Untagged: httpd:latest
-    Untagged: httpd@sha256:90b34f4370518872de4ac1af696a90d982fe99b0f30c9be994964f49a6e2f421
-    Deleted: sha256:55a118e2a010d079e6fcfff7b182715f0abf2613ab2bd496a95cdd0b0e8dc998
-    Deleted: sha256:76cc0839bd0b535504fb11312953692fe3d07c981b24df34650e8acfb48e5e19
-    Deleted: sha256:96e93d15e8ff1903bbb8ef9c1bc96697f582d8be452dc6ff129cc7fb59adfb5e
-    Deleted: sha256:8be1738a03f4e4c8d1001419fddc6b4255439f279fcdaee1ca68a809e9dc1ca0
-    Deleted: sha256:69db4316d3fcd395a6c8f97a99664fb764af1e6201aaebabea34e41b1c59118f
-    Deleted: sha256:237472299760d6726d376385edd9e79c310fe91d794bc9870d038417d448c2d5
-    $
+    Untagged: httpd@sha256:9753aabc6b0b8cd0a39733ec13b7aad59e51069ce96d63c6617746272752738e
+    Deleted: sha256:2a51bb06dc8baa17b4d78b7ca0d87f5aadbd98d711817dbbf2cfe49211556c30
+    Deleted: sha256:408e085f6e7843c5a45cf000adaa182983775286810e864e3c4037a50d0859a0
+    Deleted: sha256:84fc70d81e4ad5fe0f19a0f9fe0f7a2162187e0e161524918694933db2f0e5a9
+    Deleted: sha256:546124d5bbb37443470d64da7f65bfa56f31f06eb848ce6da2aa1ba5830d9ae2
+    Deleted: sha256:1beaafb12fe6f5202e84a03b74b205052b9b54bbfc1ddd39e389c2eb9c52d583
+    Deleted: sha256:ef68f6734aa485edf13a8509fe60e4272428deaf63f446a441b79d47fc5d17d3
+    root@icp11master:~# docker images | grep httpd
     ```
 
-以上で、Lab1は終了です。引き続き、Lab2で、Libertyにアプリをデプロイした独自のDockerイメージを作成します。
+以上で、Lab1は終了です。
+その他、docker コマンドでできることを確認するには、以下のリンクを参考にしてください。
+<!-- http://docs.docker.jp/engine/reference/commandline/index.html -->
 
-
+引き続き、Lab2では Dockerfile を利用して、オリジナルの コンテナー・イメージをビルドしていきます。
