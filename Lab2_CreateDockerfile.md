@@ -1,4 +1,4 @@
-# Lab2. 独自のDockerイメージの作成
+# Lab2. Dockerイメージのカスタマイズ
 
 このLabでは、WebSphere LibertyのDockerイメージを元に、独自のアプリをデプロイしたDockerイメージを作成します。
 
