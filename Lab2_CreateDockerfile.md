@@ -5,18 +5,18 @@
 ## 前提
 
 この　Labでは、下記の準備を前提としています。
-- Docker for WindowsまたはDocker for Macの導入
+- Dockerの導入
 - インターネットに接続できる環境
 
 所用時間は、およそ30分です。
 
 ## ハンズオン環境の確認
 
-1. コマンド・プロンプトを起動します。
-1. このLabの作業ディレクトリー (C:¥Handson¥Lab2) に移動します。このディレクトリーには、下記のファイルが事前に準備されています。
+1. 以下の３つのファイルをダウンロードし、scp コマンドで ハンズオン環境の /work にアップロードしてください。
     - Sum.war : Libertyのサンプル・アプリケーション
     - server.xml : サンプル・アプリケーション用のLibertyの構成ファイル
     - Dockerfile : サンプル・アプリケーションがデプロイされたDockerイメージをビルドするためのDockerfile
+
 
 ## LibertyイメージのPull
 1. `docker pull websphere-liberty:webProfile8` コマンドを入力し、WebSphere LibertyのwebProfile8のイメージをダウンロードします。<br>
@@ -25,28 +25,27 @@
     ```
     $ docker pull websphere-liberty:webProfile8
     webProfile8: Pulling from library/websphere-liberty
-    18d680d61657: Pull complete 
-    0addb6fece63: Pull complete 
-    78e58219b215: Pull complete 
-    eb6959a66df2: Pull complete 
-    d28276d78514: Pull complete 
-    f4b7f9cac3ff: Pull complete 
-    f19e501afcfb: Pull complete 
-    601831a5e775: Pull complete 
-    c74aac9cae92: Pull complete 
-    d75dab0dabf9: Pull complete 
-    43743ccf0758: Pull complete 
-    a9b805cd2f15: Pull complete 
-    a0dbade8ea9b: Pull complete 
-    5f20fde1ca5c: Pull complete 
-    e1eebfeed5db: Pull complete 
-    Digest: sha256:464e78f92895fd026733ed012ec591e4fff7fe82b37f4255b70ec7a5d97d8e57
+    7b8b6451c85f: Pull complete
+    ab4d1096d9ba: Pull complete
+    e6797d1788ac: Pull complete
+    e25c5c290bde: Pull complete
+    27b2fbbc72b1: Pull complete
+    aa35dfd74487: Pull complete
+    01e6f5fdb27a: Pull complete
+    ce9d285837ba: Pull complete
+    030b23ca6769: Pull complete
+    e3e36b4e51c8: Pull complete
+    c5a95ff4c3e2: Pull complete
+    51efc95fded4: Pull complete
+    b39a411b99b2: Pull complete
+    fffee45b6572: Pull complete
+    cd3deffcbc24: Pull complete
+    Digest: sha256:fdb438215af57d662434763bd604d7714fe12e378a53b3e8792d5f874aed3375
     Status: Downloaded newer image for websphere-liberty:webProfile8
-    Yoshiki-no-MacBook-Air:Lab1 yoshiki$ 
     ```
 1. `docker images` コマンドを入力し、ダウンロードしたLibertyのDockerイメージを確認します。
     ```
-    $ docker images
+    $ docker images | grep liberty
     REPOSITORY                                   TAG                 IMAGE ID            CREATED             SIZE
     websphere-liberty                            webProfile8         1fd43b4175ca        38 hours ago        500MB
     $
