@@ -68,6 +68,7 @@
     ```
     デフォルトでは、Docker Storeから、ダウンロードされます。
 1. `docker images httpd` コマンドを入力し、ダウンロードしたhttpdのDockerイメージを確認します。
+
     ```
     $ docker images httpd           
     REPOSITORY                                   TAG                 IMAGE ID            CREATED             SIZE
@@ -76,23 +77,23 @@
     ```
 
 ## httpdのDockerコンテナーの起動とホストOSとのポートマッピング
-##### 1. `docker run (options) <Image_Name(:Tag)>` コマンドでコンテナーを フォアグラウンドで 起動します。
-コンテナーのゲストOSでリッスンしているポートは、デフォルトではホストOS上には公開されませんので、`-p (ホストOSのマッピング・ポート):(ゲストOSのポート)`オプションで、公開するコンテナーのゲストOSのポートと、ホストOS上のポートをマッピングします。
+
+1. `docker run (options) <Image_Name(:Tag)>` コマンドでコンテナーを フォアグラウンドで 起動します。
+`-p (ホストOSのマッピング・ポート):(ゲストOSのポート)`オプションで、公開するコンテナーのゲストOSのポートと、ホストOS上のポートをマッピングします。
 
 下記の `docker run -p 10080:80 httpd` の例では、httpdが公開する80番ポートを、ホストOSの10080番ポートにマッピングしています。この 'docker run' コマンドでは、フォアグラウンドでコンテナーを起動していますので、コンテナー起動中はプロンプトが戻らず、標準出力、標準エラー出力が、コンソール上に表示されます。<br>
 
-    ```
     $ docker run -p 10080:80 httpd
     AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 172.17.0.2. Set the 'ServerName' directive globally to suppress this message
     AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 172.17.0.2. Set the 'ServerName' directive globally to suppress this message
     [Sun Oct 28 09:37:01.473062 2018] [mpm_event:notice] [pid 1:tid 140003993466048] AH00489: Apache/2.4.37 (Unix) configured -- resuming normal operations
     [Sun Oct 28 09:37:01.473507 2018] [core:notice] [pid 1:tid 140003993466048] AH00094: Command line: 'httpd -D FOREGROUND'
-    ```
+    
 
 起動を確認したら、一旦 `Ctrl+C` で終了します。<br>
 
 
-##### 2. `docker run -d (options) <Image_Name(:Tag)>` コマンドでコンテナーを バックグラウンドで起動します。
+1. `docker run -d (options) <Image_Name(:Tag)>` コマンドでコンテナーを バックグラウンドで起動します。
 
 今度はバックグラウンドで起動します。バックグラウンドで起動するには -d オプションを渡します。
 
@@ -101,22 +102,22 @@
     9ac73561ced434e100c33218e007404007d6a936c2077c80be98d4fc73f801e6
     ```
 帰り値として、docker のコンテナーIDが返されます。`docker ps`で docker プロセスの状況を確認します。<br>
-    ```
+
     $ docker ps | grep httpd
     9ac73561ced4        httpd                                            "httpd-foreground"       6 minutes ago       Up 5
     minutes       0.0.0.0:10080->80/tcp   hopeful_brattain
-    ```
 
-##### 3.　curl で httpdのコンテナーが稼働していることを確認します。
-    ```
+
+1.　curl で httpdのコンテナーが稼働していることを確認します。
+
     $ curl http://localhost:10080/
     <html><body><h1>It works!</h1></body></html>
 
-##### 4. `docker exec -it <コンテナID> /bin/bash` で、起動した コンテナにログインしてみます。
+1. `docker exec -it <コンテナID> /bin/bash` で、起動した コンテナにログインしてみます。
    
 コンテナIDには先ほど docker ps で確認してコンテナIDを指定してください。前方一致で判断されますので、前方数桁を指定すればOKです。
 `hostname` や `cat htdocs/index.html` ログインしたコンテナで 叩いて見てください。
-    ```
+
     # docker exec -it 9ac /bin/bash
     root@9ac73561ced4:/usr/local/apache2# hostname
     9ac73561ced4
@@ -125,45 +126,62 @@
     root@9ac73561ced4:/usr/local/apache2# cat htdocs/index.html
     <html><body><h1>It works!</h1></body></html>
     root@9ac73561ced4:/usr/local/apache2# exit
-    ```
+ 
     
 実際には、指定されたコンテナIDで /bin/bash を実行していることになります。
 最後 `exit` してコンテナから抜けます。
 
-##### 5. コンテナにディスク領域をマウントしてみます
+1. コンテナにディスク領域をマウントしてみます
 
-今度は、コンテナに ローカル・ディスクの領域をマウントさせてみます。
+1-1.今度は、コンテナに ローカル・ディスクの領域をマウントさせてみます。
 まず準備として、ローカルの /work/contents ディレクトリ配下に HTTPで表示する用のindex.htmlファイルを作成します
-　　 ```
+
     mkdir -p /work/contents
     echo "<html><body><h1>Local Contents</h1></body></html>" >> /work/contents/index.html
-    ```
 
-次に -v オプションで 作成したコンテンツをマウントさせて、起動します。
+
+1-1.次に -v オプションで 作成したコンテンツをマウントさせて、起動します。
 なお、先ほどの10080 ポート はまだ使用されていますので、10081を指定しましょう。
 
     $ ~# docker run -d -p 10081:80 -v "/work/contents/:/usr/local/apache2/htdocs/" httpd
     69a5a4d63140d87cf39b1d41e8d01c3c8827de30fa7b8a3027634f8a509ba159
-    $ 
-    ```
-    curl http://localhost:10081/
+    $ curl http://localhost:10081/
     <html><body><h1>Local Contents</h1></body></html>
+    
+先ほど作成したコンテンツが 返されていることを確認します。<br>
+
+1-1あらためて、docker ps で確認してコンテナIDを確認します。
+    ```
+    root@icp11master:~# docker ps | grep httpd
+    69a5a4d63140        httpd                                            "httpd-foreground"       2 hours ago         Up 2 hours          0.0.0.0:10081->80/tcp   youthful_sammet
+    9ac73561ced4        httpd                                            "httpd-foreground"       2 hours ago         Up 2 hours          0.0.0.0:10080->80/tcp   hopeful_brattain
     ```
     
-先ほど作成したコンテンツが 返されていることを確認しましょう。　　 
-   
-1. ブラウザーで、`http://localhost:20080/` にアクセスします。'Hello Apache!'と表示され、ホストOSのディスクがコンテナーOSにバインドされたことが確認できます。
+
+
+指定してください。前方一致で判断されますので、前方数桁を指定すればOKです。
+`hostname` や `cat htdocs/index.html` ログインしたコンテナで 叩いて見てください。
+
+    # docker exec -it 9ac /bin/bash
+    root@9ac73561ced4:/usr/local/apache2# hostname
+    9ac73561ced4
+    root@9ac73561ced4:/usr/local/apache2# ls htdocs
+    index.html
+    root@9ac73561ced4:/usr/local/apache2# cat htdocs/index.html
+    <html><body><h1>It works!</h1></body></html>
+    root@9ac73561ced4:/usr/local/apache2# exit
     
 ## DockerコンテナーのゲストOSへのログイン
 1. '-d' オプションを付与して、httpdのコンテナーを起動していますので、バックグラウンドで、コンテナーが起動しています。`docker ps` コマンドで、現在稼働中のdockerコンテナーを表示できます。
-    ```
+```
     $ docker ps
     CONTAINER ID        IMAGE               COMMAND              CREATED             STATUS              PORTS                   NAMES
     99a58c8b3bba        httpd               "httpd-foreground"   18 seconds ago      Up 17 seconds       0.0.0.0:20080->80/tcp   inspiring_bassi
     $ 
-    ```
+```
+
 1. `docker logs <CONTAINER ID>` で標準出力、標準エラー出力を表示することができます。
-    ```
+
     $ docker logs 99a58c8b3bba
     AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 172.17.0.2. Set the 'ServerName' directive globally to suppress this message
     AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 172.17.0.2. Set the 'ServerName' directive globally to suppress this message
@@ -172,7 +190,7 @@
     172.17.0.1 - - [28/Oct/2018:10:45:23 +0000] "GET / HTTP/1.1" 200 49
     172.17.0.1 - - [28/Oct/2018:10:45:23 +0000] "GET /favicon.ico HTTP/1.1" 404 209
     $ 
-    ```
+
 1. `docker exec` コマンドで、起動中のコンテナーOS上で、コマンドを実行することができます。これを利用して、`docker exec -it <CONTAINER ID> /bin/bash` コマンドを実行することで、コンテナーOSにログインすることができます。
     ```
     $ docker exec -it 99a58c8b3bba /bin/bash
