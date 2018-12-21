@@ -18,12 +18,14 @@
     - Dockerfile : サンプル・アプリケーションがデプロイされたDockerイメージをビルドするためのDockerfile
 
 
-## LibertyイメージのPull
+## Liberty WebProfile イメージの取得
 1. `docker pull websphere-liberty:webProfile8` コマンドを入力し、WebSphere LibertyのwebProfile8のイメージをダウンロードします。<br>
 
-    WebSphere Liberty は、IBMのJavaEEのアプリケーション・サーバーです。フルJavaEEをサポートしながらも、各種APIや機能がフィーチャーとしてモジュール化されているため、必要な機能のみ有効化し、少ないリソースで利用していくことが可能です。
-    ここでは `:webProfile8`のタグを指定し、JavaEE8 WebProflile 8 をサポートする環境をダウンロードします。
-    LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサポートするもの）やkernel（Libertyカーネルのみ）など、複数のタグ付けされたイメージが公開されています。<br>
+    WebSphere Liberty は、IBMのJavaEEのアプリケーション・サーバーです。<br>
+    フルスタックのJavaEEをサポートしながらも、各種APIや機能がフィーチャーとしてモジュール化されているため、必要な機能のみを有効化し、より少ないリソースで利用していくことが可能です。<br>
+    ここでは `:webProfile8`のタグを指定し、JavaEE8 WebProflile 8 をサポートする環境をダウンロードします。<br>
+    
+    LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサポートするもの）やkernel（Libertyカーネルのみ）など、複数のタグ付けされたイメージが公開されています。これらのDockerイメージをビルドするのに利用されている Dockerfileもあわせて公開されています<br>
     [docker store: IBM WebSphere Application Server Liberty](https://store.docker.com/images/websphere-liberty)
     ```
     $ docker pull websphere-liberty:webProfile8
