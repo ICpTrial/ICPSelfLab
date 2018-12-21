@@ -286,7 +286,8 @@
     ```
 
 以上で、Lab1は終了です。
+
 その他、docker コマンドでできることを確認するには、以下のリンクを参考にしてください。
-<!-- http://docs.docker.jp/engine/reference/commandline/index.html -->
+[dockerドキュメント日本語化プロジェクト](http://docs.docker.jp/engine/reference/commandline/index.html)
 
 引き続き、Lab2では Dockerfile を利用して、オリジナルの コンテナー・イメージをビルドしていきます。
