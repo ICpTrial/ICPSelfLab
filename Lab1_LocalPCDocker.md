@@ -1,6 +1,6 @@
 # Lab1. ローカルPC上でのDockerの基本操作
 
-このLabでは、ローカルPC上のDocker (Docker for WindowsやDocker for Mac) で、Apache httpdのイメージを使用して、Dockerの基礎を説明します。
+このLabでは、Ubuntu 上のDocker (Docker for WindowsやDocker for Mac) で、Apache httpdのイメージを使用して、Dockerの基礎を学習します。
 
 ## 前提
 
