@@ -1,6 +1,6 @@
 # Lab1. ローカルPC上でのDockerの基本操作
 
-このLabでは、Ubuntu 上のDocker (Docker for WindowsやDocker for Mac) で、Apache httpdのイメージを使用して、Dockerの基礎を学習します。
+このLabでは、Ubuntu 上のDocker で、Apache httpdのイメージを使用して、Dockerの基礎を学習します。
 
 ## 前提
 
@@ -287,7 +287,7 @@
 
 以上で、Lab1は終了です。
 
-その他、docker コマンドでできることを確認するには、以下のリンクを参考にしてください。
+その他、docker コマンドでできることを確認するには、以下のリンクを参考にしてください。<br>
 [dockerドキュメント日本語化プロジェクト](http://docs.docker.jp/engine/reference/commandline/index.html)
 
 引き続き、Lab2では Dockerfile を利用して、オリジナルの コンテナー・イメージをビルドしていきます。
