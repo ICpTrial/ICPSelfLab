@@ -1,4 +1,4 @@
-# Lab1. ローカルPC上でのDockerの基本操作
+# Lab1. Dockerの基本操作
 
 このLabでは、Ubuntu 上のDocker で、Apache httpdのイメージを使用して、Dockerの基礎を学習します。
 
