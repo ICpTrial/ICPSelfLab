@@ -20,7 +20,10 @@
 
 ## LibertyイメージのPull
 1. `docker pull websphere-liberty:webProfile8` コマンドを入力し、WebSphere LibertyのwebProfile8のイメージをダウンロードします。<br>
-    ここでは、`:webProfile8`のタグを指定しています。LibertyのDockerイメージは、javaee8やkernelなど、複数のタグ付けされたイメージが公開されています。<br>
+
+    WebSphere Liberty は、IBMのJavaEEのアプリケーション・サーバーです。フルJavaEEをサポートしながらも、各種APIや機能がフィーチャーとしてモジュール化されているため、必要な機能のみ有効化し、少ないリソースで利用していくことが可能です。
+    ここでは `:webProfile8`のタグを指定し、JavaEE8 WebProflile 8 をサポートする環境をダウンロードします。
+    LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサポートするもの）やkernel（Libertyカーネルのみ）など、複数のタグ付けされたイメージが公開されています。<br>
     [docker store: IBM WebSphere Application Server Liberty](https://store.docker.com/images/websphere-liberty)
     ```
     $ docker pull websphere-liberty:webProfile8
@@ -53,40 +56,51 @@
 
 ## Libertyイメージの稼働確認と内容の確認
 1. `docker run -d -p 19080:9080 --name wlp websphere-liberty:webProfile8` コマンドを入力し、Libertyのコンテナーを起動します。<br>
-    `--name wlp` オプションで、コンテナーにwlpの名前をつけて起動しています。dockerコマンドで、コンテナーを指定する場合に、コンテナーIDの代わりに名前で、操作することができます。
+    `--name wlp` オプションで、コンテナーにwlpの名前をつけて起動しています。
+    dockerコマンドで、コンテナーを指定する場合に、コンテナーIDの代わりに名前で操作することができます。
     ```
     $ docker run -d -p 19080:9080 --name wlp websphere-liberty:webProfile8
     c82c221a570f5808b657b8831626f0ad6eba722ab227ed7efd74ec8efde34a58
     $
     ```
-1. LibertyのwebProfileには、デフォルト・コンテキストルートのページが準備されていますので、ブラウザーのアドレス欄に `http://localhost:19080/` を入力しします。デフォルト・コンテキストルートのページが表示され、Libertyのコンテナーが稼働していることが確認できます。
-![LibertyDefaultTop](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab2/Lab2_01_LibertyDefaultPage.png)
-1. Libertyのイメージには、下記の設定が行われています。
-    - WAS Liberty を /opt/ibm/wlp にインストール(展開)
-    - サーバー defaultServer を作成
-    - ログ・ディレクトリーを /logs に変更 (環境変数 LOG_DIR)
-    - 出力ディレクトリーを /opt/ibm/wlp/output に変更 (環境変数 WLP_OUTPUT_DIR)
-    - ディレクトリー /logs を作成
-    - 出力ディレクトリーへのリンク /output を作成
-    - 構成ディレクトリーへのリンク /config を作成
-    - server run defaultServer コマンドで、WAS Liberty を起動<br>
-`docker exec -it wlp /bin/bash` のコマンドを入力し、Libertyコンテナーにログインし、設定を確認します。
+    
+    1.デフォルトイメージの稼働確認
+    LibertyのwebProfileには デフォルト・コンテキストルート(/) のページが準備されています。
+    ブラウザーのアドレス欄に `http://<ハンズオン・サーバーIPアドレス>:19080/` を入力します。
+    
+    デフォルト・コンテキストルートのページが表示され、Libertyのコンテナーが稼働していることが確認できます。
+    ![LibertyDefaultTop](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab2/Lab2_01_LibertyDefaultPage.png)
+
+
+1. Libertyの製品イメージには、下記の設定が行われています。
+        - WAS Liberty を /opt/ibm/wlp にインストール(展開)
+        - サーバー defaultServer を作成
+        - ログ・ディレクトリーを /logs に変更 (環境変数 LOG_DIR の設定)
+        - 出力ディレクトリーを /opt/ibm/wlp/output に変更 (環境変数 WLP_OUTPUT_DIR　の設定)
+        - ディレクトリー /logs を作成
+        - 出力ディレクトリーへのリンク /output を作成
+        - 構成ディレクトリーへのリンク /config を作成
+        - server run defaultServer コマンドで、WAS Liberty を起動<br>
+        
+    1. `docker exec -it wlp /bin/bash` のコマンドを入力し、Libertyコンテナーにログインし、設定を確認します。
     ```
     $ docker exec -it wlp /bin/bash
     default@c82c221a570f:/$ 
     ```
     
-1. 下記のコマンドを順に実行し、設定が行われているディレクトリーの内容とserver.xmlの内容を確認します。
-- `ls -l /opt/ibm/wlp/`
-- `ls -l /opt/ibm/wlp/usr/servers`
-- `ls -l /opt/ibm/wlp/usr/servers/defaultServer/`
-- `ls -l /logs`
-- `ls -l /opt/ibm/wlp/output/`
-- `ls -l /opt/ibm/wlp/output/defaultServer/`
-- `ls -l /output`
-- `ls -l /config`
-- `cat /config/server.xml`
-
+    1. 下記のコマンドを順に実行し、設定が行われているディレクトリーの内容とserver.xmlの内容を確認します。
+    - `ls -l /opt/ibm/wlp/`
+    - `ls -l /opt/ibm/wlp/usr/servers`
+    - `ls -l /opt/ibm/wlp/usr/servers/defaultServer/`
+    - `ls -l /logs`
+    - `ls -l /opt/ibm/wlp/output/`
+    - `ls -l /opt/ibm/wlp/output/defaultServer/`
+    - `ls -l /output`
+    - `ls -l /config`
+    - `echo $LOG_DIR`
+    - `echo $WLP_OUTPUT_DIR`
+    - `cat /config/server.xml`
+   
     ```
     default@c82c221a570f:/$ ls -l /opt/ibm/wlp/
     total 88
@@ -133,7 +147,10 @@
     default@c82c221a570f:/$
     default@c82c221a570f:/$ ls -l /config
     lrwxrwxrwx 1 default root 38 Oct 23 22:22 /config -> /opt/ibm/wlp/usr/servers/defaultServer
-    default@c82c221a570f:/$
+    default@c82c221a570f:/$ echo $LOG_DIR
+    /logs
+    default@c82c221a570f:/$ echo $WLP_OUTPUT_DIR
+    /opt/ibm/wlp/output
     default@c82c221a570f:/$ cat /config/server.xml
     <?xml version="1.0" encoding="UTF-8"?>
     <server description="Default server">
@@ -155,33 +172,38 @@
     </server>
     default@c82c221a570f:/$ 
     ```
-1. `exit` コマンドで、コンテナーからログオフします。
+    1. `exit` コマンドで、コンテナーからログオフします。
     ```
     default@c82c221a570f:/$ exit
     exit
     $ 
     ```
-1. Libertyのコンテナーを停止します。`docker stop wlp` コマンドを入力します。
+    1. Libertyのコンテナー・インスタンスを停止します。`docker stop wlp` コマンドを入力します。
     ```
     $ docker stop wlp
     wlp
     $ 
     ```
-1. Libertyのコンテナーを削除します。`docker rm wlp` コマンドを入力します。
+    1. Libertyのコンテナー・インスタンスを削除します。`docker rm wlp` コマンドを入力します。
     ```
     $ docker rm wlp
     wlp
     $ 
     ```
     
-## アプリをデプロイしたDockerイメージの作成
-1. Lab2ディレクトリーには、サンプル・アプリケーション(Sum.war)、Libertyの構成ファイル(server.xml)、Dockerイメージのビルド・ファイル(Dockerfile)が準備されています。
-1. Sum.warは、Servlet 1ファイルとJSP 1ファイルから構成され、2つの数字の入力の足し算の結果を返す簡単なWebアプリケーションです。<br>
-    /Sumのエンドポイントにアクセスすると下記の画面が表示され、数値を入力し、"Submit"ボタンを押すと、結果が表示されます。<br>
-    ![SumTop](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab2/Lab2_02_SumTop.png)
-    ![SumResult](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab2/Lab2_03_SumResult.png)
-1. server.xmlは、下記のように、`webProfile-8.0`だけでなく、`mpMetrics-1.1`, `monitor-1.0`のフィーチャーを追加しています。
-    ```xml:server.xml
+## ユーザーのアプリをデプロイしたカスタマイズされたDockerイメージの作成（ビルド）
+
+1. /work にアプロードした サンプル・アプリケーション(Sum.war)、Libertyの構成ファイル(server.xml)、Dockerイメージのビルド・ファイル(Dockerfile) を利用して、カスタマイズした Docker イメージを作成していきます。
+    
+ 
+    1. Sum.warは、Servlet 1ファイルとJSP 1ファイルから構成され、2つの数字の入力の足し算の結果を返す簡単なWebアプリケーションです。<br>
+       /Sumのエンドポイントにアクセスすると下記の画面が表示され、数値を入力し、"Submit"ボタンを押すと、結果が表示されます。<br>
+        ![SumTop](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab2/Lab2_02_SumTop.png)
+        ![SumResult](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab2/Lab2_03_SumResult.png)
+        
+    1. server.xmlは、下記のように、`webProfile-8.0`だけでなく、`mpMetrics-1.1`, `monitor-1.0`のフィーチャーを追加しています。
+   
+   ```xml:server.xml
     <?xml version="1.0" encoding="UTF-8"?>
     <server description="new server">
     
