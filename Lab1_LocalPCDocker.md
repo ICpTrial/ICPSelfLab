@@ -76,10 +76,10 @@
     ```
 
 ## httpdのDockerコンテナーの起動とホストOSとのポートマッピング
-##### 1. `docker run (options) <Image_Name(:Tag)>` コマンドでコンテナーを起動します。
+##### 1. `docker run (options) <Image_Name(:Tag)>` コマンドでコンテナーを フォアグラウンドで 起動します。
 コンテナーのゲストOSでリッスンしているポートは、デフォルトではホストOS上には公開されませんので、`-p (ホストOSのマッピング・ポート):(ゲストOSのポート)`オプションで、公開するコンテナーのゲストOSのポートと、ホストOS上のポートをマッピングします。
 
-下記の `docker run -p 10080:80 httpd` の例では、httpdが公開する80番ポートを、ホストOSの10080番ポートにマッピングしています。この 'docker run' コマンドでは、フォアグラウンドでコンテナーを起動していますので、コンテナー起動中は、プロンプトが戻らず、標準出力、標準エラー出力が、コンソール上に表示されます。<br>
+下記の `docker run -p 10080:80 httpd` の例では、httpdが公開する80番ポートを、ホストOSの10080番ポートにマッピングしています。この 'docker run' コマンドでは、フォアグラウンドでコンテナーを起動していますので、コンテナー起動中はプロンプトが戻らず、標準出力、標準エラー出力が、コンソール上に表示されます。<br>
 
     ```
     $ docker run -p 10080:80 httpd
@@ -88,23 +88,70 @@
     [Sun Oct 28 09:37:01.473062 2018] [mpm_event:notice] [pid 1:tid 140003993466048] AH00489: Apache/2.4.37 (Unix) configured -- resuming normal operations
     [Sun Oct 28 09:37:01.473507 2018] [core:notice] [pid 1:tid 140003993466048] AH00094: Command line: 'httpd -D FOREGROUND'
     ```
-    
-##### 2.　ブラウザーを起動し、アドレス欄に `http://localhost:10080/` を入力し、コンテナーのhttpdのトップページにアクセスします。'It works!'と表示され、httpdのコンテナーが稼働していることが確認できます。
-![httpdTop](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab1/Lab1_01_httpdTop.png)
-##### 3. コマンドプロンプトで、 `[Ctrl]+c` を入力し、コンテナーを停止します。
 
-## DockerコンテナーにホストOSのディスクのバインドとバッググラウンド起動
-1. C:¥Handson¥Lab1のindex.htmlには、下記の内容が記述されています。このLab1ディレクトリーをhttpdコンテナーの、/usr/local/apache2/htdocsディレクトリーにバインドします。結果として、コンテナーの`http://localhost/`にアクセスすると、"Hello Apache!"の文字が表示されます。
+起動を確認したら、一旦 `Ctrl+C` で終了します。<br>
+
+
+##### 2. `docker run -d (options) <Image_Name(:Tag)>` コマンドでコンテナーを バックグラウンドで起動します。
+
+今度はバックグラウンドで起動します。バックグラウンドで起動するには -d オプションを渡します。
+
     ```
-    <html><body><h1>Hello Apache!</h1></body></html>
+    $ docker run -d -p 10080:80 httpd
+    9ac73561ced434e100c33218e007404007d6a936c2077c80be98d4fc73f801e6
     ```
-1. '-v (ホストPCのディレクトリー):(ゲストOSのディレクトリー)' オプションで、ゲストOSのディレクトリーに、ホストOSのディレクトリーをバインドできます。また '-d' オプションで、コンテナーをバックグラウンドで起動します。'docker run -p 20080:80 -v "$PWD":/usr/local/apache2/htdocs/ -d httpd' (Windowsの場合は、`docker run -p 20080:80 -v ${PWD}:/usr/local/apache2/htdocs/ -d httpd`) コマンドを入力します。今回は、ホストOSの20080番ポートに、コンテナーの80番ポートをマッピングしています。
-また、Windowsの場合は、事前にDocker for WindowsのSettingsの、[Shared Drives]の設定で、マウントするホストOSのディレクトリーを設定しておく必要があります。
+帰り値として、docker のコンテナーIDが返されます。`docker ps`で docker プロセスの状況を確認します。<br>
     ```
-    $ docker run -p 20080:80 -v "$PWD":/usr/local/apache2/htdocs/ -d httpd
-    c6ee2bd00e8f3882a2a23605e4578e79e36b077eae6aaef5b15fe4a35559eb83
+    $ docker ps | grep httpd
+    9ac73561ced4        httpd                                            "httpd-foreground"       6 minutes ago       Up 5
+    minutes       0.0.0.0:10080->80/tcp   hopeful_brattain
+    ```
+
+##### 3.　curl で httpdのコンテナーが稼働していることを確認します。
+    ```
+    $ curl http://localhost:10080/
+    <html><body><h1>It works!</h1></body></html>
+
+##### 4. `docker exec -it <コンテナID> /bin/bash` で、起動した コンテナにログインしてみます。
+   
+コンテナIDには先ほど docker ps で確認してコンテナIDを指定してください。前方一致で判断されますので、前方数桁を指定すればOKです。
+`hostname` や `cat htdocs/index.html` ログインしたコンテナで 叩いて見てください。
+    ```
+    # docker exec -it 9ac /bin/bash
+    root@9ac73561ced4:/usr/local/apache2# hostname
+    9ac73561ced4
+    root@9ac73561ced4:/usr/local/apache2# ls htdocs
+    index.html
+    root@9ac73561ced4:/usr/local/apache2# cat htdocs/index.html
+    <html><body><h1>It works!</h1></body></html>
+    root@9ac73561ced4:/usr/local/apache2# exit
+    ```
+    
+実際には、指定されたコンテナIDで /bin/bash を実行していることになります。
+最後 `exit` してコンテナから抜けます。
+
+##### 5. コンテナにディスク領域をマウントしてみます
+
+今度は、コンテナに ローカル・ディスクの領域をマウントさせてみます。
+まず準備として、ローカルの /work/contents ディレクトリ配下に HTTPで表示する用のindex.htmlファイルを作成します
+　　 ```
+    mkdir -p /work/contents
+    echo "<html><body><h1>Local Contents</h1></body></html>" >> /work/contents/index.html
+    ```
+
+次に -v オプションで 作成したコンテンツをマウントさせて、起動します。
+なお、先ほどの10080 ポート はまだ使用されていますので、10081を指定しましょう。
+
+    $ ~# docker run -d -p 10081:80 -v "/work/contents/:/usr/local/apache2/htdocs/" httpd
+    69a5a4d63140d87cf39b1d41e8d01c3c8827de30fa7b8a3027634f8a509ba159
     $ 
     ```
+    curl http://localhost:10081/
+    <html><body><h1>Local Contents</h1></body></html>
+    ```
+    
+先ほど作成したコンテンツが 返されていることを確認しましょう。　　 
+   
 1. ブラウザーで、`http://localhost:20080/` にアクセスします。'Hello Apache!'と表示され、ホストOSのディスクがコンテナーOSにバインドされたことが確認できます。
     
 ## DockerコンテナーのゲストOSへのログイン
