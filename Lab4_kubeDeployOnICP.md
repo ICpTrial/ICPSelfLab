@@ -169,7 +169,6 @@ kubectlコマンドで、kubernetesのオブジェクトを作成する場合、
 1. デプロイメントを作成するためのyamlファイルを、Lab4ディレクトリーに準備しています。"mylibapp-deployment.yaml"をテキスト・エディターで開き、内容を確認します。
 
     ```
-    yaml:mylibapp-deployment.yaml
     apiVersion: apps/v1
     kind: Deployment
     metadata:
@@ -269,7 +268,7 @@ kubectlコマンドで、kubernetesのオブジェクトを作成する場合、
     $ 
     ```
     
-    1. Pod（コンテナ）が出力している標準出力/標準エラーの情報を確認するには `kubectl logs <Pod Instance Name>`を指定します。
+    1. Pod（コンテナ）が出力している標準出力/標準エラーの情報を確認するには <br>`kubectl logs <Pod Instance Name>`を指定します。
     ```
     $ kubectl logs mylibertyapp-deploy-6bcb4659dd-z428l
 
@@ -286,7 +285,7 @@ kubectlコマンドで、kubernetesのオブジェクトを作成する場合、
     [AUDIT   ] CWPKI0803A: SSL certificate created in 10.149 seconds. SSL key file: /opt/ibm/wlp/output/defaultServer/resources/security/key.jks
     ```
 
-    1. 問題判別などのために、実際に設定されている内容を取得し、ファイルに出力したい場合には、`kubectl get deployments mylibertyapp-deploy -o yaml` で、設定されている情報を yamlファイルに出力することが可能です。
+    1. 問題判別などのために、実際に設定されている内容を取得し、ファイルに出力したい場合には、<br>`kubectl get deployments mylibertyapp-deploy -o yaml` で、設定されている情報を yamlファイルに出力することが可能です。
     ```
     $ kubectl get pods mylibertyapp-deploy-6bcb4659dd-z428l -o yaml
     apiVersion: v1
@@ -311,7 +310,6 @@ kubectlコマンドで、kubernetesのオブジェクトを作成する場合、
 1. Kubernetes環境にデプロイしたDeploymentsにアクセスするための NodePort定義を作成します。<br>
 NodePortサービスを作成する"mylibapp-nodeportservice.yaml"をテキスト・エディターで開き、内容を確認します。
     ```
-    yaml:mylibapp-nodeportservice.yaml
     apiVersion: v1
     kind: Service
     metadata:
@@ -323,15 +321,12 @@ NodePortサービスを作成する"mylibapp-nodeportservice.yaml"をテキス�
       ports:
        - protocol: TCP
          port: 9080
-         targetPort: 9080
-         nodePort: 30180
     ```
     上記のサービス(NodePort)の定義ファイルでは、下記のような設定を記述しています。
     - 2行目の"kind: Service"で、サービスの定義であることを指定
     - 6行目の"type: NodePort"で、NodePortを指定。NodePortかkubernetesクラスター内の通信で使用するClusterIPかを指定できます。
     - 7,8行目の"selector: > app: mylibertyapp"で、割り振り先のデプロイメントを選択するラベルを指定
-    - 12行目の"targetPort: 9080"で、割り振り先のポートを指定
-    - 13行目の"nodePort: 30180"で、クラスター外部からアクセスすることができるポート番号を指定
+    - 12行目の"Port: 9080"で、Pod側のポートを指定。
     1. `kubectl apply -f mylibapp-nodeportservice.yaml` コマンドを入力し、NodePortのサービスを作成します。
        ```
        $ kubectl apply -f mylibapp-nodeportservice.yaml
@@ -340,21 +335,18 @@ NodePortサービスを作成する"mylibapp-nodeportservice.yaml"をテキス�
        ```
     1. 作成したサービスを確認します。`kubectl get services` コマンドを入力し、"mylibertyapp-nodeport"のエントリーが表示されることを確認します。
         ```
-        $ kubectl get services
-        NAME                       TYPE       CLUSTER-IP   EXTERNAL-IP   PORT(S)          AGE
-        liberty-default-helm-ibm   NodePort   10.0.0.26    <none>        9443:31114/TCP   9h
-        mylibertyapp-nodeport      NodePort   10.0.0.17    <none>        9080:30180/TCP   1m
-        $  
+        $ kubectl get service
+        NAME                    TYPE       CLUSTER-IP   EXTERNAL-IP   PORT(S)          AGE
+        mylibertyapp-nodeport   NodePort   10.0.0.208   <none>        9080:31084/TCP   1m 
         ```
     1. ICPコンソールからも、ナビゲーション・メニューから[ネットワーク・アクセス]>[サービス]を選択することで確認できます。
-    1. NodePortを作成することで、外部からアクセスできます。ブラウザーで、`http://(ICPのIP):30180/Sum/` と入力します。サンプル・アプリケーションにアクセスできることを確認します。
+    1. NodePortを作成することで、外部からアクセスできます。ブラウザーで、`http://(ICPのIP):<アサインされたNodePort>/Sum/` と入力します。サンプル・アプリケーションにアクセスできることを確認します。
     ![NodePortAccess](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab4/Lab4_06_NodePortAccess.png)
 
 ##　Ingressの作成
 
 1. 外部公開用のProxyサーバーを利用するための Ingressの定義を作成します。"mylibapp-ingress.yaml"をテキスト・エディターで開き、内容を確認します。
     ```
-    mylibapp-ingress.yaml
     apiVersion: extensions/v1beta1
     kind: Ingress
     metadata:
@@ -388,13 +380,13 @@ NodePortサービスを作成する"mylibapp-nodeportservice.yaml"をテキス�
     ```
     $ kubectl get ingresses
     NAME                       HOSTS     ADDRESS          PORTS     AGE
-    liberty-default-helm-ibm   *         161.202.248.83   80, 443   9h
-    mylibetyapp-ingress        *         161.202.248.83   80        3m
+    mylibetyapp-ingress        *         169.56.42.118    80        3m
     $
     ```
 1. ICPコンソールからも、ナビゲーション・メニューから[ネットワーク・アクセス]>[サービス]で、「入口」タブを選択することで確認できます。
-#1. Ingressを作成することで、Proxyノード経由の外部から"/handson"のURLでアクセスできます。<br>
-これにより、Proxy Nodeのデフォルトの構成である80番や443番のポートでアクセスできます。
-ブラウザーで、`http://(ICPのIP)/hoge/Sum/` と入力します。サンプル・アプリケーションにアクセスできることを確認します。
+
+1. Ingressを作成することで、Proxyノード経由の外部から"/handson"のURLでアクセスできます。<br>
+これによりProxy Nodeのデフォルトの構成である80番や443番のポートでアクセスできます。
+ブラウザーで、`http://(ICPのIP)/handson/Sum/` と入力します。サンプル・アプリケーションにアクセスできることを確認します。
 
 以上で、Lab4は終了です。
