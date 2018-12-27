@@ -17,33 +17,27 @@
     - server.xml : サンプル・アプリケーション用のLibertyの構成ファイル
     - Dockerfile : サンプル・アプリケーションがデプロイされたDockerイメージをビルドするためのDockerfile
 
-1. このハンズオンでは、IBMのJavaEEアプリケーション・サーバーである WebSphere Liberty を利用します。
+1. このハンズオンでは、IBMのJavaEEアプリケーション・サーバーである WebSphere Liberty を利用します。<br>
 フルスタックのJavaEEをサポートしながらも、各種APIや機能がフィーチャーとしてモジュール化されているため、必要な機能のみを有効化し、より少ないリソースで利用していくことが可能です。<br>
 LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサポートするもの）やkernel（Libertyカーネルのみ）など、複数のタグ付けされたイメージが公開されています。これらのDockerイメージをビルドするのに利用されている Dockerfileもあわせて公開されています<br>
-以下のサイトを開き、製品として提供されている Dockerfileが どのように構成されているか確認してみてください。
+以下のサイトを開き、製品として提供されている Dockerfileが どのように構成されているか確認してみてください。<br>
     [docker store: IBM WebSphere Application Server Liberty](https://store.docker.com/images/websphere-liberty)
     
     1. このハンズオンでは、javaee8 の WebProfileに対応した websphere-liberty:webProfile8 を利用します。
     　　websphere-liberty:webProfile8 の dockerfileを確認してみます。
       websphere-liberty:kernel をベース・イメージとして、フィーチャーを追加するコマンドを実行し、デフォルトのserverl.xmlファイルを配置していることがわかります。
-    1. 次に websphere-liberty:kernel のdockerfile を確認してみます。
-    　　こちらは ibm-java:8-jre と Java8のランタイムをベースにビルドされていることがわかります。
-    1. さらに 以下が IBM Javaの docker ファイルです。Ubuntuのベースイメージに対して、JREを導入していることがわかります。
+    1. 次に websphere-liberty:kernel のdockerfile を確認してみます。<br>こちらは ibm-java:8-jre と Java8のランタイムをベースにビルドされていることがわかります。
+    1. さらに 以下が IBM Javaの docker ファイルです。Ubuntuのベースイメージに対して、JREを導入していることがわかります。<br>
     [docker hub: ibmjava](https://hub.docker.com/_/ibmjava/)
     
    このように階層化された環境を利用することにより、各レイヤーでの変更を、イメージをビルドするタイミングで取り込めるよう構成されています。
  
 
 ## Liberty WebProfile イメージの取得
-ここでは `:webProfile8`のタグを指定し、JavaEE8 WebProflile 8 をサポートする環境をダウンロードします。<br>
-1. `docker pull websphere-liberty:webProfile8` コマンドを入力し、WebSphere LibertyのwebProfile8のイメージをダウンロードします。<br>
+このハンズオンこでは `:webProfile8`のタグを指定し、JavaEE8 WebProfile 8 をサポートする環境を利用します。
 
-    WebSphere Liberty は、IBMのJavaEEのアプリケーション・サーバーです。<br>
-    フルスタックのJavaEEをサポートしながらも、各種APIや機能がフィーチャーとしてモジュール化されているため、必要な機能のみを有効化し、より少ないリソースで利用していくことが可能です。<br>
-    ここでは `:webProfile8`のタグを指定し、JavaEE8 WebProflile 8 をサポートする環境をダウンロードします。<br>
+1. `docker pull websphere-liberty:webProfile8` コマンドを入力し、WebSphere LibertyのwebProfile8のイメージをダウンロードします。<br>
     
-    LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサポートするもの）やkernel（Libertyカーネルのみ）など、複数のタグ付けされたイメージが公開されています。これらのDockerイメージをビルドするのに利用されている Dockerfileもあわせて公開されています<br>
-    [docker store: IBM WebSphere Application Server Liberty](https://store.docker.com/images/websphere-liberty)
     ```
     $ docker pull websphere-liberty:webProfile8
     webProfile8: Pulling from library/websphere-liberty
@@ -91,15 +85,16 @@ LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサ
     ![LibertyDefaultTop](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab2/Lab2_01_LibertyDefaultPage.png)
 
 
-1. Libertyの製品イメージには、下記の設定が行われています。
-        - WAS Liberty を /opt/ibm/wlp にインストール(展開)
-        - サーバー defaultServer を作成
-        - ログ・ディレクトリーを /logs に変更 (環境変数 LOG_DIR の設定)
-        - 出力ディレクトリーを /opt/ibm/wlp/output に変更 (環境変数 WLP_OUTPUT_DIR　の設定)
-        - ディレクトリー /logs を作成
-        - 出力ディレクトリーへのリンク /output を作成
-        - 構成ディレクトリーへのリンク /config を作成
-        - server run defaultServer コマンドで、WAS Liberty を起動<br>
+1. Libertyの製品イメージには、下記の設定が行われています。<br>
+　 ※ここは製品の設定を確認しているだけですので、ここはスキップ可能です。興味がある方はどの層の dockerfile で実行されているか確認してみてください。
+    - WAS Liberty を /opt/ibm/wlp にインストール(展開)
+    - サーバー defaultServer を作成
+    - ログ・ディレクトリーを /logs に変更 (環境変数 LOG_DIR の設定)
+    - 出力ディレクトリーを /opt/ibm/wlp/output に変更 (環境変数 WLP_OUTPUT_DIR　の設定)
+    - ディレクトリー /logs を作成
+    - 出力ディレクトリーへのリンク /output を作成
+    - 構成ディレクトリーへのリンク /config を作成
+    - server run defaultServer コマンドで、WAS Liberty を起動<br><br>
         
     1. `docker exec -it wlp /bin/bash` のコマンドを入力し、Libertyコンテナーにログインし、設定を確認します。
     ```
