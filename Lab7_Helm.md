@@ -246,7 +246,21 @@
 
    affinity: {}
    ```
-1. 編集が完了したら、`helm lint`コマンドで、定義として問題ないか検証を行います。
+1. オプショナルのファイルですが、利用者がこのHELMチャートの使い方が分かるようにREADME.mdを作成しましょう。
+   Chart.yaml や value.yamlが配置されているディレクトリに `README.md` という名前でファイルを作成し、以下の内容をCOPYして保存します。
+   ```
+   # MyLibetyApp Handson Application
+
+   ## Introduction
+   これはハンズオンのためのアプリケーションです。
+   本番での利用は想定していません
+
+   ## Chart Details
+   導入方法について記載したりします。
+   詳細については、他のカタログに記載されている内容を確認します。
+   ```
+   
+1. ここまでの HELMチャート編集が完了したら、`helm lint`コマンドで、定義として問題ないか検証を行います。
    ```
    $ helm lint mylibertyapp
    ==> Linting mylibertyapp
@@ -255,8 +269,6 @@
    1 chart(s) linted, no failures
    ```
    [INFO]で ICONファイルが存在しない旨記載されていますが、特に問題はありません。必要に応じて指定してください。
-
-1.
     
 1.　`helm package`コマンドでパッケージします。
    ```
