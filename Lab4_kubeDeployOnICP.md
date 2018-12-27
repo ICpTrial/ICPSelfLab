@@ -98,7 +98,7 @@ ICPコンソールにログインし、ナビゲーション・メニューか�
 
 kubectlコマンドは、kubenetes標準のkubernetesクラスターを管理する標準のコマンドライン・ツールです。
 
-1. ``cloudctl login``コマンドで ICP環境にログインします。デフォルトの名前空間を聞かれるので、ここでは handson を指定します。 
+1. `cloudctl login`コマンドで ICP環境にログインします。デフォルトの名前空間を聞かれるので、ここでは handson を指定します。<br>この認証を通すことで、kuberctl コマンドで ICPの APIサーバーを通じて Kubernetesクラスタを管理できるようになります。
     ```
     # cloudctl login -a https://mycluster.icp:8443/
     
@@ -138,7 +138,6 @@ kubectlコマンドは、kubenetes標準のkubernetesクラスターを管理す
     OK
     ```
     
-
 1. kubectlコマンドの接続先が、ICPで構成されていることを確認します。`kubectl get nodes` コマンドを入力し、NAME欄に表示されるIPアドレスが、対象のICPのサーバーとなっていることを確認します。
     ```
     $ kubectl get nodes
@@ -153,7 +152,8 @@ kubectlコマンドは、kubenetes標準のkubernetesクラスターを管理す
     mylibertyapp   55m
     $ 
     ```
-    mylibertyappのイメージの存在が確認できます。今回、このkubectlは、"handson"の名前空間を対象にしてオブジェクトを表示しています。`--all-namespaces` オプションを付与することで、すべての名前空間のオブジェクトを表示することもできます。
+    mylibertyappのイメージの存在が確認できます。今回、このkubectlは、さきほどデフォルトの名前空間を"handson"に指定しましたので、"handson"の名前空間を対象にしてオブジェクトを表示しています。<br>
+    `--all-namespaces` オプションを付与することで、すべての名前空間のオブジェクトを表示することもできます。
     ```
     $ kubectl get images --all-namespaces
     NAMESPACE   NAME                                     AGE
@@ -167,6 +167,7 @@ kubectlコマンドは、kubenetes標準のkubernetesクラスターを管理す
 
 kubectlコマンドで、kubernetesのオブジェクトを作成する場合、オブジェクトの定義情報を、yamlまたはjsonファイル形式で記述し、`kubectl apply -f <file_name>` コマンドで適用します。オブジェクトの新規作成も、オブジェクトの更新も、同じコマンドで実行できます。
 1. デプロイメントを作成するためのyamlファイルを、Lab4ディレクトリーに準備しています。"mylibapp-deployment.yaml"をテキスト・エディターで開き、内容を確認します。
+
     ```yaml:mylibapp-deployment.yaml
     apiVersion: apps/v1
     kind: Deployment
@@ -184,43 +185,56 @@ kubectlコマンドで、kubernetesのオブジェクトを作成する場合、
         spec:
           containers:
           - name: myliberty-container
-            image: icpcluster01.icp:8500/handson/mylibertyapp:1.0
+            image: mycluster.icp:8500/handson/mylibertyapp:1.0
             ports:
             - containerPort: 9080
     ```
     上記のデプロイメントの定義ファイルでは、下記のような設定を記述しています。
     - 2行目の"kind: Deployment"で、デプロイメントの定義であることを指定
     - 6行目の"replicas: 1"で、ポッドの複製の数を指定
-    - 17行目の"image: icpcluster01.icp:8500/handson/mylibertyapp:1.0"で、コンテナーのイメージを指定
+    - 17行目の"image: mycluster.icp:8500/handson/mylibertyapp:1.0"で、コンテナーのイメージの取得先を指定
+    
 1. `kubectl apply -f mylibapp-deployment.yaml` コマンドを入力し、デプロイメントを作成します。
     ```
     $ kubectl apply -f mylibapp-deployment.yaml
     deployment "mylibertyapp-deploy" created
     $ 
     ```
-1. 作成したデプロイメントを確認します。`kubectl get deployments` または `kubectl get deploy` コマンドを入力し、"mylibertyapp-deploy"のエントリーが表示されることを確認します。
+1. 作成したデプロイメントを確認します。
+
+    1. `kubectl get deployments` コマンドを入力し、"mylibertyapp-deploy"のエントリーが表示されることを確認します。
     ```
-    $ kubectl get deploy
+    $ kubectl get deployments
     NAME                       DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
     liberty-default-helm-ibm   1         1         1            1           8h
     mylibertyapp-deploy        1         1         1            1           2m
     $ 
     ```
-    また、`kubectl get deploy mylibertyapp-deploy -o wide` や `kubectl get deploy mylibertyapp-deploy -o yaml` 、 `kubectl describe deploy mylibertyapp-deploy` コマンドでより詳細な情報も確認できます。
-    また、デプロイメントの作成により、自動的にポッドが作成されます。'kubectl get pods' または 'kubectl get po' コマンドを入力し、"mylibertyapp-deploy"で始まるポッドが出力されることを確認します。
+    1. `kubectl get deployments -o wide` コマンドを実行することで、表示項目を増やすことが可能です。
+    
+    1. さらに個別のコンテナの詳細な情報を取得したい場合には、`kubectl describe deploy mylibertyapp-deploy` を実行します。
+    
+    1. また問題判別などのために、実際に設定されている内容を取得して欲しい場合には、`kubectl get deployments mylibertyapp-deploy -o yaml` で、設定されている情報を yamlファイルに出力することが可能です。
+    
+    1. また、デプロイメントの作成により、実際にコンテナが稼働しているポッドが自動的に作成されています。<br>
+    'kubectl get pods' コマンドを入力し、"mylibertyapp-deploy"で始まるポッドが出力されることを確認します。
     ```
-    $ kubectl get po  
+    $ kubectl get pods 
     NAME                                        READY     STATUS    RESTARTS   AGE
     liberty-default-helm-ibm-6f6fc5fbfd-4khv8   1/1       Running   0          8h
     mylibertyapp-deploy-648c4645f9-dj5nv        1/1       Running   0          20m
     $ 
     ```
+    
 1. ICPコンソールからも確認してみます。ナビゲーション・メニューから[ワークロード]>[デプロイメント]を選択します。"mylibertyapp-deploy"のエントリーが表示され、デプロイメントの名前のハイパーリンクをクリックすることで、そのデプロイメントの詳細を確認できます。さらに、デプロイメントに含まれるポッドの詳細などのリンクもたどれます。
 ![DeploymentList](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab4/Lab4_05_DeploymentList.png)
 
 ##　NodePortサービスの作成
-1. NodePortサービスを作成する"mylibapp-nodeportservice.yaml"をテキスト・エディターで開き、内容を確認します。
-    ```yaml:mylibapp-nodeportservice.yaml
+
+1. Kubernetes環境にデプロイしたDeploymentsにアクセスするための NodePort定義を作成します。<br>
+NodePortサービスを作成する"mylibapp-nodeportservice.yaml"をテキスト・エディターで開き、内容を確認します。
+    ```
+    yaml:mylibapp-nodeportservice.yaml
     apiVersion: v1
     kind: Service
     metadata:
@@ -241,27 +255,29 @@ kubectlコマンドで、kubernetesのオブジェクトを作成する場合、
     - 7,8行目の"selector: > app: mylibertyapp"で、割り振り先のデプロイメントを選択するラベルを指定
     - 12行目の"targetPort: 9080"で、割り振り先のポートを指定
     - 13行目の"nodePort: 30180"で、クラスター外部からアクセスすることができるポート番号を指定
-1. `kubectl apply -f mylibapp-nodeportservice.yaml` コマンドを入力し、NodePortのサービスを作成します。
-    ```
-    $ kubectl apply -f mylibapp-nodeportservice.yaml
-    service "mylibertyapp-nodeport" created
-    $ 
-    ```
-1. 作成したサービスを確認します。`kubectl get services` または `kubectl get svc` コマンドを入力し、"mylibertyapp-nodeport"のエントリーが表示されることを確認します。
-    ```
-    $ kubectl get svc
-    NAME                       TYPE       CLUSTER-IP   EXTERNAL-IP   PORT(S)          AGE
-    liberty-default-helm-ibm   NodePort   10.0.0.26    <none>        9443:31114/TCP   9h
-    mylibertyapp-nodeport      NodePort   10.0.0.17    <none>        9080:30180/TCP   1m
-    $  
-    ```
-1. ICPコンソールからも、ナビゲーション・メニューから[ネットワーク・アクセス]>[サービス]を選択することで確認できます。
-1. NodePortを作成することで、外部からアクセスできます。ブラウザーで、`http://(ICPのIP):30180/Sum/` と入力します。サンプル・アプリケーションにアクセスできることを確認します。
-![NodePortAccess](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab4/Lab4_06_NodePortAccess.png)
+    1. `kubectl apply -f mylibapp-nodeportservice.yaml` コマンドを入力し、NodePortのサービスを作成します。
+       ```
+       $ kubectl apply -f mylibapp-nodeportservice.yaml
+       service "mylibertyapp-nodeport" created
+       $ 
+       ```
+    1. 作成したサービスを確認します。`kubectl get services` コマンドを入力し、"mylibertyapp-nodeport"のエントリーが表示されることを確認します。
+        ```
+        $ kubectl get services
+        NAME                       TYPE       CLUSTER-IP   EXTERNAL-IP   PORT(S)          AGE
+        liberty-default-helm-ibm   NodePort   10.0.0.26    <none>        9443:31114/TCP   9h
+        mylibertyapp-nodeport      NodePort   10.0.0.17    <none>        9080:30180/TCP   1m
+        $  
+        ```
+    1. ICPコンソールからも、ナビゲーション・メニューから[ネットワーク・アクセス]>[サービス]を選択することで確認できます。
+    1. NodePortを作成することで、外部からアクセスできます。ブラウザーで、`http://(ICPのIP):30180/Sum/` と入力します。サンプル・アプリケーションにアクセスできることを確認します。
+    ![NodePortAccess](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab4/Lab4_06_NodePortAccess.png)
 
 ##　Ingressの作成
-1. Ingressを作成する"mylibapp-ingress.yaml"をテキスト・エディターで開き、内容を確認します。
-    ```mylibapp-ingress.yaml
+
+1. 外部公開用のProxyサーバーを利用するための Ingressの定義を作成します。"mylibapp-ingress.yaml"をテキスト・エディターで開き、内容を確認します。
+    ```
+    mylibapp-ingress.yaml
     apiVersion: extensions/v1beta1
     kind: Ingress
     metadata:
@@ -274,16 +290,17 @@ kubectlコマンドで、kubernetesのオブジェクトを作成する場合、
       - host:
         http:
           paths:
-          - path: /hoge
+          - path: /handson
             backend:
               serviceName: mylibertyapp-nodeport
               servicePort: 9080
     ```
     上記のIngressの定義ファイルでは、下記のような設定を記述しています。
     - 2行目の"kind: Ingress"で、Ingressの定義であることを指定
-    - 13行目の"- path: /hoge"で、Proxyノード宛の"/hoge"のリクエストを対象のサービス(NodePort)に転送するよう指定
+    - 13行目の"- path: /handson"で、Proxyノード宛の"/handson"のリクエストを対象のサービス(NodePort)に転送するよう指定
     - 15,16行目のserviceName: mylibertyapp-nodeport"と"servicePort: 9080"で、転送先のサービス(NodePort)を指定
-    - 5行目の"ingress.kubernetes.io/rewrite-target: /"で、ICPのProxyノードで内部的に構成されているnginxコントローラーで固有に利用できるrewrite-tagetの指定で、pathに指定した"/hoge"宛のリクエストを/に変更するよう指定
+    - 5行目の"ingress.kubernetes.io/rewrite-target: /"で、ICPのProxyノードで内部的に構成されているnginxコントローラーで固有に利用できるrewrite-tagetの指定で、pathに指定した"/handson"宛のリクエストを/に変更するよう指定
+
 1. `kubectl apply -f mylibapp-ingress.yaml` コマンドを入力し、Ingressを作成します。
     ```
     $ kubectl apply -f mylibapp-ingress.yaml
@@ -299,7 +316,8 @@ kubectlコマンドで、kubernetesのオブジェクトを作成する場合、
     $
     ```
 1. ICPコンソールからも、ナビゲーション・メニューから[ネットワーク・アクセス]>[サービス]で、「入口」タブを選択することで確認できます。
-#1. Ingressを作成することで、Proxyノード経由の外部から"/hoge"のURLでアクセスできます。Proxy Nodeのデフォルトの構成である80番や443番のポートでアクセスできます。ブラウザーで、`http://(ICPのIP)/hoge/Sum/` と入力します。サンプル・アプリケーションにアクセスできることを確認します。
+#1. Ingressを作成することで、Proxyノード経由の外部から"/handson"のURLでアクセスできます。<br>
+これにより、Proxy Nodeのデフォルトの構成である80番や443番のポートでアクセスできます。
+ブラウザーで、`http://(ICPのIP)/hoge/Sum/` と入力します。サンプル・アプリケーションにアクセスできることを確認します。
 
-以上で、Lab4は終了です。引き続き、Lab4で、Microclimateをご紹介します。
-
+以上で、Lab4は終了です。
