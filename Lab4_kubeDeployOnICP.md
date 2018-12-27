@@ -5,10 +5,8 @@
 ## 前提
 
 この　Labでは、下記の準備を前提としています。
-- PC環境からICP環境へのネットワークの接続
-- PC環境からICPのプライベート・レジストリーへの認証の設定<br>
-    [ICP Knowledge Center: Docker CLI の認証の構成](https://www.ibm.com/support/knowledgecenter/ja/SSBS6K_3.1.0/manage_images/configuring_docker_cli.html)
-- PC上にkubectlコマンドのインストール<br>
+
+- kubectlコマンドのインストール<br>
     [ICP Knowledge Center: kubectl CLI からクラスターへのアクセス](https://www.ibm.com/support/knowledgecenter/ja/SSBS6K_3.1.0/manage_cluster/cfc_cli.html)
     ICPコンソールの[Command Line Tools]>[Cloud Private CLI]の[Install Kubectl CLI]の項目も参照ください
 
@@ -28,8 +26,9 @@
 [ICP KnowledgeCenter: イメージのプッシュおよびプル](https://www.ibm.com/support/knowledgecenter/ja/SSBS6K_3.1.0/manage_images/using_docker_cli.html)
 
 1. ICPのプライベート・レジストリーへの接続/認証の確認
-    PCのDockerレジストリーから、ICPのプライベート・レジストリーに、Dockerイメージを直接アップロード(docker push)するには、ICPのプライベート・レジストリーにdocker loginする必要があります。<br>
-    `docker login <cluster_CA_domain>:8500` (デフォルトでは、`docker login mycluster.icp:8500`) コマンドを入力します。事前に、認証設定の一部として、<cluster_CA_domain>のホスト名が、PC OSのhostsファイルで名前解決され、ICPのマスター・ノードのIPアドレスに解決されます。
+    ICPのプライベート・レジストリーに、Dockerイメージを直接アップロード(docker push)するには、ICPのプライベート・レジストリーにdocker loginする必要があります。<br>
+    `docker login <cluster_CA_domain>:8500` (デフォルトでは、`docker login mycluster.icp:8500`) コマンドを入力します。
+    /etc/hostsファイルで名前解決されるようになっていますので、<cluster_CA_domain>のホスト名が、ICPのマスター・ノードのIPアドレスに解決されます。
     UsernameとPasswordの入力が求められますので、ICPの管理者ユーザーのユーザー名(デフォルト:admin)とパスワードを入力します。
     ```
     $ docker login mycluster.icp:8500
@@ -39,15 +38,18 @@
     $ 
     ```
 1. アップロードするイメージの確認
-    `docker images` コマンドを入力し、Lab2. で作成した「mylibertyapp:1.0」のイメージがPCローカルのDockerレジストリーに存在することを確認します。
+    `docker images` コマンドを入力し、Lab2. で作成した「mylibertyapp:1.0」のイメージがローカルのDockerレジストリーに存在することを確認します。
     ```
     $ docker images
     REPOSITORY                                   TAG                 IMAGE ID            CREATED             SIZE
     mylibertyapp                                 1.0                 4027ff6ba2c0        15 hours ago        508MB
     $ 
     ```
+    
 1. アップロードするイメージの名前の変更(追加)
-    `docker tag <source_image> <target_image>` コマンド(<source_image>に対して、<target_image>の別名を付与します)で、アップロードするイメージに"<Dockerレジストリーのホスト>/<名前空間>/<イメージ名>:<tag名>"の別名をつけます。具体的には、'docker tag mylibertyapp:1.0 mycluster.icp:8500/handson/mylibertyapp:1.0' コマンドを入力します。
+　　ICPで管理されるイメージを 名前空間でのみアクセス可能とするには、指定された形式でタグをつけて保管をします。
+    `docker tag <source_image> <target_image>` コマンド(<source_image>に対して、<target_image>の別名を付与します)で、アップロードするイメージに"<Dockerレジストリーのホスト>/<名前空間>/<イメージ名>:<tag名>"の別名をつけます。<br>
+    具体的には、'docker tag mylibertyapp:1.0 mycluster.icp:8500/handson/mylibertyapp:1.0' コマンドを入力します。
     ```
     $ docker tag mylibertyapp:1.0 mycluster.icp:8500/handson/mylibertyapp:1.0
     $ 
@@ -61,6 +63,7 @@
     $ 
     ```
     同じIMAGE IDのエントリーが2行表示され、ここで追加した名前のエントリーがあることを確認します。
+
 1. イメージをアップロードします。
     `docker push <image_name>:<tag>`コマンドで、ICPのDockerプライベート・レジストリーにイメージをアップロードします。具体的には、`docker push mycluster.icp:8500/handson/mylibertyapp:1.0` コマンドを入力します。
     ```
@@ -86,49 +89,56 @@
     1.0: digest: sha256:40c187d55d17fb07bbcc093aae5f159eecb43fb3aa3fbab8f6d19cc983b4918e size: 3878
     $ 
     ```
-1. アップロードされたイメージをICPコンソールから確認します。ICPコンソールにログインし、ナビゲーション・メニューから、[イメージ]を選択します。名前が"handson/mylibertyapp"のエントリーがあることを確認します。
+1. アップロードされたイメージをICPコンソールから確認します。
+ICPコンソールにログインし、ナビゲーション・メニューから、[イメージ]を選択します。名前が"handson/mylibertyapp"のエントリーがあることを確認します。
 ![Image](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab4/Lab4_01_Image.png)
 
-1. コンソール画面の右下の「>_」の青丸のマークをクリックすると、このコンソール画面に表示している内容を取得するkubectlコマンドが表示されます。以降で、kubectlコマンドのコンテキスト(接続先)をICPに設定します。
-![kubeCommandDisplay](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab4/Lab4_02_kubeCommandDisplay.png)
 
 ## PC上のkubectlコマンドの接続先をICPに構成<br>
 
 kubectlコマンドは、kubenetes標準のkubernetesクラスターを管理する標準のコマンドライン・ツールです。
-1. 接続構成情報を取得します。ICPコンソールで、上端メニューの右端の人のアイコンをクリックし、[クライアントの構成]を選択します。
-![kubectlConfig1](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab4/Lab4_03_kubectlConfig1.png)
-1. クライアント構成のポップアップ・ウィンドウが表示され、接続設定を行うために、コマンド・ラインに入力するコマンドが複数行にわたって表示されます。青枠の書類のマークのようなアイコン(Copy to clipboard)をクリックすることで、クリップボードに保管します。
-![kubectlConfig2](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab4/Lab4_04_kubectlConfig2.png)
-1. 一旦テキスト・エディターに内容をペーストします。
-    下記のような内容がペーストされます。
+
+1. ``cloudctl login``コマンドで ICP環境にログインします。デフォルトの名前空間を聞かれるので、ここでは handson を指定します。 
     ```
-    kubectl config set-cluster mycluster --server=https://(ICPのアドレス):8001 --insecure-skip-tls-verify=true
-    kubectl config set-context mycluster-context --cluster=mycluster
-    kubectl config set-credentials admin --token=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdF9oYXNoIjoiZmNiaGVrc2d4MjNxbXFhN2o3OGYiLCJyZWFsbU5hbWUiOiJjdXN0b21SZWFsbSIsInVuaXF1ZVNlY3VyaXR5TmFtZSI6ImFkbWluIiwiaXNzIjoiaHR0cHM6Ly9pY3BjbHVzdGVyMDEuaWNwOjk0NDMvb2lkYy9lbmRwb2ludC9PUCIsImF1ZCI6IjVlZWQ0YTRmN2FlOGI0MmI1NWM2NzJiMzUwNjgyYWM0IiwiZXhwIjoxNTQwODI3MTY2LCJpYXQiOjE1NDA3OTgzNjYsInN1YiI6ImFkbWluIiwidGVhbVJvbGVNYXBwaW5ncyI6W119.hGAuoQ3mmjGYRY8Ez1lY6YhXodwvH4N9aEZPYBToaTzT6P4r2ylHDGWcfm-Ii5E-QI21i3mDKjgpp0TV5gDRP1NlUng9Uuz4U62gqEYLp9Jn4VV0mYXDBf86IWluDY23WNYhQ-vbfB-G8ldANTwM-HzHx6cyyaW_nNEE76zw_1Rvl1eKnJaOGqybNDuSqv8xkK-OmY0CjG2qktmg6LnefHqCAIQyQdyOlkJlx6nxacMmNAgfiiZ7AHPgS1CJYapQ9eIzadX4ql27X3pufslNSxW3wFNFzudEjV3gJtfNIAf6boXEuIrEZDmx9d99b5Qx6QuWVfP-oDidtZWxNr941Q
-    kubectl config set-context mycluster-context --user=admin --namespace=cert-manager
-    kubectl config use-context mycluster-context
+    # cloudctl login -a https://mycluster.icp:8443/
     
-    ```
-1. 下から2行目のコマンドの中で、デフォルトの名前空間(namespace)を指定しています。コンソールからダウンロードされるコマンドは、名前空間が、「cert-manager」となっていますので、今回のハンズオンで使用する「handson」に修正します。修正後の下から2行目の内容は、下記のようになります。
-    ```
-    kubectl config set-context mycluster-context --user=admin --namespace=handson
-    ```
-    修正後のコマンドの全体(5行)を選択し、再度、クリップボードにコピー([Ctrl]+c)します。
-1. コマンドラインに貼り付けます。複数行のコマンドが連続的に実行されます。
-    ```
-    $ kubectl config set-cluster mycluster --server=https://161.202.248.83:8001 --insecure-skip-tls-verify=true
+    Username> admin
+    
+    Password>
+    Authenticating...
+    OK
+    
+    Targeted account mycluster Account (id-mycluster-account)
+    
+    Select a namespace:
+    1. cert-manager
+    2. default
+    3. handson
+    4. ibmcom
+    5. istio-enabled-namespace
+    6. istio-system
+    7. kube-public
+    8. kube-system
+    9. platform
+    10. services
+    Enter a number> 3
+    Targeted namespace handson
+    
+    Configuring kubectl ...
+    Property "clusters.mycluster" unset.
+    Property "users.mycluster-user" unset.
+    Property "contexts.mycluster-context" unset.
     Cluster "mycluster" set.
-    $ kubectl config set-context mycluster-context --cluster=mycluster
-    Context "mycluster-context" modified.
-    $ kubectl config set-credentials admin --token=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdF9oYXNoIjoiZmNiaGVrc2d4MjNxbXFhN2o3OGYiLCJyZWFsbU5hbWUiOiJjdXN0b21SZWFsbSIsInVuaXF1ZVNlY3VyaXR5TmFtZSI6ImFkbWluIiwiaXNzIjoiaHR0cHM6Ly9pY3BjbHVzdGVyMDEuaWNwOjk0NDMvb2lkYy9lbmRwb2ludC9PUCIsImF1ZCI6IjVlZWQ0YTRmN2FlOGI0MmI1NWM2NzJiMzUwNjgyYWM0IiwiZXhwIjoxNTQwODI3MTY2LCJpYXQiOjE1NDA3OTgzNjYsInN1YiI6ImFkbWluIiwidGVhbVJvbGVNYXBwaW5ncyI6W119.hGAuoQ3mmjGYRY8Ez1lY6YhXodwvH4N9aEZPYBToaTzT6P4r2ylHDGWcfm-Ii5E-QI21i3mDKjgpp0TV5gDRP1NlUng9Uuz4U62gqEYLp9Jn4VV0mYXDBf86IWluDY23WNYhQ-vbfB-G8ldANTwM-HzHx6cyyaW_nNEE76zw_1Rvl1eKnJaOGqybNDuSqv8xkK-OmY0CjG2qktmg6LnefHqCAIQyQdyOlkJlx6nxacMmNAgfiiZ7AHPgS1CJYapQ9eIzadX4ql27X3pufslNSxW3wFNFzudEjV3gJtfNIAf6boXEuIrEZDmx9d99b5Qx6QuWVfP-oDidtZWxNr941Q
-    User "admin" set.
-    $ kubectl config set-context mycluster-context --user=admin --namespace=handson
-    Context "mycluster-context" modified.
-    $ kubectl config use-context mycluster-context
+    User "mycluster-user" set.
+    Context "mycluster-context" created.
     Switched to context "mycluster-context".
-    $ 
+    OK
+    
+    Configuring helm: /root/.helm
+    OK
     ```
-    最後の行の`kubectl config use-context mycluster-context`が実行されていることを確認してください。実行されていない場合には、[Enter]キーを入力し、実行してください。
+    
+
 1. kubectlコマンドの接続先が、ICPで構成されていることを確認します。`kubectl get nodes` コマンドを入力し、NAME欄に表示されるIPアドレスが、対象のICPのサーバーとなっていることを確認します。
     ```
     $ kubectl get nodes
