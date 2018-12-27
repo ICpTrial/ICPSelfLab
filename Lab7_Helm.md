@@ -254,13 +254,11 @@
 
    1 chart(s) linted, no failures
    ```
-   [INFO]で ICONファイルが存在しない旨記載されていますが、特に
-  
-   1 chart(s) linted, no failures問題
-   1 chart(s) linted, no failuresないので、
-   1 chart(s) linted, no failures
+   [INFO]で ICONファイルが存在しない旨記載されていますが、特に問題はありません。必要に応じて指定してください。
 
-1.　問題がなくなったので、`helm package`コマンドでパッケージします。
+1.
+    
+1.　`helm package`コマンドでパッケージします。
    ```
    helm package mylibertyapp
    Successfully packaged chart and saved it to: /work/share/lab/mylibertyapp-0.1.0.tgz
