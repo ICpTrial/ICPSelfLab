@@ -191,7 +191,7 @@
 1. 最後に、HELMの様々な値を環境変数として設定する values.yaml をカスタマイズしていきます。
 
    1. まず イメージの取得先を修正します
-      ローカルのイメージ・レポジトリからイメージを取得するように `repository`の値を `mycluster.icp:8500/handson/mylibertyapp`に変更し、`tag`の値を`1.0`に変更します。この値は deployment.yamlの中から参照されています。
+      ローカルのイメージ・レポジトリからイメージを取得するように `repository`の値を `mycluster.icp:8500/handson/mylibertyapp`に変更し、`tag`の値を`"1.0"`に変更します（1.0を""で囲ってください)。この値は deployment.yamlの中から参照されています。
    1. 次にサービスの公開方法を修正します。
    　　今回は NodePort で公開していましたので、serviceの `type`を `NodePort` に修正します。この値は service.yamlの中から参照されています。
    1. 最後に ingressの公開方法を修正します。
@@ -254,6 +254,34 @@
    1 chart(s) linted, no failures
    ```
    
-   1. せっかくなので、iconを指定しましょう。chart.yaml に `icon: http://mylibertyapp.png`を指定します。 
-   ```に
+   1. せっかくなので、iconを指定します。Chart.yaml を開いて、最後に以下を付け足します。
+   `icon: https://github.com/ICpTrial/ICPLab/blob/ICPLab-Customized/images/Lab7/mylibertyapp.png`
+   
+   1. もう一度 `helm lint`コマンドを実行します。
    ```
+   $ helm lint mylibertyapp
+   ==> Linting mylibertyapp
+   Lint OK
+   
+   1 chart(s) linted, no failures
+   ```
+
+1.　問題がなくなったので、`helm package`コマンドでパッケージします。
+   ```
+   helm package mylibertyapp
+   Successfully packaged chart and saved it to: /work/share/lab/mylibertyapp-0.1.0.tgz
+   ```
+
+1. 作成された helmパッケージを ICPの helmレポジトリに登録します。
+   ```
+   cloudctl catalog load-helm-chart --archive mylibertyapp-0.1.0.tgz
+   Loading helm chart
+   Loaded helm chart
+
+   Synch charts
+   Synch started
+   OK
+   ```
+   
+   
+
