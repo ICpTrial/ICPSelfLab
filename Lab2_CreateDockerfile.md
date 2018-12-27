@@ -68,11 +68,11 @@ LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサ
     ```
 
 ## Libertyイメージの稼働確認と内容の確認
-1. `docker run -d -p 19080:9080 --name wlp websphere-liberty:webProfile8` コマンドを入力し、Libertyのコンテナーを起動します。<br>
+1. `docker run -d -p19080:9080 --name wlp websphere-liberty:webProfile8` コマンドを入力し、Libertyのコンテナーを起動します。<br>
     `--name wlp` オプションで、コンテナーにwlpの名前をつけて起動しています。
     dockerコマンドで、コンテナーを指定する場合に、コンテナーIDの代わりに名前で操作することができます。
     ```
-    $ docker run -d -p 19080:9080 --name wlp websphere-liberty:webProfile8
+    $ docker run -d -p19080:9080 --name wlp websphere-liberty:webProfile8
     c82c221a570f5808b657b8831626f0ad6eba722ab227ed7efd74ec8efde34a58
     $
     ```
