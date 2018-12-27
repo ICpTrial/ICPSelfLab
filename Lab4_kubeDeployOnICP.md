@@ -100,7 +100,7 @@ kubectlコマンドは、kubenetes標準のkubernetesクラスターを管理す
 
 1. `cloudctl login`コマンドで ICP環境にログインします。デフォルトの名前空間を聞かれるので、ここでは handson を指定します。<br>この認証を通すことで、kuberctl コマンドで ICPの APIサーバーを通じて Kubernetesクラスタを管理できるようになります。
     ```
-    # cloudctl login -a https://mycluster.icp:8443/
+    $ cloudctl login -a https://mycluster.icp:8443/
     
     Username> admin
     
@@ -222,7 +222,7 @@ kubectlコマンドで、kubernetesのオブジェクトを作成する場合、
     
     1. さらに個別のコンテナの詳細な情報を取得したい場合には、`kubectl describe deploy mylibertyapp-deploy` を実行します。
     ```
-    kubectl describe deployments mylibertyapp-deploy
+    $ kubectl describe deployments mylibertyapp-deploy
     Name:                   mylibertyapp-deploy
     Namespace:              handson
     CreationTimestamp:      Thu, 27 Dec 2018 05:32:46 +0000
@@ -256,9 +256,11 @@ kubectlコマンドで、kubernetesのオブジェクトを作成する場合、
     ----    ------             ----  ----                   -------
     Normal  ScalingReplicaSet  3m    deployment-controller  Scaled up replica set mylibertyapp-deploy-6bcb4659dd to 1 
     ```
-    1. また問題判別などのために、実際に設定されている内容を取得して欲しい場合には、`kubectl get deployments mylibertyapp-deploy -o yaml` で、設定されている情報を yamlファイルに出力することが可能です。
     
     1. また、デプロイメントの作成により、実際にコンテナが稼働しているポッドが自動的に作成されています。<br>
+    'kubectl get pods' コマンドを入力し、"mylibertyapp-deploy"で始まるポッドが出力されることを確認します。
+    Podのネーミング・ルールとして、先ほどのReplicaSetのインスタンス名＋<文字列>で構成されています。
+    'kubectl get pods' コマンドを入力し、"mylibertyapp-deploy"で始まるポッドが出力されることを確認します。
     'kubectl get pods' コマンドを入力し、"mylibertyapp-deploy"で始まるポッドが出力されることを確認します。
     ```
     $ kubectl get pods 
@@ -267,6 +269,7 @@ kubectlコマンドで、kubernetesのオブジェクトを作成する場合、
     mylibertyapp-deploy-648c4645f9-dj5nv        1/1       Running   0          20m
     $ 
     ```
+    1. また問題判別などのために、実際に設定されている内容を取得して欲しい場合には、`kubectl get deployments mylibertyapp-deploy -o yaml` で、設定されている情報を yamlファイルに出力することが可能です。
     
 1. ICPコンソールからも確認してみます。ナビゲーション・メニューから[ワークロード]>[デプロイメント]を選択します。"mylibertyapp-deploy"のエントリーが表示され、デプロイメントの名前のハイパーリンクをクリックすることで、そのデプロイメントの詳細を確認できます。さらに、デプロイメントに含まれるポッドの詳細などのリンクもたどれます。
 ![DeploymentList](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab4/Lab4_05_DeploymentList.png)
