@@ -40,7 +40,7 @@
 1. アップロードするイメージの確認
     `docker images` コマンドを入力し、Lab2. で作成した「mylibertyapp:1.0」のイメージがローカルのDockerレジストリーに存在することを確認します。
     ```
-    $ docker images
+    $ docker images | grep liberty
     REPOSITORY                                   TAG                 IMAGE ID            CREATED             SIZE
     mylibertyapp                                 1.0                 4027ff6ba2c0        15 hours ago        508MB
     $ 
@@ -56,7 +56,7 @@
     ```
 1. `docker images` コマンドを入力し、別名が付与されたイメージを確認します。
     ```
-    $ docker images
+    $ docker images | grep libety
     REPOSITORY                                   TAG                 IMAGE ID            CREATED             SIZE
     mylibertyapp                                 1.0                 4027ff6ba2c0        15 hours ago        508MB
     mycluster.icp:8500/handson/mylibertyapp  1.0                 4027ff6ba2c0        15 hours ago        508MB
@@ -168,7 +168,8 @@ kubectlコマンドは、kubenetes標準のkubernetesクラスターを管理す
 kubectlコマンドで、kubernetesのオブジェクトを作成する場合、オブジェクトの定義情報を、yamlまたはjsonファイル形式で記述し、`kubectl apply -f <file_name>` コマンドで適用します。オブジェクトの新規作成も、オブジェクトの更新も、同じコマンドで実行できます。
 1. デプロイメントを作成するためのyamlファイルを、Lab4ディレクトリーに準備しています。"mylibapp-deployment.yaml"をテキスト・エディターで開き、内容を確認します。
 
-    ```yaml:mylibapp-deployment.yaml
+    ```
+    yaml:mylibapp-deployment.yaml
     apiVersion: apps/v1
     kind: Deployment
     metadata:
@@ -212,8 +213,49 @@ kubectlコマンドで、kubernetesのオブジェクトを作成する場合、
     ```
     1. `kubectl get deployments -o wide` コマンドを実行することで、表示項目を増やすことが可能です。
     
-    1. さらに個別のコンテナの詳細な情報を取得したい場合には、`kubectl describe deploy mylibertyapp-deploy` を実行します。
+    ```
+    # kubectl get deployments mylibertyapp-deploy -o wide
+    NAME                  DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE       CONTAINERS            IMAGES                                        SELECTOR
+    mylibertyapp-deploy   1         1         1            1           1m        myliberty-container  mycluster.icp:8500/handson/mylibertyapp:1.0   app=mylibertyapp
+    root@icp11master:/work/share/lab#
+    ```
     
+    1. さらに個別のコンテナの詳細な情報を取得したい場合には、`kubectl describe deploy mylibertyapp-deploy` を実行します。
+    ```
+    kubectl describe deployments mylibertyapp-deploy
+    Name:                   mylibertyapp-deploy
+    Namespace:              handson
+    CreationTimestamp:      Thu, 27 Dec 2018 05:32:46 +0000
+    Labels:                 <none>
+    Annotations:            deployment.kubernetes.io/revision=1
+                            kubectl.kubernetes.io/last-applied-configuration=  {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"mylibertyapp- deploy","namespace":"handson"},"spec":{"replicas":1,"sele...
+    Selector:               app=mylibertyapp
+    Replicas:               1 desired | 1 updated | 1 total | 1 available | 0 unavailable
+    StrategyType:           RollingUpdate
+    MinReadySeconds:        0
+    RollingUpdateStrategy:  25% max unavailable, 25% max surge
+    Pod Template:
+      Labels:  app=mylibertyapp
+      Containers:
+       myliberty-container:
+        Image:        mycluster.icp:8500/handson/mylibertyapp:1.0
+        Port:         9080/TCP
+        Host Port:    0/TCP
+        Environment:  <none>
+        Mounts:       <none>
+      Volumes:        <none>
+  Conditions:
+    Type           Status  Reason
+    ----           ------  ------
+    Available      True    MinimumReplicasAvailable
+    Progressing    True    NewReplicaSetAvailable
+  OldReplicaSets:  <none>
+  NewReplicaSet:   mylibertyapp-deploy-6bcb4659dd (1/1 replicas created)
+  Events:
+    Type    Reason             Age   From                   Message
+    ----    ------             ----  ----                   -------
+    Normal  ScalingReplicaSet  3m    deployment-controller  Scaled up replica set mylibertyapp-deploy-6bcb4659dd to 1 
+    ```
     1. また問題判別などのために、実際に設定されている内容を取得して欲しい場合には、`kubectl get deployments mylibertyapp-deploy -o yaml` で、設定されている情報を yamlファイルに出力することが可能です。
     
     1. また、デプロイメントの作成により、実際にコンテナが稼働しているポッドが自動的に作成されています。<br>
