@@ -245,3 +245,15 @@
 
    affinity: {}
    ```
+1. 編集が完了したら、`helm lint`コマンドで、定義として問題ないか検証を行います。
+   ```
+   $ helm lint mylibertyapp
+   ==> Linting mylibertyapp
+   [INFO] Chart.yaml: icon is recommended
+
+   1 chart(s) linted, no failures
+   ```
+   
+   1. せっかくなので、iconを指定しましょう。chart.yaml に `icon: http://mylibertyapp.png`を指定します。 
+   ```に
+   ```
