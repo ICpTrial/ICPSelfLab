@@ -217,7 +217,6 @@ kubectlコマンドで、kubernetesのオブジェクトを作成する場合、
     # kubectl get deployments mylibertyapp-deploy -o wide
     NAME                  DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE       CONTAINERS            IMAGES                                        SELECTOR
     mylibertyapp-deploy   1         1         1            1           1m        myliberty-container  mycluster.icp:8500/handson/mylibertyapp:1.0   app=mylibertyapp
-    root@icp11master:/work/share/lab#
     ```
     
     1. さらに個別のコンテナの詳細な情報を取得したい場合には、`kubectl describe deploy mylibertyapp-deploy` を実行します。
@@ -244,17 +243,17 @@ kubectlコマンドで、kubernetesのオブジェクトを作成する場合、
         Environment:  <none>
         Mounts:       <none>
       Volumes:        <none>
-  Conditions:
-    Type           Status  Reason
-    ----           ------  ------
-    Available      True    MinimumReplicasAvailable
-    Progressing    True    NewReplicaSetAvailable
-  OldReplicaSets:  <none>
-  NewReplicaSet:   mylibertyapp-deploy-6bcb4659dd (1/1 replicas created)
-  Events:
-    Type    Reason             Age   From                   Message
-    ----    ------             ----  ----                   -------
-    Normal  ScalingReplicaSet  3m    deployment-controller  Scaled up replica set mylibertyapp-deploy-6bcb4659dd to 1 
+    Conditions:
+      Type           Status  Reason
+      ----           ------  ------
+      Available      True    MinimumReplicasAvailable
+      Progressing    True    NewReplicaSetAvailable
+    OldReplicaSets:  <none>
+    NewReplicaSet:   mylibertyapp-deploy-6bcb4659dd (1/1 replicas created)
+    Events:
+      Type    Reason             Age   From                   Message
+      ----    ------             ----  ----                   -------
+      Normal  ScalingReplicaSet  3m    deployment-controller  Scaled up replica set mylibertyapp-deploy-6bcb4659dd to 1 
     ```
     Deploymentのアップデート・ストラテジーやPodの内容、ReplicaSetのインスタンス名などが含まれています。
     
