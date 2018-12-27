@@ -194,9 +194,10 @@
       ローカルのイメージ・レポジトリからイメージを取得するように `repository`の値を `mycluster.icp:8500/handson/mylibertyapp`に変更し、`tag`の値を`"1.0"`に変更します（1.0を""で囲ってください)。この値は deployment.yamlの中から参照されています。
    1. 次にサービスの公開方法を修正します。
    　　今回は NodePort で公開していましたので、serviceの `type`を `NodePort` に修正します。この値は service.yamlの中から参照されています。
-   1. 最後に ingressの公開方法を修正します。
+   1. 最後に ingressの公開方法を修正します。<br>
    　　ingressが無効になっているので、`enabled`の値を`true`に変更します。<br>
-      `path`は `/handson` に変更します。 
+      `path`は `/lab` に変更します。（先ほど /handson は指定しているので、重複しないように別の値を指定します）<br>
+      `hosts:`の 値には、`- labserver.com` を指定します
    
    ```
    # Default values for mylibertyapp.
@@ -221,11 +222,11 @@
        # kubernetes.io/tls-acme: "true"
      path: /              ###ここを修正###
      hosts:
-       - chart-example.local
+       - chart-example.local　###ここを修正###
      tls: []
-     #  - secretName: chart-example-tls
+     #  - secretName: chart-example-tls 
      #    hosts:
-     #      - chart-example.local
+     #      - chart-example.local　　
 
    resources: {}
      # We usually recommend not to specify default resources and to leave this as a conscious
@@ -253,18 +254,11 @@
 
    1 chart(s) linted, no failures
    ```
-   
-   1. せっかくなので、iconを指定します。Chart.yaml を開いて、最後に以下を付け足します。
-   `icon: https://github.com/ICpTrial/ICPLab/blob/ICPLab-Customized/images/Lab7/mylibertyapp.png`
-   
-   1. もう一度 `helm lint`コマンドを実行します。
-   ```
-   $ helm lint mylibertyapp
-   ==> Linting mylibertyapp
-   Lint OK
-   
+   [INFO]で ICONファイルが存在しない旨記載されていますが、特に
+  
+   1 chart(s) linted, no failures問題
+   1 chart(s) linted, no failuresないので、
    1 chart(s) linted, no failures
-   ```
 
 1.　問題がなくなったので、`helm package`コマンドでパッケージします。
    ```
