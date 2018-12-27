@@ -208,7 +208,6 @@ LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサ
 ## ユーザーのアプリをデプロイしたカスタマイズされたDockerイメージの作成（ビルド）
 
 1. /work にアプロードした サンプル・アプリケーション(Sum.war)、Libertyの構成ファイル(server.xml)、Dockerイメージのビルド・ファイル(Dockerfile) を利用して、カスタマイズした Docker イメージを作成していきます。
-    
  
     1. Sum.warは、Servlet 1ファイルとJSP 1ファイルから構成され、2つの数字の入力の足し算の結果を返す簡単なWebアプリケーションです。<br>
        /Sumのエンドポイントにアクセスすると下記の画面が表示され、数値を入力し、"Submit"ボタンを押すと、結果が表示されます。<br>
@@ -254,10 +253,14 @@ LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサ
 1. `docker build` コマンドを実行することで、Dockerfileの内容に基づいて、Dockerイメージが生成されます。<br>
     - 1行目のFROMコマンドで、新しいDockerイメージの元になるDockerイメージを指定しています。この例では、先ほど、稼働確認、内容を確認した、websphere-liberty:webProfile8 のイメージをベースにしています。
     - 2行目のCOPYコマンドで、ローカルPCのSum.warファイルを、新しいDockerコンテナーの /config/dropins/ ディレクトリーにコピーしています。つまり、warファイルのデプロイを行なっています。
-    - 3行目のCOPYコマンドでは、Libertyの設定ファイルであるserver.xmlを、新しいDockerコンテナーの/config/ ディレクトリーにコピーしています。つまり、Libertyの設定を行なっています。
-    - 最後の4行目のRUNコマンドでは、新しいDockerコンテナー上で、コマンド 'installUtility install --acceptLicense defaultServer' を実行しています。'installUtility install'は、Libertyのコマンドであり、server.xmlの記述に基づき、現在のLibertyのインストールに不足するLibertyフィーチャーを、インターネット上で提供されるLiberty repositoryにアクセスして、ダウンロード、インストールします。
+    - 3行目のCOPYコマンドでは、Libertyの設定ファイルであるserver.xmlを、新しいDockerコンテナーの/config/ ディレクトリーにコピーしています。つまり、Libertyの設定変更を行なっています。
+    - 最後の4行目のRUNコマンドでは、新しいDockerコンテナー上で、コマンド 'installUtility install --acceptLicense defaultServer' を実行しています。'installUtility install'は、Libertyのコマンドであり、server.xmlの記述に基づき、現在のLibertyのインストールに不足するLibertyフィーチャーを、インターネット上で提供されるLiberty repositoryにアクセスして、ダウンロード、インストールします。<br>
+    
 1. `docker build -t mylibertyapp:1.0 .` コマンドを入力し、Dockerイメージをビルドします。<br>
-    `-t  mylibertyapp:1.0` オプションで、作成するDockerイメージと名前(mylibertyapp)とタグ(1.0)を指定しています。最後の`.`を忘れないでください。`docker build` コマンドの最後の引数に、DockerfileのパスまたはURLを指定します。今回は、ローカルのカレント・ディレクトリーのDockerfileを使用してDockerイメージのビルドを行うため、`.` を指定しています。
+<br>
+    `-t  mylibertyapp:1.0` オプションで、作成するDockerイメージと名前(mylibertyapp)とタグ(1.0)を指定しています。<br>
+    `docker build` コマンドの最後の引数に DockerfileのパスまたはURLを指定します。今回は、ローカルのカレント・ディレクトリーのDockerfileを使用してDockerイメージのビルドを行うため、`.` を指定しています。`.`を忘れないでください。<br>
+    
     ```
     $ docker build -t mylibertyapp:1.0 .
     Sending build context to Docker daemon  20.99kB
@@ -304,8 +307,9 @@ LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサ
     　---> 4027ff6ba2c0
     Successfully built 4027ff6ba2c0
     Successfully tagged mylibertyapp:1.0
-    $  
+    $
     ```
+    
 1. `docker images` コマンドを入力し、名前mylibertyappのイメージが追加されていることを確認します。
     ```
     $ docker images
@@ -314,6 +318,7 @@ LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサ
     websphere-liberty                            webProfile8         1fd43b4175ca        41 hours ago        500MB
     $
     ```
+    
 ## 作成したイメージの稼働確認
 1. `docker run -d -p 19080:9080 --name=mywlp mylibertyapp:1.0` コマンドを入力し、Dockerコンテナーを起動します。
     ```
@@ -321,6 +326,7 @@ LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサ
     a04c4b5fe647482cf6471282bd73ff68e4e9ba7e54ea29f7e55a75f7ef217565
     $ 
     ```
+    
 1. `docker logs -f mywlp` コマンドを入力し、コンテナーの標準出力をtailします。"[AUDIT   ] CWWKF0011I: The server defaultServer is ready to run a smarter planet."が表示されると、Libertyの起動が完了です。
     ```
     $ docker logs -f mywlp
