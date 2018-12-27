@@ -46,7 +46,7 @@
   1. 指定された名前で Chart名が作成されていることを確認します。
   1. description を "Handson Application" に変更します。この変更がICPのどこに反映されるかあとで確認します。
   
-1. 次に 実際のコンテナ(Pod)のデプロイを定義している Deployment を確認します。<br>
+1. 次に 実際のコンテナ(Pod)のデプロイを定義している Deployment を変更していきます。<br>
 　 templatesディレクトリ下の deployment.yaml ファイルをviエディタで開きます。必要に応じて、先ほどのLab4 で利用したファイルを開いて確認してみてください。<br>
   
   1. このテンプレートの中で、{{ }} でくくられているところは変数です。
@@ -113,6 +113,79 @@
   {{ toYaml . | indent 8 }}
       {{- end }}
   ```
+  
+  
+1. 次に サービスの公開方法を定義している Service を変更していきます。<br>
+　 templatesディレクトリ下の deployment.yaml ファイルをviエディタで開きます。必要に応じて、先ほどのLab4 で利用したファイルを開いて確認してみてください。<br>
+  
+  1. この値は、ほぼ環境変数で定義されているので、ここでは変更はしません。環境変数を指定している values.yamlの中で指定していきます。
+  
+   ```
+   apiVersion: v1
+   kind: Service
+   metadata:
+     name: {{ template "mylibertyapp.fullname" . }}
+     labels:
+       app: {{ template "mylibertyapp.name" . }}
+       chart: {{ template "mylibertyapp.chart" . }}
+       release: {{ .Release.Name }}
+       heritage: {{ .Release.Service }}
+   spec:
+     type: {{ .Values.service.type }}
+     ports:
+       - port: {{ .Values.service.port }}
+         targetPort: http
+         protocol: TCP
+         name: http
+     selector:
+       app: {{ template "mylibertyapp.name" . }}
+       release: {{ .Release.Name }}
+   
+   ```
+1.  次に ProxyServerを通して外部公開する方法を定義している Ingress を変更していきます。<br>
+   templatesディレクトリ下の ingress.yaml ファイルをviエディタで開きます。必要に応じて、先ほどのLab4 で利用したファイルを開いて確認してみてください。<br>
+     1.ファイルを開いて分かるように、このファイルは 環境変数の指定で ingress.enabled が有効な場合に利用されます。
+     1.ここの値も、ほぼ環境変数で定義されているので、ここでは変更はしません。環境変数を指定している values.yamlの中で指定していきます。
+   ```
+   {{- if .Values.ingress.enabled -}}
+   {{- $fullName := include "mylibertyapp.fullname" . -}}
+   {{- $ingressPath := .Values.ingress.path -}}
+   apiVersion: extensions/v1beta1
+   kind: Ingress
+   metadata:
+     name: {{ $fullName }}
+     labels:
+       app: {{ template "mylibertyapp.name" . }}
+       chart: {{ template "mylibertyapp.chart" . }}
+       release: {{ .Release.Name }}
+       heritage: {{ .Release.Service }}
+   {{- with .Values.ingress.annotations }}
+     annotations:
+   {{ toYaml . | indent 4 }}
+   {{- end }}
+   spec:
+   {{- if .Values.ingress.tls }}
+     tls:
+     {{- range .Values.ingress.tls }}
+       - hosts:
+         {{- range .hosts }}
+           - {{ . }}
+         {{- end }}
+         secretName: {{ .secretName }}
+     {{- end }}
+   {{- end }}
+     rules:
+     {{- range .Values.ingress.hosts }}
+       - host: {{ . }}
+         http:
+           paths:
+             - path: {{ $ingressPath }}
+               backend:
+                 serviceName: {{ $fullName }}
+                 servicePort: http
+     {{- end }}
+   {{- end }}
+   ```
+1. template の最後にある NOTES.txt は helmでデプロイが完了した際の、アプリケーションの利用方法を記載します。今回はこのまま利用します。
 
-
-
+1. 最後に、HELMの様々な値を環境変数として設定する values.yaml をカスタマイズしていきます。
