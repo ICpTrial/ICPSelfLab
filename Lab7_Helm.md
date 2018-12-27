@@ -189,3 +189,59 @@
 1. template の最後にある NOTES.txt は helmでデプロイが完了した際の、アプリケーションの利用方法を記載します。今回はこのまま利用します。
 
 1. 最後に、HELMの様々な値を環境変数として設定する values.yaml をカスタマイズしていきます。
+
+   1. まず イメージの取得先を修正します
+      ローカルのイメージ・レポジトリからイメージを取得するように `repository`の値を `mycluster.icp:8500/handson/mylibertyapp`に変更し、`tag`の値を`1.0`に変更します。この値は deployment.yamlの中から参照されています。
+   1. 次にサービスの公開方法を修正します。
+   　　今回は NodePort で公開していましたので、serviceの `type`を `NodePort` に修正します。この値は service.yamlの中から参照されています。
+   1. 最後に ingressの公開方法を修正します。
+   　　ingressが無効になっているので、`enabled`の値を`true`に変更します。<br>
+      `path`は `/handson` に変更します。 
+   
+   ```
+   # Default values for mylibertyapp.
+   # This is a YAML-formatted file.
+   # Declare variables tobe passed into your templates.
+
+   replicaCount: 1
+
+   image:
+     repository: nginx   ###ここを修正###
+     tag: stable         ###ここを修正###
+     pullPolicy: IfNotPresent
+
+   service:
+     type: ClusterIP      ###ここを修正###
+     port: 80
+
+   ingress:
+     enabled: false       ###ここを修正###
+     annotations: {}
+       # kubernetes.io/ingress.class: nginx
+       # kubernetes.io/tls-acme: "true"
+     path: /              ###ここを修正###
+     hosts:
+       - chart-example.local
+     tls: []
+     #  - secretName: chart-example-tls
+     #    hosts:
+     #      - chart-example.local
+
+   resources: {}
+     # We usually recommend not to specify default resources and to leave this as a conscious
+     # choice for the user. This also increases chances charts run on environments with little
+     # resources, such as Minikube. If you do want to specify resources, uncomment the following
+     # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+     # limits:
+     #  cpu: 100m
+     #  memory: 128Mi
+     # requests:
+     #  cpu: 100m
+     #  memory: 128Mi
+
+   nodeSelector: {}
+
+   tolerations: []
+
+   affinity: {}
+   ```
