@@ -17,8 +17,25 @@
     - server.xml : サンプル・アプリケーション用のLibertyの構成ファイル
     - Dockerfile : サンプル・アプリケーションがデプロイされたDockerイメージをビルドするためのDockerfile
 
+1. このハンズオンでは、IBMのJavaEEアプリケーション・サーバーである WebSphere Liberty を利用します。
+フルスタックのJavaEEをサポートしながらも、各種APIや機能がフィーチャーとしてモジュール化されているため、必要な機能のみを有効化し、より少ないリソースで利用していくことが可能です。<br>
+LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサポートするもの）やkernel（Libertyカーネルのみ）など、複数のタグ付けされたイメージが公開されています。これらのDockerイメージをビルドするのに利用されている Dockerfileもあわせて公開されています<br>
+以下のサイトを開き、製品として提供されている Dockerfileが どのように構成されているか確認してみてください。
+    [docker store: IBM WebSphere Application Server Liberty](https://store.docker.com/images/websphere-liberty)
+    
+    1. このハンズオンでは、javaee8 の WebProfileに対応した websphere-liberty:webProfile8 を利用します。
+    　　websphere-liberty:webProfile8 の dockerfileを確認してみます。
+      websphere-liberty:kernel をベース・イメージとして、フィーチャーを追加するコマンドを実行し、デフォルトのserverl.xmlファイルを配置していることがわかります。
+    1. 次に websphere-liberty:kernel のdockerfile を確認してみます。
+    　　こちらは ibm-java:8-jre と Java8のランタイムをベースにビルドされていることがわかります。
+    1. さらに 以下が IBM Javaの docker ファイルです。Ubuntuのベースイメージに対して、JREを導入していることがわかります。
+    [docker hub: ibmjava](https://hub.docker.com/_/ibmjava/)
+    
+   このように階層化された環境を利用することにより、各レイヤーでの変更を、イメージをビルドするタイミングで取り込めるよう構成されています。
+ 
 
 ## Liberty WebProfile イメージの取得
+ここでは `:webProfile8`のタグを指定し、JavaEE8 WebProflile 8 をサポートする環境をダウンロードします。<br>
 1. `docker pull websphere-liberty:webProfile8` コマンドを入力し、WebSphere LibertyのwebProfile8のイメージをダウンロードします。<br>
 
     WebSphere Liberty は、IBMのJavaEEのアプリケーション・サーバーです。<br>
