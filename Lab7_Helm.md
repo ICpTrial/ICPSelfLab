@@ -38,7 +38,7 @@
   ```
   apiVersion: v1
   appVersion: "1.0"
-  description: A Helm chart for Kubernetes
+  description: A Helm chart for Kubernetes  ###ここを変更###
   name: mylibertyapp
   version: 0.1.0
   ```
@@ -47,7 +47,19 @@
   1. description を "Handson Application" に変更します。この変更がICPのどこに反映されるかあとで確認します。
   
 1. 次に 実際のコンテナ(Pod)のデプロイを定義している Deployment を確認します。<br>
-　 templatesディレクトリ下の deployment.yaml ファイルをviエディタで開きます
+　 templatesディレクトリ下の deployment.yaml ファイルをviエディタで開きます。必要に応じて、先ほどのLab4 で利用したファイルを開いて確認してみてください。<br>
+  
+  1. このテンプレートの中で、{{ }} でくくられているところは変数です。
+  
+      |変数|参照箇所 |  
+      |----|----|
+      |{{tempate }} | 作業ディレクトリにある _helpers.tpl を利用して決まります |
+      |{{.Release.xxx}} |実行時に指定するインスタンスの値で置き換えられます |
+      |{{.Values.xxx}} |values.yamlで定義された変数に置き換えられます |
+   
+  1. 先ほどのLiberty コンテンツに合わせて、コンテナ側のListenポートを 80 から 9080に変更します。<br>
+     また、生死監視や レディネス監視に用いる URIもアプリケーションのコンテキスト・ルート /Sum に置き換えます
+    
   ```
   apiVersion: apps/v1beta2
   kind: Deployment
@@ -76,15 +88,15 @@
             imagePullPolicy: {{ .Values.image.pullPolicy }}
             ports:
               - name: http
-                containerPort: 80
+                containerPort: 80  ###ここを変更###
                 protocol: TCP
             livenessProbe:
               httpGet:
-                path: /
+                path: /      ###ここを変更###
                 port: http
             readinessProbe:
               httpGet:
-                path: /
+                path: /      ###ここを変更###
                 port: http
             resources:
   {{ toYaml .Values.resources | indent 12 }}
