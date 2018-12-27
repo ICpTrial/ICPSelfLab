@@ -256,20 +256,53 @@ kubectlコマンドで、kubernetesのオブジェクトを作成する場合、
     ----    ------             ----  ----                   -------
     Normal  ScalingReplicaSet  3m    deployment-controller  Scaled up replica set mylibertyapp-deploy-6bcb4659dd to 1 
     ```
+    Deploymentのアップデート・ストラテジーやPodの内容、ReplicaSetのインスタンス名などが含まれています。
     
-    1. また、デプロイメントの作成により、実際にコンテナが稼働しているポッドが自動的に作成されています。<br>
+    1. デプロイメントの作成により、実際にコンテナが稼働しているポッドも自動的に作成されています。<br>
     'kubectl get pods' コマンドを入力し、"mylibertyapp-deploy"で始まるポッドが出力されることを確認します。
-    Podのネーミング・ルールとして、先ほどのReplicaSetのインスタンス名＋<文字列>で構成されています。
-    'kubectl get pods' コマンドを入力し、"mylibertyapp-deploy"で始まるポッドが出力されることを確認します。
+    なお、Podのネーミング・ルールとして、先ほどのReplicaSetのインスタンス名＋<文字列>で構成されていることを確認してください。
     'kubectl get pods' コマンドを入力し、"mylibertyapp-deploy"で始まるポッドが出力されることを確認します。
     ```
     $ kubectl get pods 
     NAME                                        READY     STATUS    RESTARTS   AGE
     liberty-default-helm-ibm-6f6fc5fbfd-4khv8   1/1       Running   0          8h
-    mylibertyapp-deploy-648c4645f9-dj5nv        1/1       Running   0          20m
+    mylibertyapp-deploy-6bcb4659dd-z428l        1/1       Running   0          20m
     $ 
     ```
-    1. また問題判別などのために、実際に設定されている内容を取得して欲しい場合には、`kubectl get deployments mylibertyapp-deploy -o yaml` で、設定されている情報を yamlファイルに出力することが可能です。
+    
+    1. Pod（コンテナ）が出力している標準出力/標準エラーの情報を確認するには `kubectl logs <Pod Instance Name>`を指定します。
+    ```
+    $ kubectl logs mylibertyapp-deploy-6bcb4659dd-z428l
+
+    Launching defaultServer (WebSphere Application Server 18.0.0.4/wlp-1.0.23.cl180420181121-0300) on IBM J9 VM, version 8.0.5.26 - pxa6480sr5fp26-20181115_03(SR5 FP26) (en_US)
+    [AUDIT   ] CWWKE0001I: The server defaultServer has been launched.
+    [AUDIT   ] CWWKE0100I: This product is licensed for development, and limited production use. The full license terms can be viewed here: https://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/license/base_ilan/ilan/18.0.0.4/lafiles/en.html
+    [AUDIT   ] CWWKG0093A: Processing configuration drop-ins resource: /opt/ibm/wlp/usr/servers/defaultServer/configDropins/defaults/keystore.xml
+    [AUDIT   ] CWWKZ0058I: Monitoring dropins for applications.
+    [AUDIT   ] CWWKS4104A: LTPA keys created in 1.391 seconds. LTPA key file: /opt/ibm/wlp/output/defaultServer/resources/security/ltpa.keys
+    [AUDIT   ] CWWKT0016I: Web application available (default_host): http://mylibertyapp-deploy-6bcb4659dd-z428l:9080/Sum/
+    [AUDIT   ] CWWKZ0001I: Application Sum started in 0.692 seconds.
+    [AUDIT   ] CWWKF0012I: The server installed the following features: [jsp-2.3, jsonb-1.0, ejbLite-3.2, managedBeans-1.0, beanValidation-2.0, servlet-4.0, jsf-2.3, ssl-1.0, jndi-1.0, cdi-2.0, jdbc-4.2, appSecurity-3.0, jsonp-1.1, appSecurity-2.0, jaxrsClient-2.1, el-3.0, jaxrs-2.1, monitor-1.0, jpaContainer-2.2, webProfile-8.0, jaspic-1.1, distributedMap-1.0, jpa-2.2, websocket-1.1].
+    [AUDIT   ] CWWKF0011I: The server defaultServer is ready to run a smarter planet.
+    [AUDIT   ] CWPKI0803A: SSL certificate created in 10.149 seconds. SSL key file: /opt/ibm/wlp/output/defaultServer/resources/security/key.jks
+    ```
+
+    1. 問題判別などのために、実際に設定されている内容を取得し、ファイルに出力したい場合には、`kubectl get deployments mylibertyapp-deploy -o yaml` で、設定されている情報を yamlファイルに出力することが可能です。
+    ```
+    $ kubectl get pods mylibertyapp-deploy-6bcb4659dd-z428l -o yaml
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        kubernetes.io/psp: ibm-anyuid-hostpath-psp
+      creationTimestamp: 2018-12-27T05:32:46Z
+      generateName: mylibertyapp-deploy-6bcb4659dd-
+      labels:
+       app: mylibertyapp
+       pod-template-hash: "2676021588"
+      name: mylibertyapp-deploy-6bcb4659dd-z428l
+      <略>
+    ```
     
 1. ICPコンソールからも確認してみます。ナビゲーション・メニューから[ワークロード]>[デプロイメント]を選択します。"mylibertyapp-deploy"のエントリーが表示され、デプロイメントの名前のハイパーリンクをクリックすることで、そのデプロイメントの詳細を確認できます。さらに、デプロイメントに含まれるポッドの詳細などのリンクもたどれます。
 ![DeploymentList](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab4/Lab4_05_DeploymentList.png)
