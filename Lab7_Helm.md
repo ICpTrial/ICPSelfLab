@@ -277,6 +277,9 @@
 1. ここまでの HELMチャート編集が完了したらHELMチャートをパッケージして、ICPカタログに登録します。
 
    1.`helm lint`コマンドで、定義として問題ないか検証を行います。
+      helmパッケージのトップ・ディレクトリ でコマンドを実行してください。
+      見つからない場合には、No chart found for linting (missing Chart.yaml) というエラー・メッセージが返されます。
+
       ```
       $ helm lint mylibertyapp
       ==> Linting mylibertyapp
