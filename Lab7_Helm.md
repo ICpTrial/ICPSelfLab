@@ -213,7 +213,7 @@
 
    service:
      type: ClusterIP      ###ここを修正###
-     port: 80
+     port: 9080           ###ここを修正###
 
    ingress:
      enabled: false       ###ここを修正###
