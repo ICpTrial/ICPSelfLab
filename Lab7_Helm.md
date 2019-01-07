@@ -260,32 +260,38 @@
    詳細については、他のカタログに記載されている内容を確認します。
    ```
    
-1. ここまでの HELMチャート編集が完了したら、`helm lint`コマンドで、定義として問題ないか検証を行います。
-   ```
-   $ helm lint mylibertyapp
-   ==> Linting mylibertyapp
-   [INFO] Chart.yaml: icon is recommended
+1. ここまでの HELMチャート編集が完了したらHELMチャートをパッケージして、ICPカタログに登録します。
 
-   1 chart(s) linted, no failures
-   ```
-   [INFO]で ICONファイルが存在しない旨記載されていますが、特に問題はありません。必要に応じて指定してください。
-    
-1.　`helm package`コマンドでパッケージします。
-   ```
-   helm package mylibertyapp
-   Successfully packaged chart and saved it to: /work/share/lab/mylibertyapp-0.1.0.tgz
-   ```
+   1.`helm lint`コマンドで、定義として問題ないか検証を行います。
+      ```
+      $ helm lint mylibertyapp
+      ==> Linting mylibertyapp
+      [INFO] Chart.yaml: icon is recommended
 
-1. 作成された helmパッケージを ICPの helmレポジトリに登録します。
-   ```
-   cloudctl catalog load-helm-chart --archive mylibertyapp-0.1.0.tgz
-   Loading helm chart
-   Loaded helm chart
-
-   Synch charts
-   Synch started
-   OK
-   ```
+      1 chart(s) linted, no failures
+      ```
+      [INFO]で ICONファイルが存在しない旨記載されていますが、特に問題はありません。必要に応じて指定してください。
    
+   1.　`helm package`コマンドでパッケージします。
+      ```
+      helm package mylibertyapp
+      Successfully packaged chart and saved it to: /work/share/lab/mylibertyapp-0.1.0.tgz
+      ```
    
+   1. 作成された helmパッケージを ICPの helmレポジトリに登録します。
+      ```
+      cloudctl catalog load-helm-chart --archive mylibertyapp-0.1.0.tgz
+      Loading helm chart
+      Loaded helm chart
 
+      Synch charts
+      Synch started
+      OK
+      ```
+     
+1. ICPにログインして、実際にHELMからデプロイを行います。
+
+   1. ICPにログインして、コンソールの右上にある「
+   1. ICPにログインして、コンソールの右上にある[
+   1. ICPにログインして、コンソールの右上にある「
+   1. ICPにログインして、コンソールの右上にある[カタログ
