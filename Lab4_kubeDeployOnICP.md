@@ -351,7 +351,7 @@ NodePortサービスを作成する"mylibapp-nodeportservice.yaml"をテキス�
     kind: Ingress
     metadata:
       annotations:
-        ingress.kubernetes.io/rewrite-target: /
+        ingress.kubernetes.io/rewrite-target: /Sum
       name: mylibetyapp-ingress
       namespace: handson
     spec:
@@ -368,7 +368,7 @@ NodePortサービスを作成する"mylibapp-nodeportservice.yaml"をテキス�
     - 2行目の"kind: Ingress"で、Ingressの定義であることを指定
     - 13行目の"- path: /handson"で、Proxyノード宛の"/handson"のリクエストを対象のサービス(NodePort)に転送するよう指定
     - 15,16行目のserviceName: mylibertyapp-nodeport"と"servicePort: 9080"で、転送先のサービス(NodePort)を指定
-    - 5行目の"ingress.kubernetes.io/rewrite-target: /"で、ICPのProxyノードで内部的に構成されているnginxコントローラーで固有に利用できるrewrite-tagetの指定で、pathに指定した"/handson"宛のリクエストを/に変更するよう指定
+    - 5行目の"ingress.kubernetes.io/rewrite-target: /Sum"で、ICPのProxyノードで内部的に構成されているnginxコントローラーで固有に利用できるrewrite-tagetの指定で、pathに指定した"/handson"宛のリクエストを アプリケーションのコンテキストルート /Sumに変更するよう指定
 
 1. `kubectl apply -f mylibapp-ingress.yaml` コマンドを入力し、Ingressを作成します。
     ```
@@ -387,6 +387,6 @@ NodePortサービスを作成する"mylibapp-nodeportservice.yaml"をテキス�
 
 1. Ingressを作成することで、Proxyノード経由の外部から"/handson"のURLでアクセスできます。<br>
 これによりProxy Nodeのデフォルトの構成である80番や443番のポートでアクセスできます。
-ブラウザーで、`http://(ICPのIP)/handson/Sum/` と入力します。サンプル・アプリケーションにアクセスできることを確認します。
+ブラウザーで、`http://(ICPのIP)/handson/` と入力します。サンプル・アプリケーションにアクセスできることを確認します。
 
 以上で、Lab4は終了です。
