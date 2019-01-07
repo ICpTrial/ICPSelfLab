@@ -390,3 +390,4 @@ NodePortサービスを作成する"mylibapp-nodeportservice.yaml"をテキス�
 ブラウザーで、`http://(ICPのIP)/handson/` と入力します。サンプル・アプリケーションにアクセスできることを確認します。
 
 以上で、Lab4は終了です。
+今回はLab5Lab6はスキップして、Lab7で HELMへのパッケージングのハンズオンを実施します。
