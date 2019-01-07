@@ -1,6 +1,6 @@
 # Lab7. 独自のDockerイメージをHELMにパッケージング
 
-このLabでは、Lab4.で利用した独自のWebSphere Libertyイメージをデプロイする際に利用した様々なKubernetesオブジェクトを、HELMにパッケージングします。
+このLabでは、Lab4.で利用した様々なKubernetesオブジェクトを参考に、HELMにパッケージングしていきます。
 
 
 ## 前提
@@ -12,7 +12,7 @@
 
 1. コマンド・プロンプトを開き、Lab4で利用した yamlファイルが配置されている 作業ディレクトリに移動します。
 
-1. `helm create <application Name> ` コマンドを利用して、HELMのパッケージの枠を作成します。
+1. `helm create <application Name> ` コマンドを利用して、HELMのパッケージのテンプレートを作成します。
 
    ※ハンズオン環境には tree コマンドは導入されていませんが、treeコマンドで表示すると以下のような構成になっています。
    ご自身で確認されたい場合には、`apt install tree` コマンドで treeコマンドを導入して確認ください。
@@ -149,7 +149,6 @@
 1.  次に ProxyServerを通して外部公開する方法を定義している Ingress を変更していきます。<br>
    templatesディレクトリ下の ingress.yaml ファイルをviエディタで開きます。必要に応じて、先ほどのLab4 で利用したファイルを開いて確認してみてください。<br>
      1.ファイルを開いて分かるように、このファイルは 環境変数の指定で ingress.enabled が有効な場合に利用されます。
-     1.ここの値も、ほぼ環境変数で定義されているので、ここでは変更はしません。環境変数を指定している values.yamlの中で指定していきます。
 
       ```
       {{- if .Values.ingress.enabled -}}
