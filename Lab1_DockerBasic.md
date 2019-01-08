@@ -5,8 +5,9 @@
 ## 前提
 
 このLabでは、下記の準備を前提としています。
-- IBM Cloud上に Ubuntu環境が導入されその上でICPが稼働しています。その 稼働環境として、docker-ceが導入されています。
-- ICP環境のUbuntu イメージに SSHでログインして ハンズオンを実施します。ログイン情報は講師に確認してください。
+- IBM Cloud上に Ubuntu環境が導入されその上に、docker-ceが導入されています。
+- Docker環境のUbuntuに SSHでログインして ハンズオンを実施します。ログイン情報は講師に確認してください。
+- ICP環境のUbuntu は別途ありますが、複雑に iptables が設定されているため、別のマシンを利用してはdockerのハンズオンは実施します。
 
 所用時間は、およそ20分です。
 
@@ -17,16 +18,13 @@
     1. 手元のPCがのSSHクライアントを立ち上げ、指定された認証情報でログインしてください。
     
     ```
-    ssh username@hostname
+    ssh root@dockermachine_ip
     ```
-    
-    1. このLabの作業ディレクトリー (C:¥Handson¥Lab1) に移動します。このディレクトリーには、下記のファイルが事前に準備されています。
-        - index.html : Apache httpd稼働確認用のhtmlファイル
 
 1. Docker環境の確認
     1. コマンドプロンプトで、 `docker version` コマンドを入力します。Dockerエンジンのバージョンが表示されます。
         ```
-        $root@icp11master:~# docker version
+        root@icp11master:~# docker version
         Client:
          Version:      18.03.1-ce
          API version:  1.37
@@ -46,7 +44,7 @@
           Built:        Thu Apr 26 07:15:30 2018
           OS/Arch:      linux/amd64
           Experimental: false
-        $ 
+        # 
         ```
 
     1. 単に `docker` コマンドを入力することで、dockerコマンドのヘルプが、`docker COMMAND --help` と入力することで、`docker run` や `docker build` コマンドのヘルプを表示することができます。
@@ -136,16 +134,16 @@
 1. コンテナにディスク領域をマウントしてみます
 
     1. 今度は、コンテナに ローカル・ディスクの領域をマウントさせてみます。
-    まず準備として、ローカルの /work/contents ディレクトリ配下に HTTPで表示する用のindex.htmlファイルを作成します
+    まず準備として、ローカルの /work/contents ディレクトリ配下に HTTPで表示するためのindex.htmlファイルを作成します
     ```
-    mkdir -p /work/contents
-    echo "<html><body><h1>Local Contents</h1></body></html>" >> /work/contents/index.html
+    mkdir -p /work/lab1/contents
+    echo "<html><body><h1>Local Contents</h1></body></html>" >> /work/lab1/contents/index.html
     ```
 
     1. 次に -v オプションで 作成したコンテンツをマウントさせて、起動します。
     なお、先ほどの10080 ポート はまだ使用されていますので、10081を指定しましょう。
     ```
-    $ ~# docker run -d -p 10081:80 -v "/work/contents/:/usr/local/apache2/htdocs/" httpd
+    $ ~# docker run -d -p 10081:80 -v "/work/lab1/contents/:/usr/local/apache2/htdocs/" httpd
     69a5a4d63140d87cf39b1d41e8d01c3c8827de30fa7b8a3027634f8a509ba159
     ```
 
