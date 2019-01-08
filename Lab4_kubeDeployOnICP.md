@@ -138,7 +138,7 @@
    1. docker images で 確認します。
         ```
         docker images  | grep myliberty
-mycluster.icp:8500/handson/mylibertyapp                            1.0                            dea29e33a7cf        2 hours ago         531MB
+        mycluster.icp:8500/handson/mylibertyapp                            1.0                            dea29e33a7cf        2 hours ago         531MB
         ```
         
    1. 改めて、ICPのプライベート・レジストリにログインして、イメージをPUSHします。
@@ -174,63 +174,56 @@ mycluster.icp:8500/handson/mylibertyapp                            1.0          
 1. アップロードされたイメージをICPコンソールから確認します。ICPコンソールにログインし、ナビゲーション・メニューから、[イメージ]を選択します。名前が"handson/mylibertyapp"のエントリーがあることを確認します。
 ![Image](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab4/Lab4_01_Image.png)
 
-1. コンソール画面の右下の「>_」の青丸のマークをクリックすると、このコンソール画面に表示している内容を取得するkubectlコマンドが表示されます。以降で、kubectlコマンドのコンテキスト(接続先)をICPに設定します。
-![kubeCommandDisplay](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab4/Lab4_02_kubeCommandDisplay.png)
+## ICP環境への CLIでのログイン
 
-
-## ハンズオン環境の確認
-
-1. コマンド・プロンプトを起動します。
-1. このLabの作業ディレクトリー (C:¥Handson¥Lab4) に移動します。このディレクトリーには、下記のファイルが事前に準備されています。
-    - mylibapp-deployment.yaml : デプロイメント作成時の定義ファイル
-    - mylibapp-nodeportservice.yaml : サービス(NodePort)作成時の定義ファイル
-    - mylibapp-ingress.yaml : Ingress作成時の定義ファイル
-
-
-
-## PC上のkubectlコマンドの接続先をICPに構成<br>
-kubectlコマンドは、kubenetes標準のkubernetesクラスターを管理する標準のコマンドライン・ツールです。
-1. 接続構成情報を取得します。ICPコンソールで、上端メニューの右端の人のアイコンをクリックし、[クライアントの構成]を選択します。
-![kubectlConfig1](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab4/Lab4_03_kubectlConfig1.png)
-1. クライアント構成のポップアップ・ウィンドウが表示され、接続設定を行うために、コマンド・ラインに入力するコマンドが複数行にわたって表示されます。青枠の書類のマークのようなアイコン(Copy to clipboard)をクリックすることで、クリップボードに保管します。
-![kubectlConfig2](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab4/Lab4_04_kubectlConfig2.png)
-1. 一旦テキスト・エディターに内容をペーストします。
-    下記のような内容がペーストされます。
+1. cloudctl コマンドを利用して、CLIで ICP環境にログインします。デフォルトのネームスペースの選択の際には handson を選択してください。
     ```
-    kubectl config set-cluster mycluster --server=https://(ICPのアドレス):8001 --insecure-skip-tls-verify=true
-    kubectl config set-context mycluster-context --cluster=mycluster
-    kubectl config set-credentials admin --token=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdF9oYXNoIjoiZmNiaGVrc2d4MjNxbXFhN2o3OGYiLCJyZWFsbU5hbWUiOiJjdXN0b21SZWFsbSIsInVuaXF1ZVNlY3VyaXR5TmFtZSI6ImFkbWluIiwiaXNzIjoiaHR0cHM6Ly9pY3BjbHVzdGVyMDEuaWNwOjk0NDMvb2lkYy9lbmRwb2ludC9PUCIsImF1ZCI6IjVlZWQ0YTRmN2FlOGI0MmI1NWM2NzJiMzUwNjgyYWM0IiwiZXhwIjoxNTQwODI3MTY2LCJpYXQiOjE1NDA3OTgzNjYsInN1YiI6ImFkbWluIiwidGVhbVJvbGVNYXBwaW5ncyI6W119.hGAuoQ3mmjGYRY8Ez1lY6YhXodwvH4N9aEZPYBToaTzT6P4r2ylHDGWcfm-Ii5E-QI21i3mDKjgpp0TV5gDRP1NlUng9Uuz4U62gqEYLp9Jn4VV0mYXDBf86IWluDY23WNYhQ-vbfB-G8ldANTwM-HzHx6cyyaW_nNEE76zw_1Rvl1eKnJaOGqybNDuSqv8xkK-OmY0CjG2qktmg6LnefHqCAIQyQdyOlkJlx6nxacMmNAgfiiZ7AHPgS1CJYapQ9eIzadX4ql27X3pufslNSxW3wFNFzudEjV3gJtfNIAf6boXEuIrEZDmx9d99b5Qx6QuWVfP-oDidtZWxNr941Q
-    kubectl config set-context mycluster-context --user=admin --namespace=cert-manager
-    kubectl config use-context mycluster-context
-    
-    ```
-1. 下から2行目のコマンドの中で、デフォルトの名前空間(namespace)を指定しています。コンソールからダウンロードされるコマンドは、名前空間が、「cert-manager」となっていますので、今回のハンズオンで使用する「handson」に修正します。修正後の下から2行目の内容は、下記のようになります。
-    ```
-    kubectl config set-context mycluster-context --user=admin --namespace=handson
-    ```
-    修正後のコマンドの全体(5行)を選択し、再度、クリップボードにコピー([Ctrl]+c)します。
-1. コマンドラインに貼り付けます。複数行のコマンドが連続的に実行されます。
-    ```
-    $ kubectl config set-cluster mycluster --server=https://161.202.248.83:8001 --insecure-skip-tls-verify=true
+    root@icp11:/work# cloudctl login -a https://mycluster.icp:8443 --skip-ssl-validation
+
+    Username> admin
+
+    Password>
+    Authenticating...
+    OK
+
+    Targeted account mycluster Account (id-mycluster-account)
+
+    Select a namespace:
+    1. cert-manager
+    2. default
+    3. handson
+    4. ibmcom
+    5. istio-system
+    6. kube-public
+    7. kube-system
+    8. platform
+    9. services
+    Enter a number> 3
+    Targeted namespace handson
+
+    Configuring kubectl ...
+    Property "clusters.mycluster" unset.
+    Property "users.mycluster-user" unset.
+    Property "contexts.mycluster-context" unset.
     Cluster "mycluster" set.
-    $ kubectl config set-context mycluster-context --cluster=mycluster
-    Context "mycluster-context" modified.
-    $ kubectl config set-credentials admin --token=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdF9oYXNoIjoiZmNiaGVrc2d4MjNxbXFhN2o3OGYiLCJyZWFsbU5hbWUiOiJjdXN0b21SZWFsbSIsInVuaXF1ZVNlY3VyaXR5TmFtZSI6ImFkbWluIiwiaXNzIjoiaHR0cHM6Ly9pY3BjbHVzdGVyMDEuaWNwOjk0NDMvb2lkYy9lbmRwb2ludC9PUCIsImF1ZCI6IjVlZWQ0YTRmN2FlOGI0MmI1NWM2NzJiMzUwNjgyYWM0IiwiZXhwIjoxNTQwODI3MTY2LCJpYXQiOjE1NDA3OTgzNjYsInN1YiI6ImFkbWluIiwidGVhbVJvbGVNYXBwaW5ncyI6W119.hGAuoQ3mmjGYRY8Ez1lY6YhXodwvH4N9aEZPYBToaTzT6P4r2ylHDGWcfm-Ii5E-QI21i3mDKjgpp0TV5gDRP1NlUng9Uuz4U62gqEYLp9Jn4VV0mYXDBf86IWluDY23WNYhQ-vbfB-G8ldANTwM-HzHx6cyyaW_nNEE76zw_1Rvl1eKnJaOGqybNDuSqv8xkK-OmY0CjG2qktmg6LnefHqCAIQyQdyOlkJlx6nxacMmNAgfiiZ7AHPgS1CJYapQ9eIzadX4ql27X3pufslNSxW3wFNFzudEjV3gJtfNIAf6boXEuIrEZDmx9d99b5Qx6QuWVfP-oDidtZWxNr941Q
-    User "admin" set.
-    $ kubectl config set-context mycluster-context --user=admin --namespace=handson
-    Context "mycluster-context" modified.
-    $ kubectl config use-context mycluster-context
+    User "mycluster-user" set.
+    Context "mycluster-context" created.
     Switched to context "mycluster-context".
-    $ 
+    OK
+
+    Configuring helm: /root/.helm
+    OK
     ```
-    最後の行の`kubectl config use-context mycluster-context`が実行されていることを確認してください。実行されていない場合には、[Enter]キーを入力し、実行してください。
-1. kubectlコマンドの接続先が、ICPで構成されていることを確認します。`kubectl get nodes` コマンドを入力し、NAME欄に表示されるIPアドレスが、対象のICPのサーバーとなっていることを確認します。
+
+1. kubectlコマンドが利用できることを確認します。`kubectl get nodes` コマンドを入力し、NAME欄に表示されるIPアドレスが、対象のICPのサーバーとなっていることを確認します。
     ```
     $ kubectl get nodes
     NAME           STATUS    ROLES                                    AGE       VERSION
     10.129.86.68   Ready     etcd,management,master,proxy,va,worker   20d       v1.11.1+icp-ee
     $ 
     ```
+## kubectl コマンドを利用して、実際に ICP環境にデプロイしていきます。
+    
 1. ICPのプライベート・レジストリーに保管されている"mylibertyapp"のイメージを、kubectlコマンドで確認してみます。`kubectl get images` コマンドを入力します。
     ```
     $ kubectl get images
@@ -250,8 +243,15 @@ kubectlコマンドは、kubenetes標準のkubernetesクラスターを管理す
     ```
 ## kubectlコマンドを使用したデプロイメントの作成
 
-kubectlコマンドで、kubernetesのオブジェクトを作成する場合、オブジェクトの定義情報を、yamlまたはjsonファイル形式で記述し、`kubectl apply -f <file_name>` コマンドで適用します。オブジェクトの新規作成も、オブジェクトの更新も、同じコマンドで実行できます。
-1. デプロイメントを作成するためのyamlファイルを、Lab4ディレクトリーに準備しています。"mylibapp-deployment.yaml"をテキスト・エディターで開き、内容を確認します。
+
+1. このLabの作業ディレクトリー (/work/lab4) に移動します。このディレクトリーには、下記のファイルが事前に準備されています。
+    - mylibapp-deployment.yaml : デプロイメント作成時の定義ファイル
+    - mylibapp-nodeportservice.yaml : サービス(NodePort)作成時の定義ファイル
+    - mylibapp-ingress.yaml : Ingress作成時の定義ファイル
+    
+1. kubectlコマンドで、kubernetesのオブジェクトを作成する場合、オブジェクトの定義情報を、yamlまたはjsonファイル形式で記述し、`kubectl apply -f <file_name>` コマンドで適用します。オブジェクトの新規作成も、オブジェクトの更新も、同じコマンドで実行できます。
+
+1. デプロイメントを作成するためのyamlファイルを、Lab4ディレクトリーに準備しています。"mylibapp-deployment.yaml"をcat で開き、内容を確認します。
     ```yaml:mylibapp-deployment.yaml
     apiVersion: apps/v1
     kind: Deployment
@@ -294,7 +294,7 @@ kubectlコマンドで、kubernetesのオブジェクトを作成する場合、
     また、`kubectl get deploy mylibertyapp-deploy -o wide` や `kubectl get deploy mylibertyapp-deploy -o yaml` 、 `kubectl describe deploy mylibertyapp-deploy` コマンドでより詳細な情報も確認できます。
     また、デプロイメントの作成により、自動的にポッドが作成されます。'kubectl get pods' または 'kubectl get po' コマンドを入力し、"mylibertyapp-deploy"で始まるポッドが出力されることを確認します。
     ```
-    $ kubectl get po  
+    $ kubectl get pods 
     NAME                                        READY     STATUS    RESTARTS   AGE
     liberty-default-helm-ibm-6f6fc5fbfd-4khv8   1/1       Running   0          8h
     mylibertyapp-deploy-648c4645f9-dj5nv        1/1       Running   0          20m
@@ -304,7 +304,7 @@ kubectlコマンドで、kubernetesのオブジェクトを作成する場合、
 ![DeploymentList](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab4/Lab4_05_DeploymentList.png)
 
 ##　NodePortサービスの作成
-1. NodePortサービスを作成する"mylibapp-nodeportservice.yaml"をテキスト・エディターで開き、内容を確認します。
+1. サービスを公開するための NodePortサービスを作成する"mylibapp-nodeportservice.yaml"をcat で開き、内容を確認します。
     ```yaml:mylibapp-nodeportservice.yaml
     apiVersion: v1
     kind: Service
@@ -325,7 +325,7 @@ kubectlコマンドで、kubernetesのオブジェクトを作成する場合、
     - 6行目の"type: NodePort"で、NodePortを指定。NodePortかkubernetesクラスター内の通信で使用するClusterIPかを指定できます。
     - 7,8行目の"selector: > app: mylibertyapp"で、割り振り先のデプロイメントを選択するラベルを指定
     - 12行目の"targetPort: 9080"で、割り振り先のポートを指定
-    - 13行目の"nodePort: 30180"で、クラスター外部からアクセスすることができるポート番号を指定
+    - 13行目の"nodePort: 30180"で、クラスター外部からアクセスすることができるポート番号を指定。ここでは固定で指定しています。指定しない場合はダイナミックに割り振られます。
 1. `kubectl apply -f mylibapp-nodeportservice.yaml` コマンドを入力し、NodePortのサービスを作成します。
     ```
     $ kubectl apply -f mylibapp-nodeportservice.yaml
@@ -345,7 +345,7 @@ kubectlコマンドで、kubernetesのオブジェクトを作成する場合、
 ![NodePortAccess](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab4/Lab4_06_NodePortAccess.png)
 
 ##　Ingressの作成
-1. Ingressを作成する"mylibapp-ingress.yaml"をテキスト・エディターで開き、内容を確認します。
+1. Ingressを作成する"mylibapp-ingress.yaml"をcat で開き、内容を確認します。
     ```mylibapp-ingress.yaml
     apiVersion: extensions/v1beta1
     kind: Ingress
@@ -359,16 +359,16 @@ kubectlコマンドで、kubernetesのオブジェクトを作成する場合、
       - host:
         http:
           paths:
-          - path: /hoge
+          - path: /handson
             backend:
               serviceName: mylibertyapp-nodeport
               servicePort: 9080
     ```
     上記のIngressの定義ファイルでは、下記のような設定を記述しています。
     - 2行目の"kind: Ingress"で、Ingressの定義であることを指定
-    - 13行目の"- path: /hoge"で、Proxyノード宛の"/hoge"のリクエストを対象のサービス(NodePort)に転送するよう指定
+    - 13行目の"- path: /handson"で、Proxyノード宛の"/handson"のリクエストを対象のサービス(NodePort)に転送するよう指定
     - 15,16行目のserviceName: mylibertyapp-nodeport"と"servicePort: 9080"で、転送先のサービス(NodePort)を指定
-    - 5行目の"ingress.kubernetes.io/rewrite-target: /"で、ICPのProxyノードで内部的に構成されているnginxコントローラーで固有に利用できるrewrite-tagetの指定で、pathに指定した"/hoge"宛のリクエストを/に変更するよう指定
+    - 5行目の"ingress.kubernetes.io/rewrite-target: / "で、ICPのProxyノードで内部的に構成されているnginxコントローラーで固有に利用できるrewrite-tagetの指定で、pathに指定した"/handson/"宛のリクエストを バックエンドのサービスの / にマップ
 1. `kubectl apply -f mylibapp-ingress.yaml` コマンドを入力し、Ingressを作成します。
     ```
     $ kubectl apply -f mylibapp-ingress.yaml
@@ -383,8 +383,80 @@ kubectlコマンドで、kubernetesのオブジェクトを作成する場合、
     mylibetyapp-ingress        *         161.202.248.83   80        3m
     $
     ```
-1. ICPコンソールからも、ナビゲーション・メニューから[ネットワーク・アクセス]>[サービス]で、「入口」タブを選択することで確認できます。
-#1. Ingressを作成することで、Proxyノード経由の外部から"/hoge"のURLでアクセスできます。Proxy Nodeのデフォルトの構成である80番や443番のポートでアクセスできます。ブラウザーで、`http://(ICPのIP)/hoge/Sum/` と入力します。サンプル・アプリケーションにアクセスできることを確認します。
+1. さらに詳細に確認するため `kubectl describe ingresses ylibetyapp-ingress` コマンドを実行します。
+    ```
+    $ kubectl describe ingresses mylibetyapp-ingress
+Name:             mylibetyapp-ingress
+Namespace:        handson
+Address:          161.202.248.83
+Default backend:  default-http-backend:80 (<none>)
+Rules:
+  Host  Path  Backends
+  ----  ----  --------
+  *
+        /handson   mylibertyapp-nodeport:9080 (<none>)
+Annotations:
+  ingress.kubernetes.io/rewrite-target:              /
+  kubectl.kubernetes.io/last-applied-configuration:  {"apiVersion":"extensions/v1beta1","kind":"Ingress","metadata":{"annotations":{"ingress.kubernetes.io/rewrite-target":"/"},"name":"mylibetyapp-ingress","namespace":"handson"},"spec":{"rules":[{"host":null,"http":{"paths":[{"backend":{"serviceName":"mylibertyapp-nodeport","servicePort":9080},"path":"/hoge"}]}}]}}
 
-以上で、Lab4は終了です。引き続き、Lab4で、Microclimateをご紹介します。
+Events:
+  Type    Reason  Age   From                      Message
+  ----    ------  ----  ----                      -------
+  Normal  CREATE  1m    nginx-ingress-controller  Ingress handson/mylibetyapp-ingress
+  Normal  UPDATE  43s   nginx-ingress-controller  Ingress handson/mylibetyapp-ingress
+    ```
+1. ICPコンソールからも、ナビゲーション・メニューから[ネットワーク・アクセス]>[サービス]で、「入口」タブを選択することで確認できます。
+1. Ingressを作成することで、Proxyノード経由の外部から"/handson"のURLでアクセスできます。Proxy Nodeのデフォルトの構成である80番や443番のポートでアクセスできます。ブラウザーで、`http://(ICPのIP)/handson/Sum/` と入力します。サンプル・アプリケーションにアクセスできることを確認します。
+
+1. ingressの構成を編集して、適用してみます。Ingressの rewrite ターゲットの指定を / から /Sum に編集します。
+    ```
+    apiVersion: extensions/v1beta1
+    kind: Ingress
+    metadata:
+      annotations:
+        ingress.kubernetes.io/rewrite-target: /Sum　　## ここを編集
+      name: mylibetyapp-ingress
+      namespace: handson
+    spec:
+      rules:
+      - host:
+        http:
+          paths:
+          - path: /handson
+            backend:
+              serviceName: mylibertyapp-nodeport
+              servicePort: 9080
+    ```
+1. あらためて kubectl apply コマンドで 適用します。同じ定義を変更してapplyしているので定義が更新されます。
+    ```
+    root@icp11:/work/lab4# kubectl apply -f mylibapp-ingress.yaml
+    ingress.extensions/mylibetyapp-ingress configured
+    ```
+1. `kubectl describe ingresses ylibetyapp-ingress` コマンドを実行して、定義が更新されていることを確認します。    
+    ```
+    kubectl describe ingresses mylibetyapp-ingress
+    Name:             mylibetyapp-ingress
+    Namespace:        handson
+    Address:          165.192.65.171
+    Default backend:  default-http-backend:80 (<none>)
+    Rules:
+      Host  Path  Backends
+      ----  ----  --------
+      *
+            /handson   mylibertyapp-nodeport:9080 (<none>)
+    Annotations:
+      ingress.kubernetes.io/rewrite-target:              /Sum
+      kubectl.kubernetes.io/last-applied-configuration:  {"apiVersion":"extensions/v1beta1","kind":"Ingress","metadata":{"annotations":{"ingress.kubernetes.io/rewrite-target":"/Sum"},"name":"mylibetyapp-ingress","namespace":"handson"},"spec":{"rules":[{"host":null,"http":{"paths":[{"backend":{"serviceName":"mylibertyapp-nodeport","servicePort":9080},"path":"/handson"}]}}]}}
+
+    Events:
+      Type    Reason  Age              From                      Message
+      ----    ------  ----             ----                      -------
+      Normal  CREATE  9m               nginx-ingress-controller  Ingress handson/mylibetyapp-ingress
+      Normal  UPDATE  1m (x3 over 8m)  nginx-ingress-controller  Ingress handson/mylibetyapp-ingress    
+    ```
+1. ブラウザでアクセスして確認します。
+    今度は /handson/宛のリクエストが バックエンドの /Sum にマップされているので、`http://(ICPのIP)/handson/` でアクセスできます。
+    さきほどまでの `http://(ICPのIP)/handson/Sum`ではファイルがないため、エラーとなることを確認してください。
+    
+以上で、Lab4は終了です。
 
