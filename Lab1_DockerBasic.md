@@ -114,7 +114,7 @@
     
     1. `docker exec -it <コンテナID> /bin/bash` で、起動した コンテナにログインしてみます。
    
-    コンテナIDには先ほど docker ps で確認してコンテナIDを指定してください。前方一致で判断されますので、前方数桁を指定すればOKです。
+    コンテナIDには先ほどの docker ps で確認してコンテナIDを指定してください。前方一致で判断されますので、前方数桁を指定すればOKです。
     `hostname` や `cat htdocs/index.html` ログインしたコンテナで 叩いて見てください。
     ```
     # docker exec -it 9ac /bin/bash
@@ -216,8 +216,8 @@
     
     1. コンテナOSは、通常 コンテナ実行に必要な最低限のライブラリに限定されていますので、必ずしもホストOS側で使っていたすべてのコマンドが使えるわけではありません。必要なライブラリがない場合は、コンテナをビルドする際に `apt`コマンドでパッケージを追加してください。
     ```
-    docker exec -it 69a ipconfig
-    OCI runtime exec failed: exec failed: container_linux.go:348: starting container process caused "exec: \"ipconfig\": executable file not found in $PATH": unknown
+    docker exec -it 69a ifconfig
+    OCI runtime exec failed: exec failed: container_linux.go:348: starting container process caused "exec: \"ifconfig\": executable file not found in $PATH": unknown
     ```
 
 ## コンテナーの停止と削除
@@ -265,7 +265,8 @@
     $
     ```
     
-    1. コンテナ・イメージの削除今回のLabの最初にdocker pullでダウンロードした、httpdのコンテナー・イメージを削除します。Dockerイメージの削除は、`docker rmi <Image_Name(:Tag)>` コマンドで削除します。`docker images`、`docker rmi httpd`、`docker images`の順にコマンドを入力することで、httpdのDockerイメージの削除が行われたことを確認することができます。
+    1. コンテナ・イメージの削除今回のLabの最初にdocker pullでダウンロードした、httpdのコンテナー・イメージを削除します。Dockerイメージの削除は、`docker rmi <Image_Name(:Tag)>` コマンドで削除します。<br>
+`docker images` コマンドをあらためて実行し、httpdのDockerイメージの削除が行われたことを確認してください。
     
     
     ```
