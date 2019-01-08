@@ -37,7 +37,12 @@ IBM提供のLibertyのHelmチャートを用いて、Libertyアプリケーシ�
 1. 上部の検索入力領域に「liberty」と入力します。[ibm-websphere-liberty]のHelmチャートを選択(クリック)します。<br>
     ![LibertyHelm](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab3/Lab3_06_LibertyHelm.png)
 1. Liberty Helmチャートの概要が表示されます。<br>
-    LibertyのHelmチャートのデプロイのパラメーターの説明などが表示されます。今回は、1つデプロイしてみることが目的ですので、画面右下の[構成]ボタンをクリックします。<br>
+    LibertyのHelmチャートのデプロイのパラメーターの説明などが表示されます。
+    左のメニューの下に Source & Tar ファイルがあり、この登録されている HELMチャートの元を参照できます。
+    以下のリンクを開いて、設定をざっと眺めてみてください。今後、貴社の HELMパッケージを作成する際の参考とすることができます。。
+    [LibertyHelmSoource](https://github.com/IBM/charts/tree/master/stable/ibm-websphere-liberty)
+    
+1. 1つHELMのインスタンスをデプロイしてみます。画面右下の[構成]ボタンをクリックします。<br>
     ![LibertyHelmOverview](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab3/Lab3_07_LibertyHelmOverview.png)
 1. Helmチャートのデプロイに必須のパラメーターが画面上部に、オプションのパラメーターが省略された形で表示されます。<br>
     必須入力項目に、下記のパラメーターを入力します。
