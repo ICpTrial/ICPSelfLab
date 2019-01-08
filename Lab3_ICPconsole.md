@@ -38,12 +38,14 @@ IBM提供のLibertyのHelmチャートを用いて、Libertyアプリケーシ�
     ![LibertyHelm](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab3/Lab3_06_LibertyHelm.png)
 1. Liberty Helmチャートの概要が表示されます。<br>
     LibertyのHelmチャートのデプロイのパラメーターの説明などが表示されます。
-    左のメニューの下に Source & Tar ファイルがあり、この登録されている HELMチャートの元を参照できます。
-    以下のリンクを開いて、設定をざっと眺めてみてください。今後、貴社の HELMパッケージを作成する際の参考とすることができます。。
-    [LibertyHelmSoource](https://github.com/IBM/charts/tree/master/stable/ibm-websphere-liberty)
-    
-1. 1つHELMのインスタンスをデプロイしてみます。画面右下の[構成]ボタンをクリックします。<br>
     ![LibertyHelmOverview](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab3/Lab3_07_LibertyHelmOverview.png)
+    
+1. 左のメニューの下に Source & Tar ファイルがあり、この登録されている HELMチャートの元を参照できます。
+    以下のリンクを開いて、設定をざっと眺めてみてください。今後、貴社の HELMパッケージを作成する際の参考とすることができます。<br>
+    [Liberty Helm Source](https://github.com/IBM/charts/tree/master/stable/ibm-websphere-liberty)
+    
+1. Libertyの HELMを１つデプロイしてみます。画面右下の[構成]ボタンをクリックします。<br>
+
 1. Helmチャートのデプロイに必須のパラメーターが画面上部に、オプションのパラメーターが省略された形で表示されます。<br>
     必須入力項目に、下記のパラメーターを入力します。
     - Helm リリース名: liberty-default-helm
@@ -61,7 +63,7 @@ IBM提供のLibertyのHelmチャートを用いて、Libertyアプリケーシ�
 1. デプロイしたliberty-default-helmリリースの概要と、画面をスクロールすることで、このhelmリリースに関連するKubernetesのオブジェクト(デプロイメント、Ingress、ポッド、サービスなど)が表示されます。また、それぞれのハイパーリンクをクリックすることで、それぞれのオブジェクトの詳細を確認することもできます。(尚、他のオブジェクトを表示したのち、このページに戻るには、ナビゲーション・メニューから、[ワークロード]>[Helm リリース]を選択し、一覧から「liberty-default-helm」を選択します。)<br>
     - ポッドは、Libertyのコンテナーが稼働する最小のインスタンスです。今回は、1インスタンスで作成していますが、同一のポッドを2つ、3つと起動することができます。
     - デプロイメントは、同一の複数のポッドをまとめて管理するオブジェクトです。耐障害性や更新時のポッドの起動停止を制御します。
-    - サービスは、同一の複数のポッドへの通信アクセスの割り振り制御を行います。ClusterIPとNodePortの2種類のタイプがあり、ClusterIPは、Kubernetesのクラスター内部の通信で使用できます。例えば、同一のクラスター内で管理されるLibertyとDBとの通信などで利用できます。NodePortは、Kubernetesのクラスター外部からの通信で使用することができます。例えば、自身のPCのブラウザーから、LibertyのWebアプリケーションへの通信で利用できます。Kubernetesのノードのポート(30000番台)をクラスターIPにマッピングします。NodePortを作成すると、自動的にClusterIPも作成されます。
+    - サービスは、同一の複数のポッドへの通信アクセスの割り振り制御を行います。ClusterIPとNodePortの2種類のタイプがあり、ClusterIPは、Kubernetesのクラスター内部の通信で使用されます。例えば、同一のクラスター内で管理されるLibertyとDBとの通信などで利用できます。NodePortは、Kubernetesのクラスター外部からの通信で使用することができます。例えば、自身のPCのブラウザーから、LibertyのWebアプリケーションへの通信で利用できます。Kubernetesのノードのポート(30000番台)をクラスターIPにマッピングします。NodePortを作成すると、自動的にClusterIPも作成されます。
     - Ingressも、NodePortと同様に、Kubernetes外部からの通信で使用します。ICPのProxyサーバー経由で通信が行われ、L7での負荷分散が行われます。
 ![HelmReleaseAll](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab3/Lab3_11_LibertyHelmRelaseAll.png)
 
@@ -71,10 +73,12 @@ IBM提供のLibertyのHelmチャートを用いて、Libertyアプリケーシ�
     ![NodePortDef](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab3/Lab3_12_NodePortDef.png)
 1. 上記のポート番号を使用して、ブラウザーで`https://(ICPのIPアドレス):(30000番台のポート)/`にアクセスします。ICPコンソールとは、別のタブを開いて、アクセスしてください。(自己署名証明書の警告が表示される場合は、認めてください)。Libertyのデフォルト・コンテキストルートのページが表示されます。
 ![NodePortAccess](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab3/Lab3_13_NodePortAccess.png)
-1. 次に、Ingress経由でアクセスします。<br>
+1. 次に、L7のProxyノードである Ingress経由でアクセスします。<br>
     ブラウザーで新しいタブを開き、`https://(ICPのIPアドレス)/test1/` にアクセスします。NodePort経由でアクセスした場合と同様の、Libertyのデフォルト・コンテキストルートのページが表示されます。今回は、ICPは1台のサーバーですべての役割が稼働していますが、役割ごとにノードを分離している場合には、ProxyノードのIPアドレス(/ホスト名)を指定します。`test1` は、Helmチャートのデプロイ時にオプションのIngress settingsで設定したPathのパラメーターの値です。
+1. ここではあとで、参考にできるように 作成された Ingress の定義を眺めてみましょう。
+    1. 左のメニューから、ネットワーク・アクセス > サービスを開きます。「入口」のタブを開きます。ICPでは Ingressが「入口」を訳されています。
+    1. Ingressの定義「liberty-default-helm-ibm」を選択し、一番右列にある「・・・」をクリックし、「編集」を開きます。
+    1. ここでは詳しく説明しませんが、実際に払い出された環境の定義がこのように確認できること、また編集・更新できることを覚えておいてください。 
+
 
 以上で、Lab3は終了です。引き続き、Lab2で、作成したDockerイメージを、ICPのKubernetes環境にデプロイします。
-
-
-
