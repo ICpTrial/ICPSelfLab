@@ -384,3 +384,4 @@
 1. これまでと同様の方法で Ingress でアクセスしてください。
 
 以上で、Lab7は終了です。
+HELMの詳細な書き方については、[HELMドキュメント](https://docs.helm.sh/chart_template_guide/)を参照してください。
