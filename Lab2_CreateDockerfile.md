@@ -4,37 +4,36 @@
 
 ## 前提
 
-この　Labでは、下記の準備を前提としています。
-- Dockerの導入
-- インターネットに接続できる環境
+この Lab2では、Lab1で利用した環境を利用して、ハンズオンを実施します。
 
 所用時間は、およそ30分です。
 
 ## ハンズオン環境の確認
 
-1. 以下の３つのファイルをダウンロードし、scp コマンドで ハンズオン環境の /work にアップロードしてください。
+1. 以下の３つのファイルをダウンロードし、scp コマンドで ハンズオン環境の /work/lab2 にアップロードしてください。
     - Sum.war : Libertyのサンプル・アプリケーション
     - server.xml : サンプル・アプリケーション用のLibertyの構成ファイル
     - Dockerfile : サンプル・アプリケーションがデプロイされたDockerイメージをビルドするためのDockerfile
 
 1. このハンズオンでは、IBMのJavaEEアプリケーション・サーバーである WebSphere Liberty を利用します。<br>
-フルスタックのJavaEEをサポートしながらも、各種APIや機能がフィーチャーとしてモジュール化されているため、必要な機能のみを有効化し、より少ないリソースで利用していくことが可能です。<br>
-LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサポートするもの）やkernel（Libertyカーネルのみ）など、複数のタグ付けされたイメージが公開されています。これらのDockerイメージをビルドするのに利用されている Dockerfileもあわせて公開されています<br>
+フルスタックのJavaEEをサポートしながらも、各種APIや機能がフィーチャーとしてモジュール化されているため、必要な機能のみを有効化し、より少ないリソースで利用していくことが可能な軽量アプリケーション・サーバーです。<br>
+LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサポートするもの）やkernel（Libertyカーネルのみ）など、複数のタグ付けされたイメージが公開されています。また、これらのDockerイメージをビルドするのに利用されている Dockerfileもあわせて公開されています<br>
 以下のサイトを開き、製品として提供されている Dockerfileが どのように構成されているか確認してみます。<br>
     [docker store: IBM WebSphere Application Server Liberty](https://store.docker.com/images/websphere-liberty)
     
-    1. このハンズオンでは、javaee8 の WebProfileに対応した websphere-liberty:webProfile8 を利用します。
-    　　websphere-liberty:webProfile8 の dockerfileを確認してみます。
+    1. このハンズオンでは、最 javaee8 WebProfileに対応した websphere-liberty:webProfile8 の最新バージョン 18.0.0.4 を利用します。
+    　　websphere-liberty:webProfile8 の dockerfileを確認してみます。<br>
       websphere-liberty:kernel をベース・イメージとして、フィーチャーを追加するコマンドを実行し、デフォルトのserverl.xmlファイルを配置していることがわかります。
     1. 次に websphere-liberty:kernel のdockerfile を確認してみます。<br>こちらは ibm-java:8-jre と Java8のランタイムをベースにビルドされていることがわかります。
     1. さらに 以下が IBM Javaの docker ファイルです。Ubuntuのベースイメージに対して、JREを導入していることがわかります。<br>
     [docker hub: ibmjava](https://hub.docker.com/_/ibmjava/)
     
    このように階層化された環境を利用することにより、各レイヤーでの変更を、イメージをビルドするタイミングで取り込めるよう構成されています。
+   貴社の製品のコンテナを構成する際の参考としてください。
  
 
 ## Liberty WebProfile イメージの取得
-このハンズオンこでは `:webProfile8`のタグを指定し、JavaEE8 WebProfile 8 をサポートする環境を利用します。
+それでは、実際に docker イメージに ユーザーのアプリケーションを構成して、コンテナをビルドしていきます。 
 
 1. `docker pull websphere-liberty:webProfile8` コマンドを入力し、WebSphere LibertyのwebProfile8のイメージをダウンロードします。<br>
     
@@ -86,7 +85,8 @@ LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサ
 
 
 1. Libertyの製品イメージには、下記の設定が行われています。<br>
-　 ※ここは製品の設定を確認しているだけですので、ここはスキップ可能です。興味がある方はどの層の dockerfile で実行されているか確認してみてください。
+　 ※ここは製品の設定を確認しているだけですので、ここはスキップ可能です。<br>
+    興味がある方は、先程のいくつかのコンテナのどの層の dockerfile で設定されているか確認してみてください。
     - WAS Liberty を /opt/ibm/wlp にインストール(展開)
     - サーバー defaultServer を作成
     - ログ・ディレクトリーを /logs に変更 (環境変数 LOG_DIR の設定)
@@ -192,7 +192,7 @@ LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサ
     exit
     $ 
     ```
-    1. Libertyのコンテナー・インスタンスを停止します。`docker stop wlp` コマンドを入力します。
+ 1. Libertyのコンテナー・インスタンスを停止します。`docker stop wlp` コマンドを入力します。
     ```
     $ docker stop wlp
     wlp
@@ -214,7 +214,7 @@ LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサ
         ![SumTop](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab2/Lab2_02_SumTop.png)
         ![SumResult](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab2/Lab2_03_SumResult.png)
         
-    1. server.xmlは、下記のように、`webProfile-8.0`だけでなく、`mpMetrics-1.1`, `monitor-1.0`のフィーチャーを追加しています。
+    1. アプリケーション・サーバーの構成ファイル server.xml には、下記のように、`webProfile-8.0`だけでなく、`mpMetrics-1.1`, `monitor-1.0`のフィーチャーを追加しています。
    
    ```xml:server.xml
     <?xml version="1.0" encoding="UTF-8"?>
@@ -256,13 +256,14 @@ LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサ
     - 3行目のCOPYコマンドでは、Libertyの設定ファイルであるserver.xmlを、新しいDockerコンテナーの/config/ ディレクトリーにコピーしています。つまり、Libertyの設定変更を行なっています。
     - 最後の4行目のRUNコマンドでは、新しいDockerコンテナー上で、コマンド 'installUtility install --acceptLicense defaultServer' を実行しています。'installUtility install'は、Libertyのコマンドであり、server.xmlの記述に基づき、現在のLibertyのインストールに不足するLibertyフィーチャーを、インターネット上で提供されるLiberty repositoryにアクセスして、ダウンロード、インストールします。<br>
     
-1. `docker build -t mylibertyapp:1.0 .` コマンドを入力し、Dockerイメージをビルドします。<br>
+1. `docker build -f Dockerfile -t mylibertyapp:1.0 .` コマンドを入力し、Dockerイメージをビルドします。<br>
 <br>
+    `-f  Dockerfile` オプションで、ビルドに利用するDockerファイルを指定しあｍす
     `-t  mylibertyapp:1.0` オプションで、作成するDockerイメージと名前(mylibertyapp)とタグ(1.0)を指定しています。<br>
-    `docker build` コマンドの最後の引数に DockerfileのパスまたはURLを指定します。今回は、ローカルのカレント・ディレクトリーのDockerfileを使用してDockerイメージのビルドを行うため、`.` を指定しています。`.`を忘れないでください。<br>
+    `docker build` コマンドの最後の引数に DockerfileのパスまたはURLを指定します。今回は、ローカルのカレント・ディレクトリーが このコンテナをビルドする際のコンテキストとなるため、`.` を指定しています。`.`を忘れないでください。<br>
     
     ```
-    $ docker build -t mylibertyapp:1.0 .
+    $ docker build -f Dockerfile -t mylibertyapp:1.0 .
     Sending build context to Docker daemon  20.99kB
     Step 1/4 : FROM websphere-liberty:webProfile8
     　---> 1fd43b4175ca
@@ -312,7 +313,7 @@ LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサ
     
 1. `docker images` コマンドを入力し、名前mylibertyappのイメージが追加されていることを確認します。
     ```
-    $ docker images
+    $ docker images | grep liberty
     REPOSITORY                                   TAG                 IMAGE ID            CREATED             SIZE
     mylibertyapp                                 1.0                 4027ff6ba2c0        3 minutes ago       508MB
     websphere-liberty                            webProfile8         1fd43b4175ca        41 hours ago        500MB
@@ -349,9 +350,14 @@ LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサ
 1. また、今回、mpMetrics-1.1 (MicroProfile Metrics)のフィーチャーを追加していますので、ブラウザーで、`http://localhost:19080/metrics`にアクセスすることでサーバーのGC状況やLibertyのWebコンテナー・スレッド数、HTTPセッションの統計情報が表示されます。
 ![Metrics](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab2/Lab2_04_Metrics.png)
 
+1. 利用したコンテナを停止します。
+   ```
+   root@docker11:/work/lab2# docker stop mywlp
+    mywlp
+    root@docker11:/work/lab2# docker ps
+    CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+    root@docker11:/work/lab2#
+    ```
+    
 以上で、Lab2は終了です。引き続き、Lab3で、IBM提供のLiberty Helmチャートをデプロイし、IBM Cloud Privateのコンソール操作を体験し、Kubernetesのオブジェクトを確認します。
-
-
-
-
 
