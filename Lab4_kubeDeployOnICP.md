@@ -5,43 +5,65 @@
 ## 前提
 
 この　Labでは、下記の準備を前提としています。
-- PC環境からICP環境へのネットワークの接続
-- PC環境からICPのプライベート・レジストリーへの認証の設定<br>
-    [ICP Knowledge Center: Docker CLI の認証の構成](https://www.ibm.com/support/knowledgecenter/ja/SSBS6K_3.1.0/manage_images/configuring_docker_cli.html)
-- PC上にkubectlコマンドのインストール<br>
-    [ICP Knowledge Center: kubectl CLI からクラスターへのアクセス](https://www.ibm.com/support/knowledgecenter/ja/SSBS6K_3.1.0/manage_cluster/cfc_cli.html)
-    ICPコンソールの[Command Line Tools]>[Cloud Private CLI]の[Install Kubectl CLI]の項目も参照ください
+- docker環境からICP環境へのネットワークの接続
 
 所用時間は、およそ40分です。
 
-## ハンズオン環境の確認
 
-1. コマンド・プロンプトを起動します。
-1. このLabの作業ディレクトリー (C:¥Handson¥Lab4) に移動します。このディレクトリーには、下記のファイルが事前に準備されています。
-    - mylibapp-deployment.yaml : デプロイメント作成時の定義ファイル
-    - mylibapp-nodeportservice.yaml : サービス(NodePort)作成時の定義ファイル
-    - mylibapp-ingress.yaml : Ingress作成時の定義ファイル
+## docker環境からICPのdockerプライベート・レジストリーへのアクセス
+
+1. docker環境から ICPの dockerプライベート・レジストリーへの接続・認証設定
+    docker環境のDockerレジストリーから、ICPのdocker プライベート・レジストリーに、Dockerイメージを直接アップロード(docker push)するには、ICPのプライベート・レジストリーにdocker loginする必要があります。
+
+    [ICP Knowledge Center: Docker CLI の認証の構成](https://www.ibm.com/support/knowledgecenter/ja/SSBS6K_3.1.0/manage_images/configuring_docker_cli.html)に従って、設定をしていきます。
+
+    1. Lab2で利用した docker環境にSSH でログインします。
+    1. rootユーザーで /etc/hosts を開き、以下の一行を追加します。ここでは、<cluster_CA_domain>は `mycluster.icp` です
+        ```
+        <icp_master_ip>     <cluster_CA_domain>
+        ```
+    1. docker環境から、ICPのプライベート・レジストリーにdockerログインしてみます。
+        ```
+        docker login mycluster.icp:8500
+        Username: admin
+        Password:
+        Error response from daemon: Get https://mycluster.icp:8500/v2/: x509: certificate signed by unknown authority
+        ```
+        エラーが出てアクセスできませんので、これを解消していきます。
+
+    1. docker環境側に Docker レジストリー証明書を保管するディレクトリーを作成します
+        ```
+        mkdir -p /etc/docker/certs.d/<cluster_CA_domain>:8500/
+        ```
+    1. ICP環境のdockerレジストリの証明書を docker環境側に 取得してきます。
+        ```
+        scp root@<cluster_CA_domain>:/etc/docker/certs.d/<cluster_CA_domain>\:8500/ca.crt ~/.docker/certs.d/<cluster_CA_domain>\:8500/
+        ```
+
+        今回の環境では以下のようになります。
+        ```
+        scp root@mycluster.icp:/etc/docker/certs.d/mycluster.icp:8500/ca.crt /etc/docker/certs.d/mycluster.icp\:8500/
+        ```
+    1. 改めて ICP環境のプライベート・レジストリにログインしてみます。
+        ```
+        root@docker11:~# docker login mycluster.icp:8500
+        Username: admin
+        Password:
+        Login Succeeded
+        ```
+
 
 ## LibertyイメージをICPのプライベート・レジストリーにPush(アップロード)
 
 (参照)
 [ICP KnowledgeCenter: イメージのプッシュおよびプル](https://www.ibm.com/support/knowledgecenter/ja/SSBS6K_3.1.0/manage_images/using_docker_cli.html)
 
-1. ICPのプライベート・レジストリーへの接続/認証の確認
-    PCのDockerレジストリーから、ICPのプライベート・レジストリーに、Dockerイメージを直接アップロード(docker push)するには、ICPのプライベート・レジストリーにdocker loginする必要があります。<br>
-    `docker login <cluster_CA_domain>:8500` (デフォルトでは、`docker login mycluster.icp:8500`) コマンドを入力します。事前に、認証設定の一部として、<cluster_CA_domain>のホスト名が、PC OSのhostsファイルで名前解決され、ICPのマスター・ノードのIPアドレスに解決されます。
-    UsernameとPasswordの入力が求められますので、ICPの管理者ユーザーのユーザー名(デフォルト:admin)とパスワードを入力します。
-    ```
-    $ docker login mycluster.icp:8500
-    Username: admin
-    Password: 
-    Login Succeeded
-    $ 
-    ```
+実際にイメージをPUSHしていきます。
+    
 1. アップロードするイメージの確認
     `docker images` コマンドを入力し、Lab2. で作成した「mylibertyapp:1.0」のイメージがPCローカルのDockerレジストリーに存在することを確認します。
     ```
-    $ docker images
+    $ docker images |  grep myliberty
     REPOSITORY                                   TAG                 IMAGE ID            CREATED             SIZE
     mylibertyapp                                 1.0                 4027ff6ba2c0        15 hours ago        508MB
     $ 
@@ -92,8 +114,18 @@
 1. コンソール画面の右下の「>_」の青丸のマークをクリックすると、このコンソール画面に表示している内容を取得するkubectlコマンドが表示されます。以降で、kubectlコマンドのコンテキスト(接続先)をICPに設定します。
 ![kubeCommandDisplay](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab4/Lab4_02_kubeCommandDisplay.png)
 
-## PC上のkubectlコマンドの接続先をICPに構成<br>
 
+## ハンズオン環境の確認
+
+1. コマンド・プロンプトを起動します。
+1. このLabの作業ディレクトリー (C:¥Handson¥Lab4) に移動します。このディレクトリーには、下記のファイルが事前に準備されています。
+    - mylibapp-deployment.yaml : デプロイメント作成時の定義ファイル
+    - mylibapp-nodeportservice.yaml : サービス(NodePort)作成時の定義ファイル
+    - mylibapp-ingress.yaml : Ingress作成時の定義ファイル
+
+
+
+## PC上のkubectlコマンドの接続先をICPに構成<br>
 kubectlコマンドは、kubenetes標準のkubernetesクラスターを管理する標準のコマンドライン・ツールです。
 1. 接続構成情報を取得します。ICPコンソールで、上端メニューの右端の人のアイコンをクリックし、[クライアントの構成]を選択します。
 ![kubectlConfig1](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab4/Lab4_03_kubectlConfig1.png)
