@@ -74,8 +74,8 @@
 ## [参考] docker環境からICPのdockerプライベート・レジストリーへの直接PUSH
 ここはスキップすることができます。さっと目を通してください。
 
-1. docker環境から ICPの dockerプライベート・レジストリーへの接続・認証設定
-    docker環境のDockerレジストリーから、ICPのdocker プライベート・レジストリーに、Dockerイメージを直接アップロード(docker push)することも可能です。これには、docker側から ICPのプライベート・レジストリーにdocker loginする必要があります。
+1. docker環境から ICPの dockerプライベート・レジストリーへの接続・認証設定<br>
+docker環境のDockerレジストリーから、ICPのdocker プライベート・レジストリーに、Dockerイメージを直接アップロード(docker push)することも可能です。これには、docker側から ICPのプライベート・レジストリーにdocker loginする必要があります。
 
     [ICP Knowledge Center: Docker CLI の認証の構成](https://www.ibm.com/support/knowledgecenter/ja/SSBS6K_3.1.0/manage_images/configuring_docker_cli.html)に従って、設定をしていきます。
 
