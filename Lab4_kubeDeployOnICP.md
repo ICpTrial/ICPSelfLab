@@ -12,6 +12,10 @@
 ## LibertyイメージをICPのプライベート・レジストリーに ファイル転送でのアップロード
 ここでは、改めて開発環境と本番環境など、直接ネットワークが接続できない環境でイメージを移動させる方法で、イメージをICP環境に登録します。
    1. Lab2で利用した docker環境にSSH でログインします 
+   1. rootユーザーで /etc/hosts を開き、以下の一行を追加します。ここでは、<cluster_CA_domain>は `mycluster.icp` です
+        ```
+        <icp_master_ip>     <cluster_CA_domain>
+        ```
    1. アップロードするイメージの確認<br>
    
       `docker images` コマンドを入力し、Lab2. で作成した「mylibertyapp:1.0」のイメージがPCローカルのDockerレジストリーに存在することを確認します。
@@ -108,10 +112,7 @@ docker環境のDockerレジストリーから、ICPのdocker プライベート�
     [ICP Knowledge Center: Docker CLI の認証の構成](https://www.ibm.com/support/knowledgecenter/ja/SSBS6K_3.1.0/manage_images/configuring_docker_cli.html)に従って、設定をしていきます。
 
    1. Lab2で利用した docker環境にSSH でログインします。
-   1. rootユーザーで /etc/hosts を開き、以下の一行を追加します。ここでは、<cluster_CA_domain>は `mycluster.icp` です
-        ```
-        <icp_master_ip>     <cluster_CA_domain>
-        ```
+   
    1. docker環境から、ICPのプライベート・レジストリーにdockerログインしてみます。
         ```
         docker login mycluster.icp:8500
