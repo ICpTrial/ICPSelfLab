@@ -7,7 +7,7 @@
 このLabでは、下記の準備を前提としています。
 - IBM Cloud上に Ubuntu環境が導入されその上に、docker-ceが導入されています。
 - Docker環境のUbuntuに SSHでログインして ハンズオンを実施します。ログイン情報は講師に確認してください。
-- ICP環境のUbuntu は別途ありますが、複雑に iptables が設定されているため、別のマシンを利用してはdockerのハンズオンは実施します。
+- ICP環境のUbuntu は別途ありますが、複雑に iptables が設定されているため、別のマシンを利用してdockerのハンズオンは実施します。
 
 所用時間は、およそ20分です。
 
@@ -265,7 +265,8 @@
     $
     ```
     
-    1. コンテナ・イメージの削除今回のLabの最初にdocker pullでダウンロードした、httpdのコンテナー・イメージを削除します。Dockerイメージの削除は、`docker rmi <Image_Name(:Tag)>` コマンドで削除します。<br>
+    1. コンテナ・イメージの削除
+    今回のLabの最初にdocker pullでダウンロードした、httpdのコンテナー・イメージを削除します。Dockerイメージの削除は、`docker rmi <Image_Name(:Tag)>` コマンドで削除します。<br>
 `docker images` コマンドをあらためて実行し、httpdのDockerイメージの削除が行われたことを確認してください。
     
     
