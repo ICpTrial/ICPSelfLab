@@ -294,7 +294,7 @@ docker環境のDockerレジストリーから、ICPのdocker プライベート�
         spec:
           containers:
           - name: myliberty-container
-            image: icpcluster01.icp:8500/handson/mylibertyapp:1.0
+            image: mycluster.icp:8500/handson/mylibertyapp:1.0
             ports:
             - containerPort: 9080
     ```
