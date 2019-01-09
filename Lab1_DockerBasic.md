@@ -266,6 +266,7 @@
     ```
     
     1. コンテナ・イメージの削除
+    
     今回のLabの最初にdocker pullでダウンロードした、httpdのコンテナー・イメージを削除します。Dockerイメージの削除は、`docker rmi <Image_Name(:Tag)>` コマンドで削除します。<br>
 `docker images` コマンドをあらためて実行し、httpdのDockerイメージの削除が行われたことを確認してください。
     
