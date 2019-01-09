@@ -35,7 +35,7 @@
         $ docker images | grep myliberty
         REPOSITORY                                   TAG                 IMAGE ID            CREATED             SIZE
         mylibertyapp                                 1.0                 4027ff6ba2c0        15 hours ago        508MB
-        mycluster.icp:8500/handson/mylibertyapp  1.0                 4027ff6ba2c0        15 hours ago        508MB
+        mycluster.icp:8500/handson/mylibertyapp      1.0                 4027ff6ba2c0        15 hours ago        508MB
         $ 
         ```
    同じIMAGE IDのエントリーが2行表示され、ここで追加した名前のエントリーがあることを確認します。
