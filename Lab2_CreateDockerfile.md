@@ -21,7 +21,7 @@ LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサ
 以下のサイトを開き、製品として提供されている Dockerfileが どのように構成されているか確認してみます。<br>
     [docker store: IBM WebSphere Application Server Liberty](https://store.docker.com/images/websphere-liberty)
     
-    1. このハンズオンでは、最 javaee8 WebProfileに対応した websphere-liberty:webProfile8 の最新バージョン 18.0.0.4 を利用します。
+    1. このハンズオンでは、javaee8 WebProfileに対応した websphere-liberty:webProfile8 の最新バージョン 18.0.0.4 を利用します。
     　　websphere-liberty:webProfile8 の dockerfileを確認してみます。<br>
       websphere-liberty:kernel をベース・イメージとして、フィーチャーを追加するコマンドを実行し、デフォルトのserverl.xmlファイルを配置していることがわかります。
     1. 次に websphere-liberty:kernel のdockerfile を確認してみます。<br>こちらは ibm-java:8-jre と Java8のランタイムをベースにビルドされていることがわかります。
