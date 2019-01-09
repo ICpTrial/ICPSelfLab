@@ -21,7 +21,7 @@
         mylibertyapp                                 1.0                 4027ff6ba2c0        15 hours ago        508MB
         $ 
         ```        
-    1. アップロードするイメージの名前の変更(追加)<br>
+   1. アップロードするイメージの名前の変更(追加)<br>
         `docker tag <source_image> <target_image>` コマンド(<source_image>に対して、<target_image>の別名を付与します)で、アップロードするイメージに"<Dockerレジストリーのホスト>/<名前空間>/<イメージ名>:<tag名>"の別名をつけます。これにより、名前空間ごとにアクセス制御をしてイメージを登録することができます。<br>
         具体的には、'docker tag mylibertyapp:1.0 mycluster.icp:8500/handson/mylibertyapp:1.0' コマンドを入力します。
 
