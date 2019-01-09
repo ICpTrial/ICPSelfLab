@@ -1,11 +1,11 @@
-＃IBMコミュニティチャートリポジトリ
+# IBMコミュニティチャートリポジトリ
 
-IBM Community chartリポジトリーは、HelmリポジトリーとHelmチャートのソースコードのリポジトリーの両方であり、IBM Cloud Privateで使用するためのコミュニティ開発のHelmチャートをホストすることを目的としています。 GitHubの次の場所にあります。
+IBM Community chartリポジトリーは、HelmリポジトリーとHelmチャートのソースコードのリポジトリーの両方であり、IBM Cloud Privateで使用するためのコミュニティ開発のHelmチャートをホストすることを目的としています。GitHubの次の場所にあります。
 
- - チャートの出典：[https://github.com/IBM/charts/tree/master/community/](https://github.com/IBM/charts/tree/master/community/）
- - ヘルムリポジトリ：[https://github.com/IBM/charts/tree/master/repo/community](https://github.com/IBM/charts/tree/master/repo/community）
+ - チャートのソース：[https://github.com/IBM/charts/tree/master/community/](https://github.com/IBM/charts/tree/master/community/）
+ - Helmリポジトリ：[https://github.com/IBM/charts/tree/master/repo/community](https://github.com/IBM/charts/tree/master/repo/community）
 
-IBM Cloud Privateのカタログビューには、HelmリポジトリのリストをポーリングすることでデプロイできるHelmチャートのセットが表示されます。デフォルトでは、これらのリポジトリには、IBM Cloud Privateクラスタ自体の内部でローカルにホストされているHelmリポジトリ、およびIBMが開発したチャート用のIBMのチャートリポジトリが含まれています。[https://raw.githubusercontent.com/IBM/charts] /master/repo/stable/](https://raw.githubusercontent.com/IBM/charts/master/repo/stable/）
+IBM Cloud Privateのカタログ・ビューには、HelmリポジトリのリストをポーリングすることでデプロイできるHelmチャートのセットが表示されます。デフォルトでは、これらのリポジトリには、IBM Cloud Privateクラスタ自体の内部でローカルにホストされているHelmリポジトリ、およびIBMが開発したチャート用のIBMのチャートリポジトリが含まれています。[https://raw.githubusercontent.com/IBM/charts] /master/repo/stable/](https://raw.githubusercontent.com/IBM/charts/master/repo/stable/）
 
 IBM Cloud Private 2.1.0.3の時点では、IBM Community chartリポジトリーはデフォルトでカタログに表示されませんが、将来デフォルトのリポジトリーのリストに追加される可能性があります。ユーザーは**管理＆gt;に移動して、自分のカタログビューにリポジトリを追加できます。 IBM Cloud Privateユーザー・インターフェースのHelmリポジトリー**、および追加[https://raw.githubusercontent.com/IBM/charts/master/repo/community/](https://raw.githubusercontent.com/IBM/charts / master / repo / community /）をリストに追加します。
 
