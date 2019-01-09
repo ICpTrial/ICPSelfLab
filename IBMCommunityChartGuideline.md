@@ -10,9 +10,9 @@ IBM Cloud Privateのカタログ・ビューには、複数のHelmリポジト�
 
 IBM Cloud Private 2.1.0.3の時点では、IBM Community chartリポジトリーはデフォルトでカタログに表示されませんが、将来デフォルトのリポジトリーのリストに追加される可能性があります。ユーザーは**管理** に移動して、自分のカタログビューにリポジトリを追加できます。 IBM Cloud Privateユーザー・インターフェースから、IBM Community の Helm chartリポジトリー[https://raw.githubusercontent.com/IBM/charts/master/repo/community/](https://raw.githubusercontent.com/IBM/charts/master/repo/community/)をリストに追加してください。
 
-＆nbsp;
+----
 
-＃IBM® Cloud Private用のHELMチャートの作成
+# IBM® Cloud Private用のHELMチャートの作成
 
 この文書は、IBM Cloud Private用のHelmチャートを作成し、それらをIBM Communityのチャート・リポジトリに登録することを目的としています。
 
@@ -21,9 +21,9 @@ IBM Cloud Privateは、お客様自身が管理できるインフラストラク
 この文書のガイドは、IBM Communityのチャート・リポジトリーへの登録の基準を満たすチャートを作成し、IBM Cloud Privateにデプロイするときにユーザーに付加価値を提供するためにIBM Cloud Privateプラットフォームと統合するチャートを作成するのに役立ちます。<br>
 これらのガイドラインに従って作成されたチャートは、他の標準Kubernetes環境との互換性を維持しますが、IBMが開発および提供したチャートをデプロイしたときに見られるエクスペリエンスと同様に、IBM Cloud Privateにおけるユーザー・エクスペリエンスを強化します。
 
-＆nbsp;
+----
 
-＃IBMコミュニティチャートリポジトリへの貢献
+# IBMコミュニティチャートリポジトリへの貢献
 
 IBM Communityチャートリポジトリへの貢献に関する規則は、GitHubリポジトリ自体でホストされている[CONTRIBUTING.md]（https://github.com/IBM/charts/blob/master/CONTRIBUTING.md）でカバーされています。
 
