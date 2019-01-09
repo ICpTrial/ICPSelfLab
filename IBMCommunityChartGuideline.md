@@ -2,22 +2,24 @@
 
 IBM Community chartリポジトリーは、HelmリポジトリーとHelmチャートのソースコードのリポジトリーの両方であり、IBM Cloud Privateで使用するためのコミュニティ開発のHelmチャートをホストすることを目的としています。GitHubの次の場所にあります。
 
- - チャートのソース：[https://github.com/IBM/charts/tree/master/community/](https://github.com/IBM/charts/tree/master/community/）
- - Helmリポジトリ：[https://github.com/IBM/charts/tree/master/repo/community](https://github.com/IBM/charts/tree/master/repo/community）
+ - チャートのソース：[https://github.com/IBM/charts/tree/master/community/](https://github.com/IBM/charts/tree/master/community/)
+ - Helmリポジトリ：[https://github.com/IBM/charts/tree/master/repo/community
+ ](https://github.com/IBM/charts/tree/master/repo/community)
 
-IBM Cloud Privateのカタログ・ビューには、HelmリポジトリのリストをポーリングすることでデプロイできるHelmチャートのセットが表示されます。デフォルトでは、これらのリポジトリには、IBM Cloud Privateクラスタ自体の内部でローカルにホストされているHelmリポジトリ、およびIBMが開発したチャート用のIBMのチャートリポジトリが含まれています。[https://raw.githubusercontent.com/IBM/charts] /master/repo/stable/](https://raw.githubusercontent.com/IBM/charts/master/repo/stable/）
+IBM Cloud Privateのカタログ・ビューには、複数のHelmリポジトリから構成されるHelmチャートのセットが表示されます。デフォルトでは、これらのリポジトリには、IBM Cloud Privateクラスタ自体の内部でローカルにホストされているHelmリポジトリ、およびIBMが開発したチャート用のIBMのチャートリポジトリが含まれています。[https://raw.githubusercontent.com/IBM/charts/master/repo/stable/](https://raw.githubusercontent.com/IBM/charts/master/repo/stable/)
 
-IBM Cloud Private 2.1.0.3の時点では、IBM Community chartリポジトリーはデフォルトでカタログに表示されませんが、将来デフォルトのリポジトリーのリストに追加される可能性があります。ユーザーは**管理＆gt;に移動して、自分のカタログビューにリポジトリを追加できます。 IBM Cloud Privateユーザー・インターフェースのHelmリポジトリー**、および追加[https://raw.githubusercontent.com/IBM/charts/master/repo/community/](https://raw.githubusercontent.com/IBM/charts / master / repo / community /）をリストに追加します。
+IBM Cloud Private 2.1.0.3の時点では、IBM Community chartリポジトリーはデフォルトでカタログに表示されませんが、将来デフォルトのリポジトリーのリストに追加される可能性があります。ユーザーは**管理** に移動して、自分のカタログビューにリポジトリを追加できます。 IBM Cloud Privateユーザー・インターフェースから、IBM Community の Helm chartリポジトリー[https://raw.githubusercontent.com/IBM/charts/master/repo/community/](https://raw.githubusercontent.com/IBM/charts/master/repo/community/)をリストに追加してください。
 
 ＆nbsp;
 
-＃IBM®Cloud Private用のヘルムチャートの作成
+＃IBM® Cloud Private用のHELMチャートの作成
 
-この文書は、IBM Cloud Private用のHelmチャートを作成し、それらをIBM Communityのチャートリポジトリに提供することを目的としています。
+この文書は、IBM Cloud Private用のHelmチャートを作成し、それらをIBM Communityのチャート・リポジトリに登録することを目的としています。
 
-IBM Cloud Privateは、独自のインフラストラクチャー上にコンテナー・ベースのワークロードをデプロイおよび管理するためのKubernetesベースの環境を提供します。 IBM Cloud Privateワークロードは[Helm]（https://helm.sh/）を使用してデプロイされ、すべてのIBM Cloud Privateクラスターは[Tiller]（https://docs.helm.sh/glossary/#tiller）を含みます。他のKubernetesベースの環境にデプロイできるほとんどのHelmチャートは、変更を加えずにIBM Cloud Privateクラスターにデプロイできます。
+IBM Cloud Privateは、お客様自身が管理できるインフラストラクチャー上に、Kubernetesベースの環境を提供し、コンテナー・ベースのワークロードをデプロイおよび管理します。 IBM Cloud Privateワークロードは[Helm]（https://helm.sh/）を使用してデプロイされ、すべてのIBM Cloud Privateクラスターは[Tiller]（https://docs.helm.sh/glossary/#tiller）を含みます。他のKubernetesベースの環境にデプロイできるほとんどのHelmチャートは、変更を加えずにIBM Cloud Privateクラスターにデプロイできます。
 
-この文書の手引きは、IBM Communityのチャート・リポジトリーへの貢献の基準を満たすチャートを作成し、IBM Cloud Privateにデプロイするときにユーザーに付加価値を提供するためにIBM Cloud Privateプラットフォームと統合するチャートを作成するのに役立ちます。 。これらのガイドラインに従って作成されたチャートは、他の標準Kubernetes環境との互換性を維持しますが、IBMが開発および提供したチャートをデプロイしたときに見られるエクスペリエンスと同様に、IBM Cloud Privateのユーザーエクスペリエンスを強化します。
+この文書のガイドは、IBM Communityのチャート・リポジトリーへの登録の基準を満たすチャートを作成し、IBM Cloud Privateにデプロイするときにユーザーに付加価値を提供するためにIBM Cloud Privateプラットフォームと統合するチャートを作成するのに役立ちます。<br>
+これらのガイドラインに従って作成されたチャートは、他の標準Kubernetes環境との互換性を維持しますが、IBMが開発および提供したチャートをデプロイしたときに見られるエクスペリエンスと同様に、IBM Cloud Privateにおけるユーザー・エクスペリエンスを強化します。
 
 ＆nbsp;
 
