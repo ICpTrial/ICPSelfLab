@@ -457,7 +457,7 @@ docker環境のDockerレジストリーから、ICPのdocker プライベート�
     root@icp11:/work/lab4# kubectl apply -f mylibapp-ingress.yaml
     ingress.extensions/mylibetyapp-ingress configured
     ```
-1. `kubectl describe ingresses ylibetyapp-ingress` コマンドを実行して、定義が更新されていることを確認します。    
+1. `kubectl describe ingresses mylibetyapp-ingress` コマンドを実行して、定義が更新されていることを確認します。    
     ```
     kubectl describe ingresses mylibetyapp-ingress
     Name:             mylibetyapp-ingress
