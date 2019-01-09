@@ -117,7 +117,8 @@ docker環境のDockerレジストリーから、ICPのdocker プライベート�
    [ICP KnowledgeCenter: イメージのプッシュおよびプル](https://www.ibm.com/support/knowledgecenter/ja/SSBS6K_3.1.0/manage_images/using_docker_cli.html)
 
     
-1. 実際にイメージをPUSHしていきます。アップロードするイメージの確認
+1. 実際にイメージをPUSHしていきます。<br>
+   1. アップロードするイメージの確認<br>
             `docker images` コマンドを入力し、Lab2. で作成した「mylibertyapp:1.0」のイメージがPCローカルのDockerレジストリーに存在することを確認します。
             ```
             $ docker images |  grep myliberty
