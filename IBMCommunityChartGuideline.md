@@ -1,4 +1,4 @@
-# IBMコミュニティチャートリポジトリ
+# IBM Community Chart リポジトリ
 
 IBM Community chartリポジトリーは、HelmリポジトリーとHelmチャートのソースコードのリポジトリーの両方であり、IBM Cloud Privateで使用するためのコミュニティ開発のHelmチャートをホストすることを目的としています。GitHubの次の場所にあります。
 
