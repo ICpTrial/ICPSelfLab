@@ -26,7 +26,6 @@
     ```
     # apt install python -y
     ```
-
 1. SCPで /work/lab4 に IBMの導入パッケージ（ibm-cloud-private-x86_64-X.X.X.tar.gz)をアップロードします。
    製品イメージは、ICPライセンスをお持ちであれば、Passport Advantageのサイトからダウンロードすることが可能です。
     ```
@@ -129,6 +128,23 @@
               metering: disabled      ##この行を追加
               monitoring: disabled    ##この行を追加
             ```
+1. /etc/hosts で ICPの`hosts`ファイルに記載したIPアドレスがすべて逆引きできるように記載します。<br>
+また 127.0.1.1のローカルホスト定義はコメントアウトします。
+
+    ```
+    127.0.0.1       localhost
+
+    # The following lines are desirable for IPv6 capable hosts
+    ::1     ip6-localhost   ip6-loopback
+    fe00::0 ip6-localnet
+    ff00::0 ip6-mcastprefix
+    ff02::1 ip6-allnodes
+    ff02::2 ip6-allrouters
+    ff02::3 ip6-allhosts
+    #127.0.1.1      icp01.lab.com   icp01     ## ここをコメントアウト
+    10.xxx.4.2      icp01.lab.com   icp01     ## ここを記載
+    ```
+
 1. SSHログインの構成
 
     1. SSH Key を生成し、clsuterディレクトリ配下に`ssh_key`の名前で配置します
