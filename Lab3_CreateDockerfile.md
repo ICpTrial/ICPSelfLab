@@ -1,19 +1,37 @@
-# Lab2. Dockerイメージのカスタマイズ
+# Lab3. Dockerイメージのカスタマイズ
 
-このLabでは、WebSphere LibertyのDockerイメージを元に、独自のアプリをデプロイしたDockerイメージを作成します。
+このLabでは、WebSphere Libertyの Dockerイメージを元に、独自のアプリをデプロイしたDockerイメージを作成します。
 
 ## 前提
 
-この Lab2では、Lab1で利用した環境を利用して、ハンズオンを実施します。
+この Lab3では、Lab2で利用したDocker環境を利用して、ハンズオンを実施します。
 
 所用時間は、およそ30分です。
 
-## ハンズオン環境の確認
+## ハンズオン環境の準備
 
-1. 以下の３つのファイルをダウンロードし、scp コマンドで ハンズオン環境の /work/lab2 にアップロードしてください。
+1. 以下の３つのファイルをダウンロードし、scp コマンドで ハンズオン環境の /work/lab3 にアップロードしてください。
     - Sum.war : Libertyのサンプル・アプリケーション
     - server.xml : サンプル・アプリケーション用のLibertyの構成ファイル
     - Dockerfile : サンプル・アプリケーションがデプロイされたDockerイメージをビルドするためのDockerfile
+    
+    1. 作業ディレクトリを作成します。
+    ```
+    # mkdir -p /work/lab3
+    ```
+    1. ハンズオン・マテリアル lab3material.tar は[こちら](https://github.com/ICpTrial/ICPSelfLab/blob/master/material/lab3material.tar)にありますので、ダウンロードしてください。
+    1. 作成した作業ディレクトリにアップロードします。
+    ```
+    (作業PCで実施）
+    $ scp lab2material.tar root@<machine_ip>:/work/lab3/
+    ```
+    1.
+    ```
+    # cd /work/lab3
+    # tar -xvf lab2material.tar
+    ```
+
+## ハンズオン環境の準備
 
 1. このハンズオンでは、IBMのJavaEEアプリケーション・サーバーである WebSphere Liberty を利用します。<br>
 フルスタックのJavaEEをサポートしながらも、各種APIや機能がフィーチャーとしてモジュール化されているため、必要な機能のみを有効化し、より少ないリソースで利用していくことが可能な軽量アプリケーション・サーバーです。<br>
