@@ -100,7 +100,7 @@ Docker導入パッケージは、ICPライセンスをお持ちであれば、IC
     ```
     [ICPがサポートするバージョンのDocker](https://www.ibm.com/support/knowledgecenter/ja/SSBS6K_3.1.0/supported_system_config/supported_docker.html)を確認してください。
 
-1. バージョンを指定して、Dockerパッケージを導入します
+1. ICPがサポートするDockerのバージョンを指定して、Dockerパッケージを導入します
     ```
     apt install  docker-ce=18.03.1~ce~3-0~ubuntu
     ``` 
