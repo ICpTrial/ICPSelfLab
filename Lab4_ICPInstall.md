@@ -179,6 +179,7 @@
 `docker run --net=host -t -e LICENSE=accept -v "$(pwd)":/installer/cluster ibmcom/icp-inception-amd64:3.1.1-ee install`<br>
 このIBM Cloud Privateの導入には ３０分ほどかかります。
 なお、`-vvv` オプションすることで、冗長なログ・メッセージを出力することもできます。インストーラーのログは `cluser/logs`配下に出力されています。<br>
+
     ```
     # cd /opt/icp3110/cluster
     # pwd
@@ -188,24 +189,90 @@
     24 plays in playbook/install.yaml
 
     PLAY [Checking Python interpreter] *********************************************
+    
     （中略）
     
-     
+    PLAY [Uploading images and charts of archive addons] ***************************
+
+    TASK [archive-addon : include_tasks] *******************************************
+
+    PLAY RECAP *********************************************************************
+    10.xxx.4.2                 : ok=223  changed=141  unreachable=0    failed=0
+    localhost                  : ok=245  changed=153  unreachable=0    failed=0
+
+
+    POST DEPLOY MESSAGE ************************************************************
+
+    The Dashboard URL: https://128.xxx.65.107:8443, default username/password is admin/xxxxx
     
     # 
     ```
+最後に、`The Dashboard URL: https://xxxx.xxx.xxx.xxx:8443, default username/password is admin/xxxxx`のメッセージが出力されていれば導入完了です。なお、Loobpackアドレスが原因で導入が設定する場合には、下の補足情報を確認してみてください。
 
-    **注意** 導入時に Loopback アドレスが原因で導入が失敗する場合、[https://ibm.biz/icp-dnsfail](https://ibm.biz/icp-dnsfail)の手順に従ってください。Ubuntu 18.0.4 LTSでは発生するようです。
+以上で Lab4 のハンズオンは終了です。Lab5 で実際にIBM CLoud Privateを触ってみます。
 
-      ```
-      fatal: [10.192.4.2]: FAILED! => changed=false
-      msg: A loopback IP is used in your DNS server configuration. For more details, see https://ibm.biz/icp-dnsfail
-      ```
-      1. config.yamlの以下の定義を見つけ `loopback_dns: true`を設定します。
-          ```
-          ## Allow loopback dns server in cluster nodes
-          # loopback_dns: false
-          loopback_dns: true
-          ```
 
+    **補足情報** 
+        導入時に Loopback アドレスが原因で導入が失敗する場合、[https://ibm.biz/icp-dnsfail](https://ibm.biz/icp-dnsfail)の手順に従ってください。Ubuntu 18.0.4 LTSでは発生するようです。以下の手順で対応ください。
+        ```
+        fatal: [10.192.4.2]: FAILED! => changed=false
+        msg: A loopback IP is used in your DNS server configuration. For more details, see https://ibm.biz/icp-dnsfail
+        ```
+   1. config.yamlの以下の定義を見つけ `loopback_dns: true`を設定します。
+        ```
+        ## Allow loopback dns server in cluster nodes
+        # loopback_dns: false
+        loopback_dns: true
+        ```
+   1. 再度、インストールを試す
+   1. kube-dnsの設定を変更します（ちょっと複雑でするので、初めての方は周りにヘルプをもらってください）
+        ```
+        # cloudctl login -a https://mycluster.icp:8443
+        # kubectl edit cm kube-dns --namespace=kube-system
+        ```
+        以下のような編集画面になるので、例に従って proxy 設定を編集してください。
+            ```
+            # Please edit the object below. Lines beginning with a '#' will be ignored,
+            # and an empty file will abort the edit. If an error occurs while saving this file will be
+            # reopened with the relevant failures.
+            #
+            apiVersion: v1
+            data:
+              Corefile: |
+                .:53 {
+                    errors
+                    health
+                    kubernetes cluster.local in-addr.arpa ip6.arpa {
+                        pods insecure
+                        upstream
+                        fallthrough in-addr.arpa ip6.arpa
+                    }
+                    prometheus :9153
+                    #proxy . /etc/resolv.conf     ##ここをコメントアウト
+                    proxy . 8.8.8.8               ##ここを追加
+                    cache 30
+                    reload
+                }
+            kind: ConfigMap
+            metadata:
+              creationTimestamp: 2019-01-10T14:57:38Z
+              labels:
+                addonmanager.kubernetes.io/mode: EnsureExists
+                app: kube-dns
+                chart: kube-dns-3.1.1
+                heritage: Tiller
+                release: kube-dns
+              name: kube-dns
+              namespace: kube-system
+              resourceVersion: "1452"
+              selfLink: /api/v1/namespaces/kube-system/configmaps/kube-dns
+              uid: 1223ac8b-14e8-11e9-83a8-06daf1eb4d31
+           ```
+   1. kube-dns podを削除して再起動します
+        ```
+        # kubectl get po -n kube-system |grep kube-dns
+        kube-dns-8kzc8                                       1/1       Running     0          7h
+        # kubectl delete po kube-dns-8kzc8 -n kube-system
+        pod "kube-dns-8kzc8" deleted
+        ```
 以上で Lab4 のハンズオンは終了です。Lab5 で実際にIBM CLoud Privateを触ってみます。
