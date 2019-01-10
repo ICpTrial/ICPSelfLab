@@ -178,7 +178,7 @@
 1. clusterディレクトリで IBM Cloud Private 導入コンテナをキックし、以下のコマンドでインストーラーを実行します。<br>
 `docker run --net=host -t -e LICENSE=accept -v "$(pwd)":/installer/cluster ibmcom/icp-inception-amd64:3.1.1-ee install`<br>
 このIBM Cloud Privateの導入には ３０分ほどかかります。
-なお、`-vvv` オプションすることで、冗長なログ・メッセージを出力することもできます。インストーラーのログは cluser/logs/配下に出力されています。<br>
+なお、`-vvv` オプションすることで、冗長なログ・メッセージを出力することもできます。インストーラーのログは `cluser/logs`配下に出力されています。<br>
     ```
     # cd /opt/icp3110/cluster
     # pwd
@@ -201,11 +201,11 @@
   fatal: [10.192.4.2]: FAILED! => changed=false
   msg: A loopback IP is used in your DNS server configuration. For more details, see https://ibm.biz/icp-dnsfail
   ```
-1. config.yamlの以下の定義を見つけ `loopback_dns: true`を設定します。
-    ```
-    ## Allow loopback dns server in cluster nodes
-    # loopback_dns: false
-    loopback_dns: true
-    ```
+  1. config.yamlの以下の定義を見つけ `loopback_dns: true`を設定します。
+      ```
+      ## Allow loopback dns server in cluster nodes
+      # loopback_dns: false
+      loopback_dns: true
+      ```
 
 以上で Lab4 のハンズオンは終了です。Lab5 で実際にIBM CLoud Privateを触ってみます。
