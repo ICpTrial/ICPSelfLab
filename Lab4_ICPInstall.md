@@ -117,7 +117,6 @@
             # proxy_lb_address: none
             proxy_lb_address: <public ip address>
             ```
-        
         1. リソースに余裕がない環境では、このハンズオンでは使用しませんので、management_service のエントリを探し、以下のように metering と monitoring を無効化してください。
             ```
             management_services:
@@ -144,7 +143,7 @@
     #127.0.1.1      icp01.lab.com   icp01     ## ここをコメントアウト
     10.xxx.4.2      icp01.lab.com   icp01     ## ここを記載
     ```
-
+    
 1. SSHログインの構成
 
     1. SSH Key を生成し、clsuterディレクトリ配下に`ssh_key`の名前で配置します
@@ -190,6 +189,17 @@
     # 
     ```
 
+**注意** 導入時に Loopback アドレスが原因で導入が失敗する場合、[https://ibm.biz/icp-dnsfail](https://ibm.biz/icp-dnsfail)の手順に従ってください。
+    ```
+    fatal: [10.192.4.2]: FAILED! => changed=false
+    msg: A loopback IP is used in your DNS server configuration. For more details, see https://ibm.biz/icp-dnsfail
+    ```
+    1. config.yamlの以下の定義を見つけ `loopback_dns: true`を設定します。
+        ```
+        ## Allow loopback dns server in cluster nodes
+        # loopback_dns: false
+        loopback_dns: true
+        ```
 
 以上で Lab4 のハンズオンは終了です。Lab5 で実際にIBM CLoud Privateを触ってみます。
 
