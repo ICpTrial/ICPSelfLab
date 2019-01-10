@@ -233,43 +233,43 @@
         # kubectl edit cm kube-dns --namespace=kube-system
         ```
         以下のような編集画面になるので、例に従って proxy 設定を編集してください。
-            ```
-            # Please edit the object below. Lines beginning with a '#' will be ignored,
-            # and an empty file will abort the edit. If an error occurs while saving this file will be
-            # reopened with the relevant failures.
-            #
-            apiVersion: v1
-            data:
-              Corefile: |
-                .:53 {
-                    errors
-                    health
-                    kubernetes cluster.local in-addr.arpa ip6.arpa {
-                        pods insecure
-                        upstream
-                        fallthrough in-addr.arpa ip6.arpa
-                    }
-                    prometheus :9153
-                    #proxy . /etc/resolv.conf     ##ここをコメントアウト
-                    proxy . 8.8.8.8               ##ここを追加
-                    cache 30
-                    reload
+        ```
+        # Please edit the object below. Lines beginning with a '#' will be ignored,
+        # and an empty file will abort the edit. If an error occurs while saving this file will be
+        # reopened with the relevant failures.
+        #
+        apiVersion: v1
+        data:
+          Corefile: |
+            .:53 {
+                errors
+                health
+                kubernetes cluster.local in-addr.arpa ip6.arpa {
+                    pods insecure
+                    upstream
+                    fallthrough in-addr.arpa ip6.arpa
                 }
-            kind: ConfigMap
-            metadata:
-              creationTimestamp: 2019-01-10T14:57:38Z
-              labels:
-                addonmanager.kubernetes.io/mode: EnsureExists
-                app: kube-dns
-                chart: kube-dns-3.1.1
-                heritage: Tiller
-                release: kube-dns
-              name: kube-dns
-              namespace: kube-system
-              resourceVersion: "1452"
-              selfLink: /api/v1/namespaces/kube-system/configmaps/kube-dns
-              uid: 1223ac8b-14e8-11e9-83a8-06daf1eb4d31
-           ```
+                prometheus :9153
+                #proxy . /etc/resolv.conf     ##ここをコメントアウト
+                proxy . 8.8.8.8               ##ここを追加
+                cache 30
+                reload
+            }
+        kind: ConfigMap
+        metadata:
+          creationTimestamp: 2019-01-10T14:57:38Z
+          labels:
+            addonmanager.kubernetes.io/mode: EnsureExists
+            app: kube-dns
+            chart: kube-dns-3.1.1
+            heritage: Tiller
+            release: kube-dns
+          name: kube-dns
+          namespace: kube-system
+          resourceVersion: "1452"
+          selfLink: /api/v1/namespaces/kube-system/configmaps/kube-dns
+          uid: 1223ac8b-14e8-11e9-83a8-06daf1eb4d31
+       ```
    1. kube-dns podを削除して再起動します
         ```
         # kubectl get po -n kube-system |grep kube-dns
