@@ -166,7 +166,8 @@
 
         Now try logging into the machine, with:   "ssh 'root@10.xxx.4.2'"
         and check to make sure that only the key(s) you wanted were added.
-
+        ```
+        ```
         # ssh 10.xxx.4.2
         ・・・
         Last login: Thu Jan 10 13:50:58 2019 from 10.192.4.2
