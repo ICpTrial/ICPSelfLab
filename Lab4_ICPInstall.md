@@ -16,7 +16,9 @@
 
 
 ## 1. IBM Cloud Private Cloud Native エディションの導入（製品版） 
-  ※ Community版 で検証される方は、**2. IBM Cloud Private Community エディションの導入**へ。
+
+[Knowledge Center: ICPのインストール](https://www.ibm.com/support/knowledgecenter/ja/SSBS6K_3.1.0/installing/install_containers.html)に従ってICPを導入します。
+手順は簡略化していますので、導入でつまづいた場合にはこちらのリンクを確認してください。
   
 1. 作業ディレクトリを作成します。
     ```
