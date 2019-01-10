@@ -103,59 +103,58 @@
         1. 管理コンソール用 IPアドレスの設定
         通常は Privateネットワーク側のIPアドレスを指定しますが、ハンズオンでは便宜上 外部ネットワークからアクセスできるIPアドレスを指定します
         以下のエントリを探し、cluster_lb_address にIPアドレスを指定してください。
-        ```
-        ## External loadbalancer IP or domain
-        ## Or floating IP in OpenStack environment
-        # cluster_lb_address: none
-        cluster_lb_address: <public ip address>
-        ```
+            ```
+            ## External loadbalancer IP or domain
+            ## Or floating IP in OpenStack environment
+            # cluster_lb_address: none
+            cluster_lb_address: <public ip address>
+            ```
         1. Ingressプロキシー用 IPアドレスの設定
         こちらは外部ユーザーがアクセスされるIPアドレスので、外部ネットワークからアクセスできるIPアドレスを指定します
         以下のエントリを探し、cluster_lb_address にIPアドレスを指定してください。
-        ```
-        ## External loadbalancer IP or domain
-        ## Or floating IP in OpenStack environment
-        # proxy_lb_address: none
-        proxy_lb_address: <public ip address>
-        ```
+            ```
+            ## External loadbalancer IP or domain
+            ## Or floating IP in OpenStack environment
+            # proxy_lb_address: none
+            proxy_lb_address: <public ip address>
+            ```
         
         1. リソースに余裕がない環境では、このハンズオンでは使用しませんので、management_service のエントリを探し、以下のように metering と monitoring を無効化してください。
-        ```
-        management_services:
-          istio: disabled
-          vulnerability-advisor: disabled
-          storage-glusterfs: disabled
-          storage-minio: disabled
-          metering: disabled      ##この行を追加
-          monitoring: disabled    ##この行を追加
-        ```
+            ```
+            management_services:
+              istio: disabled
+              vulnerability-advisor: disabled
+              storage-glusterfs: disabled
+              storage-minio: disabled
+              metering: disabled      ##この行を追加
+              monitoring: disabled    ##この行を追加
+            ```
 1. SSHログインの構成
 
     1. SSH Key を生成し、clsuterディレクトリ配下に`ssh_key`の名前で配置します
         ```
         # ssh-keygen -b 4096 -f ~/.ssh/id_rsa -N ""
         # cp ~/.ssh/id_rsa /opt/icp3110/cluster/ssh_key
-
+        ```
     1. この SSH Keyを使って、ICPの`hosts`ファイルに指定した IPアドレスに パスワードなしでログインできるよう構成します
       　SSHでパスワードなしログインできるようになればOKです。
         ```
-            # ssh-copy-id -i ~/.ssh/id_rsa.pub root@<node_ip_address>
-            /usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/root/.ssh/id_rsa.pub"
-            /usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
-            /usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
-            root@10.xxx.4.2's password:
-            
-            Number of key(s) added: 1
+        # ssh-copy-id -i ~/.ssh/id_rsa.pub root@<node_ip_address>
+        /usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/root/.ssh/id_rsa.pub"
+        /usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+        /usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+        root@10.xxx.4.2's password:
 
-            Now try logging into the machine, with:   "ssh 'root@10.xxx.4.2'"
-            and check to make sure that only the key(s) you wanted were added.
-            
-            # ssh 10.xxx.4.2
-            ・・・
-            Last login: Thu Jan 10 13:50:58 2019 from 10.192.4.2
-            root@icp01:~#
-            root@icp01:~# exit
-            
+        Number of key(s) added: 1
+
+        Now try logging into the machine, with:   "ssh 'root@10.xxx.4.2'"
+        and check to make sure that only the key(s) you wanted were added.
+
+        # ssh 10.xxx.4.2
+        ・・・
+        Last login: Thu Jan 10 13:50:58 2019 from 10.192.4.2
+        root@icp01:~#
+        root@icp01:~# exit       
         ```
     
 1. clusterディレクトリで IBM Cloud Private 導入コンテナをキックし、インストーラーを実行します。`-vvv` オプションすることで、冗長なログ・メッセージを出力することができます。このIBM Cloud Privateの導入には ３０分ほどかかります。
