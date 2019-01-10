@@ -3,8 +3,7 @@
 |章|内容|時間|ハンズオン内容|
 |--|---|---|---------------------------|
 |1|Docker入門 講義|10:00-10:30| |
-|2|Dockerハンズオン|10:30-11:00|[Lab1: Dockerの導入](https://github.com/ICpTrial/ICPSelfLab/blob/master/Lab1_DockerInstall.md)
-<br>[Lab2: Docker基礎 Apache Http Serverを利用して](https://github.com/ICpTrial/ICPSelfLab/blob/master/Lab2_DockerBasic.md)<br>[Lab3: Dockerfile による Libertyイメージのビルド](https://github.com/ICpTrial/ICPSelfLab/blob/master/Lab3_CreateDockerfile.md)|
+|2|Dockerハンズオン|10:30-11:00|[Lab1: Dockerの導入](https://github.com/ICpTrial/ICPSelfLab/blob/master/Lab1_DockerInstall.md)<br>[Lab2: Docker基礎 Apache Http Serverを利用して](https://github.com/ICpTrial/ICPSelfLab/blob/master/Lab2_DockerBasic.md)<br>[Lab3: Dockerfile による Libertyイメージのビルド](https://github.com/ICpTrial/ICPSelfLab/blob/master/Lab3_CreateDockerfile.md)|
 |3|ICP導入ハンズオン|11:00-11:30|[Lab4: IBM Cloud Privateの導入](https://github.com/ICpTrial/ICPSelfLab/blob/master/Lab4_ICPInstall.md)|
 |3|Kubernetes入門 講義1|11:30-12:00| |
 |4|Kubernetes入門 講義2|13:00-14:00| |
