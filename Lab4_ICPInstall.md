@@ -213,12 +213,13 @@
 
 -----
 
-    **補足情報** 
-    導入時に Loopback アドレスが原因で導入が失敗する場合、[https://ibm.biz/icp-dnsfail](https://ibm.biz/icp-dnsfail)の手順に従ってください。Ubuntu 18.0.4 LTSでは発生するようです。以下の手順で対応ください。
-    ```
-    fatal: [10.192.4.2]: FAILED! => changed=false
-    msg: A loopback IP is used in your DNS server configuration. For more details, see https://ibm.biz/icp-dnsfail
-    ```
+  **補足情報** 
+  導入時に Loopback アドレスが原因で導入が失敗する場合、[https://ibm.biz/icp-dnsfail](https://ibm.biz/icp-dnsfail)の手順に従ってください。Ubuntu 18.0.4 LTSでは発生するようです。以下の手順で対応ください。
+  ```
+  fatal: [10.192.4.2]: FAILED! => changed=false
+  msg: A loopback IP is used in your DNS server configuration. For more details, see https://ibm.biz/icp-dnsfail
+  ```
+    
    1. config.yamlの以下の定義を見つけ `loopback_dns: true`を設定します。
         ```
         ## Allow loopback dns server in cluster nodes
