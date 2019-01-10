@@ -196,10 +196,10 @@
   msg: A loopback IP is used in your DNS server configuration. For more details, see https://ibm.biz/icp-dnsfail
   ```
 1. config.yamlの以下の定義を見つけ `loopback_dns: true`を設定します。
-  ```
-  ## Allow loopback dns server in cluster nodes
-  # loopback_dns: false
-  loopback_dns: true
-  ```
+    ```
+    ## Allow loopback dns server in cluster nodes
+    # loopback_dns: false
+    loopback_dns: true
+    ```
 
 以上で Lab4 のハンズオンは終了です。Lab5 で実際にIBM CLoud Privateを触ってみます。
