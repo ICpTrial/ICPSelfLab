@@ -23,17 +23,17 @@
     1. 作成した作業ディレクトリにアップロードします。
     ```
     (作業PCで実施）
-    $ scp lab2material.tar root@<machine_ip>:/work/lab3/
+    $ scp lab3material.tar root@<machine_ip>:/work/lab3/
     ```
     1.
     ```
     # cd /work/lab3
-    # tar -xvf lab2material.tar
+    # tar -xvf lab3material.tar
     ```
 
 ## ハンズオン環境の準備
 
-1. このハンズオンでは、IBMのJavaEEアプリケーション・サーバーである WebSphere Liberty を利用します。<br>
+1. このハンズオンでは、IBMのJavaEEアプリケーション・サーバーである **WebSphere Liberty** を利用します。<br>
 フルスタックのJavaEEをサポートしながらも、各種APIや機能がフィーチャーとしてモジュール化されているため、必要な機能のみを有効化し、より少ないリソースで利用していくことが可能な軽量アプリケーション・サーバーです。<br>
 LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサポートするもの）やkernel（Libertyカーネルのみ）など、複数のタグ付けされたイメージが公開されています。また、これらのDockerイメージをビルドするのに利用されている Dockerfileもあわせて公開されています<br>
 以下のサイトを開き、製品として提供されている Dockerfileが どのように構成されているか確認してみます。<br>
@@ -49,7 +49,6 @@ LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサ
    このように階層化された環境を利用することにより、各レイヤーでの変更を、イメージをビルドするタイミングで取り込めるよう構成されています。
    貴社の製品のコンテナを構成する際の参考としてください。
  
-
 ## Liberty WebProfile イメージの取得
 それでは、実際に docker イメージに ユーザーのアプリケーションを構成して、コンテナをビルドしていきます。 
 
@@ -377,5 +376,6 @@ LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサ
     root@docker11:/work/lab2#
     ```
     
-以上で、Lab2は終了です。引き続き、Lab3で、IBM提供のLiberty Helmチャートをデプロイし、IBM Cloud Privateのコンソール操作を体験し、Kubernetesのオブジェクトを確認します。
+以上で、Lab3は終了です。<br>
+引き続き、Lab4で、このDocker環境上に IBM Cloud Private を導入していきます。
 
