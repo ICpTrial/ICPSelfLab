@@ -129,6 +129,8 @@
           metering: disabled      ##この行を追加
           monitoring: disabled    ##この行を追加
         ```
+1. SSHログインの構成
+
     1. SSH Key を生成し、clsuterディレクトリ配下に`ssh_key`の名前で配置します
         ```
         # ssh-keygen -b 4096 -f ~/.ssh/id_rsa -N ""
