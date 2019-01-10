@@ -1,13 +1,12 @@
-# Lab1. Dockerの基本操作
+# Lab2. Dockerの基本操作
 
-このLabでは、Ubuntu 上のDocker で、Apache httpdのイメージを使用して、Dockerの基礎を学習します。
+このLabでは、Lab1 で作成した Ubuntu上のDocker環境で、Apache httpdのイメージを使用して、Dockerの基礎を学習します。
 
 ## 前提
 
 このLabでは、下記の準備を前提としています。
-- IBM Cloud上に Ubuntu環境が導入されその上に、docker-ceが導入されています。
-- Docker環境のUbuntuに SSHでログインして ハンズオンを実施します。ログイン情報は講師に確認してください。
-- ICP環境のUbuntu は別途ありますが、複雑に iptables が設定されているため、別のマシンを利用してdockerのハンズオンは実施します。
+- Ubuntu（またはその他Linux）環境が導入されその上に、docker-ceが導入されています。
+- Ubuntuに SSHでログインして ハンズオンを実施します。
 
 所用時間は、およそ20分です。
 
@@ -15,8 +14,7 @@
 
 1. ハンズオン環境へのログイン
 
-    1. 手元のPCがのSSHクライアントを立ち上げ、指定された認証情報でログインしてください。
-    
+    1. ログインしていなければ、手元のPCのSSHクライアントを立ち上げ、ログインしてください。
     ```
     ssh root@dockermachine_ip
     ```
@@ -286,9 +284,9 @@
     root@icp11master:~# docker images | grep httpd
     ```
 
-以上で、Lab1は終了です。
+以上で、Lab2 は終了です。
 
 その他、docker コマンドでできることを確認するには、以下のリンクを参考にしてください。<br>
 [dockerドキュメント日本語化プロジェクト](http://docs.docker.jp/engine/reference/commandline/index.html)
 
-引き続き、Lab2では Dockerfile を利用して、オリジナルの コンテナー・イメージをビルドしていきます。
+引き続き、Lab3では Dockerfile を利用して、オリジナルのコンテナー・イメージをビルドしていきます。
