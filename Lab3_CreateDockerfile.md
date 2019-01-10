@@ -23,7 +23,7 @@
     1. 作成した作業ディレクトリにアップロードします。
     ```
     (作業PCで実施）
-    $ scp lab3material.tar root@<machine_ip>:/work/lab3/
+    $ scp lab3material.tar root@<machine_ip>:/work/lab3
     ```
     1.
     ```
