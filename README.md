@@ -1,12 +1,12 @@
 # ICP入門 セルフ・ハンズオン 
 
-このセルフ・ハンズオンは、ICP Cloud Private Cloud Nativeエディションまたは IBM Cloud Private Community エディションを利用して、
+このセルフ・ハンズオンは、ICP Cloud Private Cloud Native エディション または IBM Cloud Private Community エディションを利用して、
 利用者の方が自習できるよう想定しています。
 ハンズオン環境としては、ICPがサポートするバージョンの Linux環境を各自用意して自習を進めてください。<br>
 Ubuntu環境で検証をしていますが、その他のサポート環境であっても動くはずです。コマンドの差異などは適宜読み替えて自習を進めてください。
 また、多少の問題があっても、自力で問題を解決できる技術者を想定しています。
 
-想定環境： ICPサポート環境上の Ubuntu v18.0.4 LTS (8vCPU, 16GB Memory, 100GB)
+ハンズオン検証環境： Ubuntu v16.0.4 LTS (8vCPU, 16GB Memory, 100GB)
 
 |章|内容|時間|ハンズオン内容|
 |--|---|---|---------------------------|
