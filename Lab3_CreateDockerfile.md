@@ -55,7 +55,7 @@ LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサ
 1. `docker pull websphere-liberty:webProfile8` コマンドを入力し、WebSphere LibertyのwebProfile8のイメージをダウンロードします。<br>
     
     ```
-    $ docker pull websphere-liberty:webProfile8
+    # docker pull websphere-liberty:webProfile8
     webProfile8: Pulling from library/websphere-liberty
     7b8b6451c85f: Pull complete
     ab4d1096d9ba: Pull complete
@@ -77,10 +77,9 @@ LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサ
     ```
 1. `docker images` コマンドを入力し、ダウンロードしたLibertyのDockerイメージを確認します。
     ```
-    $ docker images | grep liberty
+    # docker images | grep liberty
     REPOSITORY                                   TAG                 IMAGE ID            CREATED             SIZE
     websphere-liberty                            webProfile8         1fd43b4175ca        38 hours ago        500MB
-    $
     ```
 
 ## Libertyイメージの稼働確認と内容の確認
@@ -88,9 +87,8 @@ LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサ
     `--name wlp` オプションで、コンテナーにwlpの名前をつけて起動しています。
     dockerコマンドで、コンテナーを指定する場合に、コンテナーIDの代わりに名前で操作することができます。
     ```
-    $ docker run -d -p19080:9080 --name wlp websphere-liberty:webProfile8
+    # docker run -d -p19080:9080 --name wlp websphere-liberty:webProfile8
     c82c221a570f5808b657b8831626f0ad6eba722ab227ed7efd74ec8efde34a58
-    $
     ```
     
     1.デフォルトイメージの稼働確認
@@ -115,7 +113,7 @@ LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサ
         
     1. `docker exec -it wlp /bin/bash` のコマンドを入力し、Libertyコンテナーにログインし、設定を確認します。
     ```
-    $ docker exec -it wlp /bin/bash
+    # docker exec -it wlp /bin/bash
     default@c82c221a570f:/$ 
     ```
     
@@ -260,12 +258,11 @@ LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサ
     ```
 1. Dockerfileを、テキスト・エディター、または、`cat Dockerfile`で内容を表示します。
     ```
-    $ cat Dockerfile
+    # cat Dockerfile
     FROM websphere-liberty:webProfile8
     COPY Sum.war /config/dropins/
     COPY server.xml /config/
     RUN installUtility install --acceptLicense defaultServer
-    $
     ```
 1. `docker build` コマンドを実行することで、Dockerfileの内容に基づいて、Dockerイメージが生成されます。<br>
     - 1行目のFROMコマンドで、新しいDockerイメージの元になるDockerイメージを指定しています。この例では、先ほど、稼働確認、内容を確認した、websphere-liberty:webProfile8 のイメージをベースにしています。
@@ -280,7 +277,7 @@ LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサ
     `docker build` コマンドの最後の引数に DockerfileのパスまたはURLを指定します。今回は、ローカルのカレント・ディレクトリーが このコンテナをビルドする際のコンテキストとなるため、`.` を指定しています。`.`を忘れないでください。<br>
     
     ```
-    $ docker build -f Dockerfile -t mylibertyapp:1.0 .
+    # docker build -f Dockerfile -t mylibertyapp:1.0 .
     Sending build context to Docker daemon  20.99kB
     Step 1/4 : FROM websphere-liberty:webProfile8
     　---> 1fd43b4175ca
@@ -325,29 +322,29 @@ LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサ
     　---> 4027ff6ba2c0
     Successfully built 4027ff6ba2c0
     Successfully tagged mylibertyapp:1.0
-    $
+    #
     ```
     
 1. `docker images` コマンドを入力し、名前mylibertyappのイメージが追加されていることを確認します。
     ```
-    $ docker images | grep liberty
+    # docker images | grep liberty
     REPOSITORY                                   TAG                 IMAGE ID            CREATED             SIZE
     mylibertyapp                                 1.0                 4027ff6ba2c0        3 minutes ago       508MB
     websphere-liberty                            webProfile8         1fd43b4175ca        41 hours ago        500MB
-    $
+    #
     ```
     
 ## 作成したイメージの稼働確認
 1. `docker run -d -p 19080:9080 --name=mywlp mylibertyapp:1.0` コマンドを入力し、Dockerコンテナーを起動します。
     ```
-    $ docker run -d -p 19080:9080 --name=mywlp mylibertyapp:1.0
+    # docker run -d -p 19080:9080 --name=mywlp mylibertyapp:1.0
     a04c4b5fe647482cf6471282bd73ff68e4e9ba7e54ea29f7e55a75f7ef217565
-    $ 
+    # 
     ```
     
 1. `docker logs -f mywlp` コマンドを入力し、コンテナーの標準出力をtailします。"[AUDIT   ] CWWKF0011I: The server defaultServer is ready to run a smarter planet."が表示されると、Libertyの起動が完了です。
     ```
-    $ docker logs -f mywlp
+    # docker logs -f mywlp
     Launching defaultServer (WebSphere Application Server 18.0.0.3/wlp-1.0.22.cl180320180905-2337) on IBM J9 VM, version 8.0.5.22 - pxa6480sr5fp22-20180919_01(SR5 FP22) (en_US)
     [AUDIT   ] CWWKE0001I: The server defaultServer has been launched.
     [AUDIT   ] CWWKE0100I: This product is licensed for development, and limited production use. The full license terms can be viewed here: https://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/license/base_ilan/ilan/18.0.0.3/lafiles/en.html
@@ -369,11 +366,11 @@ LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサ
 
 1. 利用したコンテナを停止します。
    ```
-   root@docker11:/work/lab2# docker stop mywlp
+   # docker stop mywlp
     mywlp
-    root@docker11:/work/lab2# docker ps
+   # docker ps
     CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
-    root@docker11:/work/lab2#
+   #
     ```
     
 以上で、Lab3は終了です。<br>
