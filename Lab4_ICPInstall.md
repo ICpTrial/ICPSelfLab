@@ -8,7 +8,7 @@
 このLabでは、下記の準備を前提としています。
 - Lab1 が終わっていること
 - ハンズオンは便宜上、すべてrootユーザーで実施します。
-- IBM Cloud Private コミュニティ版を利用されている方は、[こちらの手順](https://github.com/ICpTrial/ICPSelfLab/edit/master/Lab4_ICP-CEInstall.md)で導入してください。
+- IBM Cloud Private コミュニティ版を利用されている方は、[こちらの手順](https://github.com/ICpTrial/ICPSelfLab/master/Lab4_ICP-CEInstall.md)で導入してください。
 
 
 所用時間は、およそ60分（作業時間20分、待機時間40分）です。
