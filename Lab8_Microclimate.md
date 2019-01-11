@@ -1,4 +1,4 @@
-# Lab5. ICP上での Mircroclimate の実行
+# Lab8. ICP上での Mircroclimate の実行
 
 このLabでは、ICP上で Microclimate を実行して、新規Java マイクロサービス・アプリケーションを開発していく手順を確認します。
 
@@ -9,6 +9,9 @@
 - インターネットに接続できる環境
 
 所用時間は、およそ30分です。
+
+## Microclimateの導入
+
 
 ## Microclimate 環境の確認
 
@@ -94,3 +97,4 @@
 ![pipeline09](https://github.com/ICpTrial/ICPLab/blob/master/mcimage/pipeline09.png)
 
 
+以上で、Lab8は終了です。
