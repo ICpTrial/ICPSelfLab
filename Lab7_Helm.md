@@ -1,6 +1,6 @@
 # Lab7. 独自のDockerイメージをHELMにパッケージング
 
-このLabでは、Lab4.で利用した様々なKubernetesオブジェクトを参考に、HELMにパッケージングしていきます。
+このLabでは、Lab6.で利用した様々なKubernetesオブジェクトを参考に、HELMにパッケージングしていきます。
 
 
 ## 前提
@@ -384,5 +384,9 @@
 1. これまでと同様の方法で Ingress でアクセスしてください。
 
 以上で、Lab7は終了です。<br>
+
 HELMの詳細な書き方については、[HELMドキュメント](https://docs.helm.sh/chart_template_guide/)を参照してください。<br>
 IBM による HELMのガイドについては [IBM COMMUNITY CHART GUIDANCE](https://github.com/IBM/charts/blob/master/GUIDELINES.md)をご参照ください。
+
+今回のハンズオンでは、Deployment, Service(NodePort), Ingressの定義しかありませんでしたが、その他 PersitenceVolumeの定義の仕方や複数コンテナがいる場合のValues.yamlの記載方法など、多様なパターンを確認するには、[IBMのHELMチャートのリスト](https://github.com/IBM/charts/tree/master/stable) を参考にしてください。<br>
+たとえば、[MongoDBのチャート](https://github.com/IBM/charts/tree/master/stable/ibm-mongodb-dev/)や、[Jenkinsのチャート](https://github.com/IBM/charts/tree/master/stable/ibm-jenkins-dev)は、複数コンテナやPVC,RBACの定義などを利用しています。
