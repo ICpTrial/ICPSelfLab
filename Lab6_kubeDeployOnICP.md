@@ -1,90 +1,52 @@
-# Lab4. 独自のDockerイメージをICPにデプロイ
+# Lab6. 独自のDockerイメージをICPにデプロイ
 
-このLabでは、Lab2.で作成した独自のWebSphere LibertyのDockerイメージを、ICPにデプロイします。Helmチャートを使用してデプロイするのではなく、Kubernetesのオブジェクトを一つずつ作成していきます。
+このLabでは、Lab3で作成した独自のWebSphere LibertyのDockerイメージを、ICPにデプロイします。Helmチャートを使用してデプロイするのではなく、Kubernetesのオブジェクトを一つずつ作成していきます。
 
 ## 前提
 
 この　Labでは、下記の準備を前提としています。
-- docker環境からICP環境へのネットワークの接続
+- Lab3が終了していること
 
 所用時間は、およそ40分です。
 
+## ICPのDockerプライベート・レジストリーに イメージをPUSHします。
 
-## docker環境からICPのdockerプライベート・レジストリーへのアクセス
+[ICP KnowledgeCenter: イメージのプッシュおよびプル](https://www.ibm.com/support/knowledgecenter/ja/SSBS6K_3.1.0/manage_images/using_docker_cli.html) に従い、
+IBM Cloud Private内のプライベートDockerレジストリに、コンテナ・イメージをPUSHしていきます。
 
-1. docker環境から ICPの dockerプライベート・レジストリーへの接続・認証設定
-    docker環境のDockerレジストリーから、ICPのdocker プライベート・レジストリーに、Dockerイメージを直接アップロード(docker push)するには、ICPのプライベート・レジストリーにdocker loginする必要があります。
+   1. アップロードするイメージの確認
+        `docker images` コマンドを入力し、Lab2. で作成した「mylibertyapp:1.0」のイメージがPCローカルのDockerレジストリーに存在することを確認します。
+        ```
+        # docker images |  grep myliberty
+        REPOSITORY                                   TAG                 IMAGE ID            CREATED             SIZE
+        mylibertyapp                                 1.0                 4027ff6ba2c0        15 hours ago        508MB
+        ```        
+   1. アップロードするイメージの名前の変更(追加)
+        `docker tag <source_image> <target_image>` コマンド(<source_image>に対して、<target_image>の別名を付与します)で、アップロードするイメージに"<Dockerレジストリーのホスト>/<名前空間>/<イメージ名>:<tag名>"の別名をつけます。これにより、名前空間ごとにアクセス制御をしてイメージを登録することができます。<br>
+        具体的には、'docker tag mylibertyapp:1.0 mycluster.icp:8500/handson/mylibertyapp:1.0' コマンドを入力します。
 
-    [ICP Knowledge Center: Docker CLI の認証の構成](https://www.ibm.com/support/knowledgecenter/ja/SSBS6K_3.1.0/manage_images/configuring_docker_cli.html)に従って、設定をしていきます。
+        ```
+        # docker tag mylibertyapp:1.0 mycluster.icp:8500/handson/mylibertyapp:1.0 
+        ```
+   1. `docker images` コマンドを入力し、別名が付与されたイメージを確認します。
+        ```
+        # docker images | grep myliberty
+        REPOSITORY                                   TAG                 IMAGE ID            CREATED             SIZE
+        mylibertyapp                                 1.0                 4027ff6ba2c0        15 hours ago        508MB
+        mycluster.icp:8500/handson/mylibertyapp      1.0                 4027ff6ba2c0        15 hours ago        508MB 
+        ```
+        同じIMAGE IDのエントリーが2行表示され、ここで追加した名前のエントリーがあることを確認します。
 
-    1. Lab2で利用した docker環境にSSH でログインします。
-    1. rootユーザーで /etc/hosts を開き、以下の一行を追加します。ここでは、<cluster_CA_domain>は `mycluster.icp` です
-        ```
-        <icp_master_ip>     <cluster_CA_domain>
-        ```
-    1. docker環境から、ICPのプライベート・レジストリーにdockerログインしてみます。
-        ```
-        docker login mycluster.icp:8500
-        Username: admin
-        Password:
-        Error response from daemon: Get https://mycluster.icp:8500/v2/: x509: certificate signed by unknown authority
-        ```
-        エラーが出てアクセスできませんので、これを解消していきます。
 
-    1. docker環境側に Docker レジストリー証明書を保管するディレクトリーを作成します
+   1. ICP環境の dockerプライベート・レジストリにログインします。
         ```
-        mkdir -p /etc/docker/certs.d/mycluster.icp:8500
-        ```
-    1. ICP環境のdockerレジストリの証明書を docker環境側に 取得してきます。
-        ```
-        scp root@<cluster_CA_domain>:/etc/docker/certs.d/<cluster_CA_domain>\:8500/ca.crt ~/.docker/certs.d/<cluster_CA_domain>\:8500/
-        ```
-
-        今回の環境では以下のようになります。
-        ```
-        scp root@mycluster.icp:/etc/docker/certs.d/mycluster.icp:8500/ca.crt /etc/docker/certs.d/mycluster.icp\:8500/
-        ```
-    1. 改めて ICP環境のプライベート・レジストリにログインしてみます。
-        ```
-        root@docker11:~# docker login mycluster.icp:8500
+        # docker login mycluster.icp:8500
         Username: admin
         Password:
         Login Succeeded
         ```
 
-## LibertyイメージをICPのプライベート・レジストリーに 直接Push(アップロード)
-
-(参照)
-[ICP KnowledgeCenter: イメージのプッシュおよびプル](https://www.ibm.com/support/knowledgecenter/ja/SSBS6K_3.1.0/manage_images/using_docker_cli.html)
-
-実際にイメージをPUSHしていきます。
-    1. アップロードするイメージの確認
-        `docker images` コマンドを入力し、Lab2. で作成した「mylibertyapp:1.0」のイメージがPCローカルのDockerレジストリーに存在することを確認します。
-        ```
-        $ docker images |  grep myliberty
-        REPOSITORY                                   TAG                 IMAGE ID            CREATED             SIZE
-        mylibertyapp                                 1.0                 4027ff6ba2c0        15 hours ago        508MB
-        $ 
-        ```        
-    1. アップロードするイメージの名前の変更(追加)
-        `docker tag <source_image> <target_image>` コマンド(<source_image>に対して、<target_image>の別名を付与します)で、アップロードするイメージに"<Dockerレジストリーのホスト>/<名前空間>/<イメージ名>:<tag名>"の別名をつけます。これにより、名前空間ごとにアクセス制御をしてイメージを登録することができます。<br>
-        具体的には、'docker tag mylibertyapp:1.0 mycluster.icp:8500/handson/mylibertyapp:1.0' コマンドを入力します。
-
-        ```
-        $ docker tag mylibertyapp:1.0 mycluster.icp:8500/handson/mylibertyapp:1.0
-        $ 
-        ```
-   1. `docker images` コマンドを入力し、別名が付与されたイメージを確認します。
-        ```
-        $ docker images | grep myliberty
-        REPOSITORY                                   TAG                 IMAGE ID            CREATED             SIZE
-        mylibertyapp                                 1.0                 4027ff6ba2c0        15 hours ago        508MB
-        mycluster.icp:8500/handson/mylibertyapp  1.0                 4027ff6ba2c0        15 hours ago        508MB
-        $ 
-        ```
-        同じIMAGE IDのエントリーが2行表示され、ここで追加した名前のエントリーがあることを確認します。
-
-    1. イメージをアップロードします。
+   1. イメージをアップロードします。
         `docker push <image_name>:<tag>`コマンドで、ICPのDockerプライベート・レジストリーにイメージをアップロードします。具体的には、`docker push mycluster.icp:8500/handson/mylibertyapp:1.0` コマンドを入力します。
         ```
         $ docker push mycluster.icp:8500/handson/mylibertyapp:1.0
@@ -107,13 +69,13 @@
         33db8ccd260b: Pushed 
         b8c891f0ffec: Pushed 
         1.0: digest: sha256:40c187d55d17fb07bbcc093aae5f159eecb43fb3aa3fbab8f6d19cc983b4918e size: 3878
-        $ 
         ```
-   本来はこれで、docker 環境側から直接 イメージをPUSHできるはずですが、authentication errorが出ます。。。<br>
-   すいません。切り分けきれませんでした。。<br>
-    
-## LibertyイメージをICPのプライベート・レジストリーに ファイル転送でのアップロード
-ここでは、改めて開発環境と本番環境など、直接ネットワークが接続できない環境でイメージを移動させる方法で、イメージをICP環境に登録します。
+   1. アップロードされたイメージをICPコンソールから確認します。ICPコンソールにログインし、ナビゲーション・メニューから、[イメージ]を選択します。名前が"handson/mylibertyapp"のエントリーがあることを確認します。
+![Image](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab4/Lab4_01_Image.png)
+
+
+## [参考] LibertyイメージをICPのプライベート・レジストリーに ファイル転送でのアップロード
+ここでは、開発環境と本番環境など、直接ネットワークが接続できない環境でイメージを移動させる方法を記載します。参考にしてください。
     
    1. docker save コマンドで dockerイメージを save し、tarに固めます。
         ```
@@ -170,9 +132,6 @@
         8241afc74c6f: Pushed
         1.0: digest: sha256:a57817c674552e53f6cd4c1e0670a2238a454abee0d028365934b0c43a9ca77e size: 4089
         ```
-        
-1. アップロードされたイメージをICPコンソールから確認します。ICPコンソールにログインし、ナビゲーション・メニューから、[イメージ]を選択します。名前が"handson/mylibertyapp"のエントリーがあることを確認します。
-![Image](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab4/Lab4_01_Image.png)
 
 ## ICP環境への CLIでのログイン
 
@@ -458,6 +417,6 @@ Events:
     今度は /handson/宛のリクエストが バックエンドの /Sum にマップされているので、`http://(ICPのIP)/handson/` でアクセスできます。
     さきほどまでの `http://(ICPのIP)/handson/Sum`ではファイルがないため、エラーとなることを確認してください。
     
-以上で、Lab4は終了です。
+以上で、Lab6は終了です。
 
 
