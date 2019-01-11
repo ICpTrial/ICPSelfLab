@@ -10,9 +10,9 @@
  　Ubunut環境のリソースは、あとでICP導入のため 8vCPU 16GB Memory 100GB Storageを想定します
   （ハンズオンを限られたリソースで実施できるよう製品の公式なSystem Requirementは満たしていません）<br>
   参考 [Knowledge Center: ICPのシステム要件](https://www.ibm.com/support/knowledgecenter/ja/SSBS6K_3.1.0/supported_system_config/system_reqs.html)
-  
  - UbuntuにSSHでログイン可能
  - Ubuntu環境からパブリックのインターネット経由で諸々のダウンロードが可能
+ - ハンズオンは便宜上すべてrootで行います
  
 所用時間は、およそ20分です。
 
