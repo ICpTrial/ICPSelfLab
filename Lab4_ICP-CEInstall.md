@@ -1,5 +1,5 @@
 
-# Lab4. IBM Cloud Private の導入
+# Lab4. IBM Cloud Private コミュニティ版 の導入
 
 このLabでは、IBM Cloud Private 環境を構築します。
 
@@ -8,6 +8,7 @@
 このLabでは、下記の準備を前提としています。
 - Lab1 が終わっていること
 - ハンズオンは便宜上、すべてrootユーザーで実施します。
+- IBM Cloud Private コミュニティ版のライセンスは、各自でご確認ください。[ライセンス](https://www.ibm.com/developerworks/community/wikis/home?lang=en#!/wiki/W1559b1be149d_43b0_881e_9783f38faaff/page/Licenses)
 
 所用時間は、およそ60分（作業時間20分、待機時間40分）です。
 
@@ -27,42 +28,25 @@
     ```
     # apt install python -y
     ```
-1. SCPで /work/lab4 に IBMの導入パッケージ（ibm-cloud-private-x86_64-X.X.X.tar.gz)をアップロードします。
-   製品イメージは、ICPライセンスをお持ちであれば、Passport Advantageのサイトからダウンロードすることが可能です。
-    ```
-    (作業PCから実行)
-    $ scp ./ibm-cloud-private-x86_64-3.1.1.tar.gz root@hostname:/work/lab4/
-    ```
-1. 作業ディレクトリに移動し、ファイルを展開して dockerイメージをロードします（コマンドが抜けるまでに１０分ほどかかります）。
-    ```
-    # cd /work/lab4
-    # ls
-    ibm-cloud-private-x86_64-3.1.1.tar.gz
-    # tar xf ibm-cloud-private-x86_64-3.1.1.tar.gz -O | sudo docker load
-    8823818c4748: Loading layer    119MB/119MB
-    19d043c86cbc: Loading layer  15.87kB/15.87kB
-    883eafdbe580: Loading layer  14.85kB/14.85kB
-    4775b2f378bb: Loading layer  5.632kB/5.63
-    （中略）
-    9100494ef1ef: Loading layer   7.68kB/7.68kB
-    835a6678f29d: Loading layer  306.7kB/306.7kB
-    182d4e3c01ad: Loading layer  262.2MB/262.2MB
-    Loaded image: ibmcom/icp-kibana-amd64:5.5.1
-    ``` 
 1. ICP導入ディレクトリを作成し、移動します
     ```
     # mkdir /opt/icp3110
     # cd /opt/icp3110
     ```
-1. ICP導入コンテナから、ICP構成テンプレートを抽出します。
+1. ICP導入コンテナを取得し、ICP構成テンプレートを抽出します。
+   以下の例では、ICP v3.1.1 を利用していますが、導入されたいバージョンに読み替えてください。
     ```
-    # docker run -v $(pwd):/data -e LICENSE=accept ibmcom/icp-inception-amd64:3.1.1-ee cp -r cluster /data
+    # docker run -e LICENSE=accept -v "$(pwd)":/data ibmcom/icp-inception:3.1.1 cp -r cluster /data
     # ls
     cluster
     # cd cluster/
     # ls
     config.yaml  hosts  misc  ssh_key
     ```
+1. ライセンスを確認します。
+  ```
+  # docker run -e LICENSE=view -e LANG=$LANG ibmcom/icp-inception:3.1.1
+  ```
 1. cluster ディレクトリの下に imagesディレクトリを作成し、元イメージを配置します。
     ```
     # pwd
@@ -179,7 +163,7 @@
         ```
     
 1. clusterディレクトリで IBM Cloud Private 導入コンテナをキックし、以下のコマンドでインストーラーを実行します。<br>
-`docker run --net=host -t -e LICENSE=accept -v "$(pwd)":/installer/cluster ibmcom/icp-inception-amd64:3.1.1-ee install`<br>
+`docker run --net=host -t -e LICENSE=accept -v "$(pwd)":/installer/cluster ibmcom/icp-inception-amd64:3.1.1 install`<br>
 このIBM Cloud Privateの導入には ３０分ほどかかります。
 なお、`-vvv` オプションすることで、冗長なログ・メッセージを出力することもできます。インストーラーのログは `cluser/logs`配下に出力されています。<br>
 
@@ -187,7 +171,7 @@
     # cd /opt/icp3110/cluster
     # pwd
     /opt/icp3110/cluster
-    # docker run --net=host -t -e LICENSE=accept -v "$(pwd)":/installer/cluster ibmcom/icp-inception-amd64:3.1.1-ee install
+    # docker run --net=host -t -e LICENSE=accept -v "$(pwd)":/installer/cluster ibmcom/icp-inception-amd64:3.1.1 install
     PLAYBOOK: install.yaml *********************************************************
     24 plays in playbook/install.yaml
 
