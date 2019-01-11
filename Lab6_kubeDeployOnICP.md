@@ -9,6 +9,26 @@
 
 所用時間は、およそ40分です。
 
+## ハンズオン環境の事前準備
+
+1. ハンズオン環境の作業ディレクトリを作成し、関連ファイルをアップロードしておきます。  
+    
+    1. 作業ディレクトリを作成します。
+    ```
+    # mkdir -p /work/lab6
+    ```
+    1. ハンズオン・マテリアル lab6material.tar は[こちら](https://github.com/ICpTrial/ICPSelfLab/blob/master/lab6material.tar)にありますので、ダウンロードしてください。
+    1. 作成した作業ディレクトリにアップロードします。
+    ```
+    (作業PCで実施）
+    $ scp lab6material.tar root@<machine_ip>:/work/lab6
+    ```
+    1.アップロードしたファイルを解凍します。
+    ```
+    # cd /work/lab6
+    # tar -xvf lab6material.tar
+    ```
+    
 ## ICPのDockerプライベート・レジストリーに イメージをPUSHします。
 
 [ICP KnowledgeCenter: イメージのプッシュおよびプル](https://www.ibm.com/support/knowledgecenter/ja/SSBS6K_3.1.0/manage_images/using_docker_cli.html) に従い、
@@ -207,7 +227,7 @@ IBM Cloud Private内のプライベートDockerレジストリに、コンテナ
 ## kubectlコマンドを使用したデプロイメントの作成
 
 
-1. このLabの作業ディレクトリー (/work/lab4) に移動します。このディレクトリーには、下記のファイルが事前に準備されています。
+1. このLabの作業ディレクトリー (/work/lab6) に移動します。このディレクトリーには、先の手順で以下のファイルを配置しました。
     - mylibapp-deployment.yaml : デプロイメント作成時の定義ファイル
     - mylibapp-nodeportservice.yaml : サービス(NodePort)作成時の定義ファイル
     - mylibapp-ingress.yaml : Ingress作成時の定義ファイル
