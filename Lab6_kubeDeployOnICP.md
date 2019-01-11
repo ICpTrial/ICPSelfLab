@@ -17,7 +17,7 @@
     ```
     # mkdir -p /work/lab6
     ```
-    1. ハンズオン・マテリアル lab6material.tar は[こちら](https://github.com/ICpTrial/ICPSelfLab/blob/master/lab6material.tar)にありますので、ダウンロードしてください。
+    1. ハンズオン・マテリアル lab6material.tar は[こちら](https://github.com/ICpTrial/ICPSelfLab/raw/master/lab6material.tar)にありますので、ダウンロードしてください。
     1. 作成した作業ディレクトリにアップロードします。
     ```
     (作業PCで実施）
