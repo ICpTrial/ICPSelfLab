@@ -76,7 +76,10 @@ IBM Cloud Private内のプライベートDockerレジストリに、コンテナ
 
 ## [参考] LibertyイメージをICPのプライベート・レジストリーに ファイル転送でのアップロード
 ここでは、開発環境と本番環境など、直接ネットワークが接続できない環境でイメージを移動させる方法を記載します。参考にしてください。
-    
+   1. docker tag コマンドで dockerイメージにタグをつけます
+   　　　```
+        # docker tag mylibertyapp:1.0 mycluster.icp:8500/handson/mylibertyapp:1.0
+        ```
    1. docker save コマンドで dockerイメージを save し、tarに固めます。
         ```
         docker save <imagename> -o <output>.tar
