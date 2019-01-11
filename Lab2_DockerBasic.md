@@ -132,7 +132,7 @@
 1. コンテナにディスク領域をマウントしてみます
 
     1. 今度は、コンテナに ローカル・ディスクの領域をマウントさせてみます。
-    まず準備として、ローカルの /work/contents ディレクトリ配下に HTTPで表示するためのindex.htmlファイルを作成します
+    まず準備として、ローカルの `/work/contents` ディレクトリ配下に HTTPで表示するための `index.html` ファイルを作成します
     ```
     mkdir -p /work/lab1/contents
     echo "<html><body><h1>Local Contents</h1></body></html>" >> /work/lab1/contents/index.html
@@ -187,7 +187,7 @@
     172.17.0.1 - - [21/Dec/2018:04:55:58 +0000] "GET / HTTP/1.1" 200 
     ```
     
-    1. `docker logs -f  <コンテナID>` で標準出力、標準エラー出力を tail -f のように表示することもできます。
+    1. `docker logs -f  <コンテナID>` で標準出力、標準エラー出力を `tail -f` のように表示することもできます。
     
     ```
     root@icp11master:~# docker logs -f 69a
@@ -206,7 +206,7 @@
     
     1. `pwd` や `ls` 、`hostname`、`uname -a` コマンドなど、任意のコマンドを実行してみてください。
     
-    1. 先ほどコンテナにログインした際のコマンド　`docker exec -it <CONTAINER ID> /bin/bash` は、指定されたコンテナで /bin/bash を実行しているイメージです。
+    1. 先ほどコンテナにログインした際のコマンド　`docker exec -it <CONTAINER ID> /bin/bash` は、指定されたコンテナで `/bin/bash` を実行しているイメージです。
     ```
     $ docker exec -it 99a58c8b3bba /bin/bash
     root@99a58c8b3bba:/usr/local/apache2# 
@@ -265,7 +265,7 @@
     
     1. コンテナ・イメージの削除
     
-    今回のLabの最初にdocker pullでダウンロードした、httpdのコンテナー・イメージを削除します。Dockerイメージの削除は、`docker rmi <Image_Name(:Tag)>` コマンドで削除します。<br>
+    今回のLabの最初に`docker pull`でダウンロードした、httpdのコンテナー・イメージを削除します。Dockerイメージの削除は、`docker rmi <Image_Name(:Tag)>` コマンドで削除します。<br>
 `docker images` コマンドをあらためて実行し、httpdのDockerイメージの削除が行われたことを確認してください。
     
     

@@ -10,7 +10,7 @@
 
 ## ハンズオン環境の準備
 
-1. 以下の３つのファイルをダウンロードし、scp コマンドで ハンズオン環境の /work/lab3 にアップロードしてください。
+1. 以下の３つのファイルをダウンロードし、`scp` コマンドで ハンズオン環境の `/work/lab3` にアップロードしてください。
     - Sum.war : Libertyのサンプル・アプリケーション
     - server.xml : サンプル・アプリケーション用のLibertyの構成ファイル
     - Dockerfile : サンプル・アプリケーションがデプロイされたDockerイメージをビルドするためのDockerfile
@@ -117,7 +117,7 @@ LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサ
     default@c82c221a570f:/$ 
     ```
     
-    1. 下記のコマンドを順に実行し、設定が行われているディレクトリーの内容とserver.xmlの内容を確認します。
+    1. 下記のコマンドを順に実行し、設定が行われているディレクトリーの内容と`server.xml`の内容を確認します。
     - `ls -l /opt/ibm/wlp/`
     - `ls -l /opt/ibm/wlp/usr/servers`
     - `ls -l /opt/ibm/wlp/usr/servers/defaultServer/`
