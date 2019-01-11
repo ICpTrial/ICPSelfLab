@@ -7,6 +7,7 @@ Ubuntu環境で検証をしていますが、その他のサポート環境で�
 また、多少の問題があっても、自力で問題を解決できる技術者を想定しています。
 
 ハンズオン検証環境： Ubuntu v16.0.4 LTS (8vCPU, 16GB Memory, 100GB)
+[講義資料](https://ibm.box.com/s/7kako74rhk7q54614t6nxdtrtuuuj29j)
 
 |章|内容|時間|ハンズオン内容|
 |--|---|---|---------------------------|
@@ -20,3 +21,4 @@ Ubuntu環境で検証をしていますが、その他のサポート環境で�
 |8|ICPの拡張機能 ハンズオン|16:00-17:00|[Lab8: Microclimateを利用した新規アプリケーションの開発](https://github.com/ICpTrial/ICPSelfLab/blob/master/Lab8_Microclimate.md)<br>[Lab9: Transformation Advisorを利用した既存システムのモダナイズ](https://github.com/ICpTrial/ICPSelfLab/blob/master/Lab9_TransformationAdvisor.md)|
 |9|ICPのセキュリティ 講義|17:00-17:30| |
 |10|Free Discussion |17:30- | |
+
