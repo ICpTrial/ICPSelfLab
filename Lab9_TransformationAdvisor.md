@@ -1,5 +1,5 @@
 
-# Lab6. ICP上でのTransformation Advisor の実行
+# Lab. ICP上でのTransformation Advisor の実行
 
 このLabでは、ICP上で Transformation Advisor を実行して、既存JavaEEアプリケーションをモダナイズのためのツールを活用する手順を確認します。
 
@@ -120,3 +120,5 @@
     1. 「Deploy」をクリックします。一連の生成されたコードとアプリケーションがGitHub上に登録され、そこから Mircoclimate のプロジェクトが生成されます。<br>
     ![migration04](https://github.com/ICpTrial/ICPLab/blob/master/trfadvimage/migration04.png)
  
+ 
+ 以上で、Lab9は終了です。
