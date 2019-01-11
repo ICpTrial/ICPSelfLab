@@ -1,11 +1,11 @@
-# Lab3. ICPコンソールからサンプルのLiberty Helmチャートのデプロイ
+# Lab5. ICPコンソールからサンプルのLiberty Helmチャートのデプロイ
 
-このLabでは、IBM提供のサンプルのWebSphere LibertyのHelmチャートを使用して、ICP上にLibertyのPodなどをデプロイし、Kubernetesの構成物(オブジェクト)を確認します。
+このLabでは、Lab4で導入した IBM Cloud Private環境を利用します。
+IBM提供のサンプルのWebSphere LibertyのHelmチャートを使用して、ICP上にLibertyのPodなどをデプロイし、Kubernetesの構成物(オブジェクト)を確認します。
 
 ## 前提
 
 このLabでは、下記の準備を前提としています。
-- インターネットに接続できるICP
 - ICPコンソールにアクセスできるPC
 
 所用時間は、およそ20分です。
@@ -81,4 +81,4 @@ IBM提供のLibertyのHelmチャートを用いて、Libertyアプリケーシ�
     1. ここでは詳しく説明しませんが、実際に払い出された環境の定義がこのように確認できること、また編集・更新できることを覚えておいてください。 
 
 
-以上で、Lab3は終了です。引き続き、Lab2で、作成したDockerイメージを、ICPのKubernetes環境にデプロイします。
+以上で、Lab5は終了です。引き続き、Lab3で作成したDockerイメージを、ICPのKubernetes環境にデプロイします。
