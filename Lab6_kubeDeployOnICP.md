@@ -90,7 +90,7 @@ IBM Cloud Private内のプライベートDockerレジストリに、コンテナ
         b8c891f0ffec: Pushed 
         1.0: digest: sha256:40c187d55d17fb07bbcc093aae5f159eecb43fb3aa3fbab8f6d19cc983b4918e size: 3878
         ```
-   1. アップロードされたイメージをICPコンソールから確認します。ICPコンソールにログインし、ナビゲーション・メニューから、[イメージ]を選択します。名前が"handson/mylibertyapp"のエントリーがあることを確認します。
+   1. アップロードされたイメージをICPコンソールから確認します。ICPコンソールにログインし、ナビゲーション・メニューから、[コンテナー・イメージ]を選択します。名前が"handson/mylibertyapp"のエントリーがあることを確認します。
 ![Image](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab4/Lab4_01_Image.png)
 
 
