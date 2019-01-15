@@ -360,8 +360,8 @@ LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサ
     [AUDIT   ] CWWKF0011I: The server defaultServer is ready to run a smarter planet.
     ```
 1. [Ctrl]+c で、logのtailを終了します。
-1. ブラウザーで、`http://localhost:19080/Sum` にアクセスし、サンプル・アプリケーションが表示されることを確認します。
-1. また、今回、mpMetrics-1.1 (MicroProfile Metrics)のフィーチャーを追加していますので、ブラウザーで、`http://localhost:19080/metrics`にアクセスすることでサーバーのGC状況やLibertyのWebコンテナー・スレッド数、HTTPセッションの統計情報が表示されます。
+1. ブラウザーで、`http://<handon-server-IPaddress>:19080/Sum` にアクセスし、サンプル・アプリケーションが表示されることを確認します。
+1. また、今回、mpMetrics-1.1 (MicroProfile Metrics)のフィーチャーを追加していますので、ブラウザーで、`http://<handon-server-IPaddress>:19080/metrics`にアクセスすることでサーバーのGC状況やLibertyのWebコンテナー・スレッド数、HTTPセッションの統計情報が表示されます。
 ![Metrics](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab2/Lab2_04_Metrics.png)
 
 1. 利用したコンテナを停止します。
