@@ -200,7 +200,7 @@
         {{- end }}
       {{- end }}
         rules:
-          - host:
+          - host:                                        ##ここを編集
             http:
               paths:
                 - path: {{ $ingressPath }}
