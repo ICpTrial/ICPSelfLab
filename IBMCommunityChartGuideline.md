@@ -1,4 +1,4 @@
-※ この文書は [IBM Community Chart Guideline](https://github.com/IBM/charts/blob/master/GUIDELINES.md) (As of 2019/01/09) の翻訳です。
+※ この文書は [IBM Community Chart Guideline](https://github.com/IBM/charts/blob/master/GUIDELINES.md) (As of 2019/01/09) の翻訳です。更新の有無については原文をご確認ください。
 
 # IBM Community Chart リポジトリ
 
