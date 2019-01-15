@@ -366,7 +366,7 @@ IBM Cloud Private内のプライベートDockerレジストリに、コンテナ
     mylibetyapp-ingress        *         161.202.248.83   80        3m
     $
     ```
-1. さらに詳細に確認するため `kubectl describe ingresses ylibetyapp-ingress` コマンドを実行します。
+1. さらに詳細に確認するため `kubectl describe ingresses mylibetyapp-ingress` コマンドを実行します。
     ```
     $ kubectl describe ingresses mylibetyapp-ingress
 Name:             mylibetyapp-ingress
