@@ -111,7 +111,7 @@ IBM Cloud Private内のプライベートDockerレジストリに、コンテナ
         ```
    1. この イメージを ICP側にSCPで転送します。
         ```
-        scp ./mylibetyapp.tar root@mycluster.icp:/work
+        scp ./mylibertyapp.tar root@mycluster.icp:/work
         ```
    1. ICP側にログインして、/workディレクトリに移動します
         ```
