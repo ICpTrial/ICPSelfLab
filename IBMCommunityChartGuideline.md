@@ -349,7 +349,7 @@ IBM Cloud Privateノードは、標準出力および標準エラー・ストリ
   PrometheusエンドポイントをIBM Cloud Privateモニター・サービスに公開するには、以下の例に示すようにアノテーション `prometheus.io/scrape： 'true'`を使用してください。
 
   ```
-      apiVersion: v1
+    apiVersion: v1
     kind: Service
     metadata:
       annotations:
