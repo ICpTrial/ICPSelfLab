@@ -159,7 +159,7 @@ IBM Cloud Private内のプライベートDockerレジストリに、コンテナ
 
 ## ICP環境への CLIでのログイン
 
-1. cloudctl コマンドを利用して、CLIで ICP環境にログインします。デフォルトのネームスペースの選択の際には handson を選択してください。
+1. cloudctl コマンドを利用して、CLIで ICP環境にログインします。デフォルトのネームスペースの選択の際には `handson` を選択してください。
     ```
     root@icp11:/work# cloudctl login -a https://mycluster.icp:8443 --skip-ssl-validation
 
@@ -214,7 +214,7 @@ IBM Cloud Private内のプライベートDockerレジストリに、コンテナ
     mylibertyapp   55m
     $ 
     ```
-    mylibertyappのイメージの存在が確認できます。今回、このkubectlは、"handson"の名前空間を対象にしてオブジェクトを表示しています。`--all-namespaces` オプションを付与することで、すべての名前空間のオブジェクトを表示することもできます。
+    "mylibertyapp"のイメージの存在が確認できます。今回、このkubectlは、`handson`の名前空間を対象にしてオブジェクトを表示しています。`--all-namespaces` オプションを付与することで、すべての名前空間のオブジェクトを表示することもできます。
     ```
     $ kubectl get images --all-namespaces
     NAMESPACE   NAME                                     AGE
@@ -410,7 +410,7 @@ Events:
               serviceName: mylibertyapp-nodeport
               servicePort: 9080
     ```
-1. あらためて kubectl apply コマンドで 適用します。同じ定義を変更してapplyしているので定義が更新されます。
+1. あらためて`kubectl apply`コマンドで 適用します。同じ定義を変更してapplyしているので定義が更新されます。
     ```
     root@icp11:/work/lab4# kubectl apply -f mylibapp-ingress.yaml
     ingress.extensions/mylibetyapp-ingress configured

@@ -47,7 +47,7 @@
   ```
   # docker run -e LICENSE=view -e LANG=$LANG ibmcom/icp-inception:3.1.1
   ```
-1. cluster ディレクトリの下に imagesディレクトリを作成し、元イメージを配置します。
+1. `cluster` ディレクトリの下に `images`ディレクトリを作成し、元イメージを配置します。
     ```
     # pwd
     /opt/icp3110/cluster
@@ -81,7 +81,7 @@
         また、managementノードが省略された場合には、関連コンポーネントは masterノードと同一のVMに構成されますので、10.xxx.4.2のVMに構成されます。
         通常の環境では、Knowledge Centerのガイド に従い適切に構成してください。
         
-    1. config.yaml の編集<br>
+    1. `config.yaml` の編集<br>
         今回のハンズオンでは、以下に指定するものをのぞいて、全てデフォルト値のまま導入します。通常はきちんと設計して導入してください。
         
         1. 管理コンソール用 IPアドレスの設定
@@ -116,8 +116,8 @@
               metering: disabled      ##この行を追加
               monitoring: disabled    ##この行を追加
             ```
-1. /etc/hosts で ICPの`hosts`ファイルに記載したIPアドレスがすべて逆引きできるように記載します。<br>
-また 127.0.1.1のローカルホスト定義はコメントアウトします。
+1. `/etc/hosts` で ICPの`hosts`ファイルに記載したIPアドレスがすべて逆引きできるように記載します。<br>
+また `127.0.1.1`のローカルホスト定義はコメントアウトします。
 
     ```
     127.0.0.1       localhost
@@ -162,7 +162,7 @@
         root@icp01:~# exit       
         ```
     
-1. clusterディレクトリで IBM Cloud Private 導入コンテナをキックし、以下のコマンドでインストーラーを実行します。<br>
+1. `cluster`ディレクトリで IBM Cloud Private 導入コンテナをキックし、以下のコマンドでインストーラーを実行します。<br>
 `docker run --net=host -t -e LICENSE=accept -v "$(pwd)":/installer/cluster ibmcom/icp-inception-amd64:3.1.1 install`<br>
 このIBM Cloud Privateの導入には ３０分ほどかかります。
 なお、`-vvv` オプションすることで、冗長なログ・メッセージを出力することもできます。インストーラーのログは `cluser/logs`配下に出力されています。<br>

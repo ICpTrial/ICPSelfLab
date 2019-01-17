@@ -10,7 +10,7 @@
 ## HELMテンプレートの作成
 
 
-1. コマンド・プロンプトを開き、/work/lab7 の 作業ディレクトリに移動します。
+1. コマンド・プロンプトを開き、`/work/lab7`の 作業ディレクトリに移動します。
 
 1. `helm init` で helm環境を構成します
    ```
@@ -53,7 +53,7 @@
   
 ##　HELMチャートの編集: Chart.yaml
 
-1. まず Chart.yamlの 大元定義ファイルである Chartl.yaml を、viエディターで開いて確認します。
+1. まず`Chart.yaml`の大元定義ファイルである`Chartl.yaml`を、viエディターで開いて確認します。
   ```
   apiVersion: v1
   appVersion: "1.0"
@@ -314,8 +314,8 @@
            ```
 ##　HELMチャートの編集: README.md
 
-1. オプショナルのファイルですが、利用者がこのHELMチャートの使い方が分かるようにREADME.mdを作成しましょう。
-   Chart.yaml や value.yamlが配置されているディレクトリに `README.md` という名前でファイルを作成し、以下の内容をCOPYして保存します。
+1. オプショナルのファイルですが、利用者がこのHELMチャートの使い方が分かるように`README.md`を作成しましょう。
+   `Chart.yaml` や `value.yaml`が配置されているディレクトリに `README.md` という名前でファイルを作成し、以下の内容をCOPYして保存します。
       ```
       # MyLibetyApp Handson Application
 

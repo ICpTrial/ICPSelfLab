@@ -44,9 +44,9 @@
     ![microclimate08](https://github.com/ICpTrial/ICPLab/blob/master/mcimage/microclimate08.png)
     1. またアプリケーションには、Microprofileで定められた アプリケーションの正常性を確認するための HealthEndpoint.java も定義されています。
     1. アプリケーションの下には、Libety の構成ファイル (liberty¥config）が生成されています。<br>
-    本体である server.xml や、環境変数を設定するための server.env、jvm引数として渡すための jvm.options などのファイルがあります。
+    本体である `server.xml` や、環境変数を設定するための `server.env`、jvm引数として渡すための `jvm.options` などのファイルがあります。
     1. webapp の下には、WEB-INF下に配置される各種定義ファイルが配置されています。
-    1. その他、アプリケーションのルートディレクトリには、コンテナをビルドするための Dockerfile が定義されています。<br>
+    1. その他、アプリケーションのルートディレクトリには、コンテナをビルドするための `Dockerfile` が定義されています。<br>
     このファイルを使って、コンテナのビルドが行われます。
     1. Readme.md は、GitHubにこのアプリケーションが登録された際に、ReadMeとして表示される MarkupDocument です。<br>
     お客様環境に適宜あわせて利用します。
