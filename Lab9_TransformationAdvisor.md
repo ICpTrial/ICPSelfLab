@@ -16,7 +16,7 @@
 
 ## Transformastion Advisor の導入
 
-1. ICP環境にログオンし、トランスフォーメーション・アドバイザーを開きます。
+1. ICP環境にログオンします。
     1. ブラウザで指定されたインスタンスの ICP環境のコンソールを開きます。<br>
         https://<ICP_ClusterIP:8443/icp/console<br> 
         認証情報　admin : admin<br>
