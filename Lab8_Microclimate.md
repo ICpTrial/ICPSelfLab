@@ -5,10 +5,10 @@
 ## 前提
 
 この　Labでは、下記の準備を前提としています。
-- ICP上に Microclimate をすでに導入しています。このツールは、ICP環境を導入したあとで、helmカタログから導入・構成する必要があります。
 - インターネットに接続できる環境
+- 参考： [Microclimate のドキュメント](https://microclimate-dev2ops.github.io) 
 
-所用時間は、およそ30分です。
+所用時間は、およそ60分です。
 
 ## Microclimate の導入
 
