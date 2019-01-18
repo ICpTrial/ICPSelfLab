@@ -6,18 +6,67 @@
 ## 前提
 
 この　Labでは、下記の準備を前提としています。
-- ICP上に Transformation Advisor をすでに導入しています。
-　実際には、ICP環境を導入したあとで、helmカタログから Transformation Advisor を追加で導入・構成する必要があります。
+
+- ICP Transformation Advisor は、製品版の IBM Cloud Privateで提供されている機能です。
 - インターネットに接続できる環境
+- ICP環境に用意されているリソースが 8Core/16GB の場合には、快適に操作ができない可能性があります。必要に応じてリソースを増強ください。
 
-所用時間は、およそ30分です。
+所用時間は、およそ40分です。
 
-## Transformation Advisor 環境の確認
+
+## Transformastion Advisor の導入
 
 1. ICP環境にログオンし、トランスフォーメーション・アドバイザーを開きます。
     1. ブラウザで指定されたインスタンスの ICP環境のコンソールを開きます。<br>
         https://<ICP_ClusterIP:8443/icp/console<br> 
         認証情報　admin : admin<br>
+    1. 右上のメニューから「カタログ」を選択し、ICPのソリューション・カタログのページを開きます
+    1. カタログの画面で検索バーに「transadv」を入力し、絞り込まれた「ibm-transadv-dev」のアイコンをクリックし、Transformation Advisor のHELMチャートを開きます。
+    
+1. 「IBM CLOUD TRANSFORMATION ADVISOR」のチャートに表示されている README を確認し、導入手順を確認します。導入手順は、HELMのリリースが上がった場合に追加のステップが必要となる可能性があります。ここでは、執筆時点の最新である v1.9.1 をもとに 導入手順を記載します。
+    1. この手順では `default` 名前空間に払い出しを行います
+    1. Transformation Advisor の 認証情報を、Kubernetes 上に Secret として 作成します。
+        1. 以下の内容を transadvsecret.yaml という名前でファイルにコピーします。
+            ```
+            apiVersion: v1
+            kind: Secret
+            metadata:
+                name: transadvsecret
+            data:
+                db_username: YWRtaW4=
+                secret: dGhpcy13aWxsLWJlLW15LXNlY3JldC13aXRob3V0LXNwYWNl
+            ```
+         　　なお、db_username および secret は、HELM chartの READMEに記載されているように、それぞれ "admin"と"this-will-be-my-secret-without-space"を base64でエンコードしたものです。必要に応じて、適切なパスワードに変更ください。
+            
+         1. 以下のコマンドで、Secret を作成します
+            ```
+            kubectl apply -f transadvsec -n default 
+            ```
+         1. 以下のコマンドで、Secret が作成されていることを確認してください。
+            ```
+            kubectl get secrets -n default
+            ```
+    1. ICP GUIコンソール上の、Transformation Advisor の HELMチャートに戻り「構成」のボタンをクリックします。以下を指定します。
+         
+         **構成**
+         * HELMリリース名： transadv
+         * ターゲット名前空間： default
+         * 使用許諾条件： チェックを入れる
+         
+         **パラメータ**
+         * Edge node IP： <ICPサーバーのIPアドレス>
+         * Secret Name：transadvsecret   ## 一つ前の手順で作成したSecretの名前
+         
+         **すべてのパラメータ**
+         * Enable persistence for this deployment： チェックを外す
+         * Use dynamic provisioning for persistent volume： チェックを外す
+         デフォルトでは、Persistence Volume に、Transformation Advisorの結果などを保管する設定となっています。ハンズオンではこの永続化設定は外しておきます。
+    1. 「インストール」ボタンをクリックします。HELMの導入が始まります。
+    1. HELMインスタンスのページに移動し、４つの Deployment すべてが `利用可能` になっていることを確認します。
+    
+    これで、Transformation Advisor の導入は完了です。
+
+## Transformation Advisor 環境の確認
 
     1. ICPのメニューを開き、Tools > Transformation を開きます。<br>
     ※ Transformation Advisorを構成されていないICP環境ではメニューが含まれていません。<br>
