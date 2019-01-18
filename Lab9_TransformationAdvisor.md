@@ -5,7 +5,7 @@
 
 ## 前提
 
-この　Labでは、下記の準備を前提としています。
+この Labでは、下記の準備を前提としています。
 
 - ICP Transformation Advisor は、製品版の IBM Cloud Privateで提供されている機能です。
 - インターネットに接続できる環境
@@ -27,25 +27,26 @@
     1. この手順では `default` 名前空間に払い出しを行います
     1. Transformation Advisor の 認証情報を、Kubernetes 上に Secret として 作成します。
         1. 以下の内容を transadvsecret.yaml という名前でファイルにコピーします。
-            ```
-            apiVersion: v1
-            kind: Secret
-            metadata:
-                name: transadvsecret
-            data:
-                db_username: YWRtaW4=
-                secret: dGhpcy13aWxsLWJlLW15LXNlY3JldC13aXRob3V0LXNwYWNl
-            ```
-         　　なお、db_username および secret は、HELM chartの READMEに記載されているように、それぞれ "admin"と"this-will-be-my-secret-without-space"を base64でエンコードしたものです。必要に応じて、適切なパスワードに変更ください。
+        ```
+        apiVersion: v1
+        kind: Secret
+        metadata:
+            name: transadvsecret
+        data:
+            db_username: YWRtaW4=
+            secret: dGhpcy13aWxsLWJlLW15LXNlY3JldC13aXRob3V0LXNwYWNl
+        ```
+        なお、db_username および secret は、HELM chartの READMEに記載されているように、それぞれ "admin"と"this-will-be-my-secret-without-space"を base64でエンコードしたものです。必要に応じて、適切なパスワードに変更ください。
             
          1. 以下のコマンドで、Secret を作成します
-            ```
-            kubectl apply -f transadvsec -n default 
-            ```
+        ```
+        kubectl apply -f transadvsec -n default
+        ```
+        
          1. 以下のコマンドで、Secret が作成されていることを確認してください。
-            ```
-            kubectl get secrets -n default
-            ```
+        ```
+        kubectl get secrets -n default
+        ```
     1. ICP GUIコンソール上の、Transformation Advisor の HELMチャートに戻り「構成」のボタンをクリックします。以下を指定します。
          
          **構成**
@@ -55,7 +56,7 @@
          
          **パラメータ**
          * Edge node IP： <ICPサーバーのIPアドレス>
-         * Secret Name：transadvsecret   ## 一つ前の手順で作成したSecretの名前
+         * Secret Name：transadvsecret　　　## 一つ前の手順で作成したSecretの名前
          
          **すべてのパラメータ**
          * Enable persistence for this deployment： チェックを外す
