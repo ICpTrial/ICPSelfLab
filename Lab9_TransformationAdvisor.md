@@ -1,5 +1,5 @@
 
-# Lab. ICP上でのTransformation Advisor の実行
+# Lab9. ICP上でのTransformation Advisor の実行
 
 このLabでは、ICP上で Transformation Advisor を実行して、既存JavaEEアプリケーションをモダナイズのためのツールを活用する手順を確認します。
 
