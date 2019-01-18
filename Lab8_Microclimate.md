@@ -23,13 +23,13 @@
     1. 「Micloclmate」のチャートに表示されている README を確認し、導入手順を確認します。導入手順は、HELMのリリースが上がった場合に追加のステップが必要となる可能性があります。ここでは、執筆時点の最新である v1.9.0 をもとに 導入手順を記載します。
 
 ## Microclimate 導入前準備： 名前空間とイメージ・ポリシー
-    1. この手順では、Micloclimate自体は、これまで利用してきた `handson` 名前空間に払い出しを行います
-    1. ターゲット名前空間の作成
+   1. この手順では、Micloclimate自体は、これまで利用してきた `handson` 名前空間に払い出しを行います
+   1. ターゲット名前空間の作成
         Microclimate 内のJenkins Pipelineから、ビルドされたコンテナを払い出すようの 名前空間を `microclimate-pipeline-deployments`という名前で作成します。任意の名前でも結構です。
         ```
         # kubectl create namespace microclimate-pipeline-deployments
         ```
-    1. ImagePolicy の作成
+   1. ImagePolicy の作成
         ICPでは IBM Security Enforcement機能がデフォルトで有効になっており、指定された イメージ・レポジトリからしかコンテナ・イメージをロードできません。Microclimateはデフォルトで許可された以外のコンテナも利用するため、新規にこれを許可する `ImagePocy` を作成します。ハンズオンでは便宜上クラスター・レベルで`ImagePolicy`を作成しますが、名前空間レベルでも作成可能です。
         ```
         apiVersion: securityenforcement.admission.cloud.ibm.com/v1beta1
@@ -117,10 +117,10 @@ Microclimate のJenkins Pipelineの中から、HELMコマンドを利用して�
           hostPath:
             path: /work/lab8
          ```
-      1. 以下のコマンドで、Microclimate用 Persitent Volumeを作成します
-        ```
-        kubectl apply -f /work/lab8/ibm-microclimate-jenkins-pv.yaml
-        ```
+      1. 以下のコマンドで、Microclimate用 Persitent Volumeを作成します     
+         ```
+         kubectl apply -f /work/lab8/ibm-microclimate-jenkins-pv.yaml
+         ```
         
 1. Microclimateの導入
     
