@@ -5,12 +5,14 @@
 ## 前提
 
 この　Labでは、下記の準備を前提としています。
+- Microclimate は、製品版の IBM Cloud Privateで提供されている機能です。
 - インターネットに接続できる環境
-- 参考： [Microclimate のドキュメント](https://microclimate-dev2ops.github.io) 
+- ICP環境に用意されているリソースが 8Core/16GB の場合には、快適に操作ができない可能性があります。必要に応じてリソースを増強ください。
+- 参考： [Microclimate ドキュメント](https://microclimate-dev2ops.github.io) 
 
 所用時間は、およそ60分です。
 
-## Microclimate の導入
+## Microclimate 導入前準備
 
 1. ICP環境にログオンします。
     1. ブラウザで指定されたインスタンスの ICP環境のコンソールを開きます。<br>
@@ -18,8 +20,9 @@
         認証情報　admin : admin<br>
     1. 右上のメニューから「カタログ」を選択し、ICPのソリューション・カタログのページを開きます
     1. カタログの画面で検索バーに「microclimate」を入力し、絞り込まれた「ibm-microclimate」のアイコンをクリックし、Micloclmate のHELMチャートを開きます。
-    
-1. 「Micloclmate」のチャートに表示されている README を確認し、導入手順を確認します。導入手順は、HELMのリリースが上がった場合に追加のステップが必要となる可能性があります。ここでは、執筆時点の最新である v1.9.0 をもとに 導入手順を記載します。
+    1. 「Micloclmate」のチャートに表示されている README を確認し、導入手順を確認します。導入手順は、HELMのリリースが上がった場合に追加のステップが必要となる可能性があります。ここでは、執筆時点の最新である v1.9.0 をもとに 導入手順を記載します。
+
+## Microclimate 導入前準備： 名前空間とイメージ・ポリシー
     1. この手順では、Micloclimate自体は、これまで利用してきた `handson` 名前空間に払い出しを行います
     1. ターゲット名前空間の作成
         Microclimate 内のJenkins Pipelineから、ビルドされたコンテナを払い出すようの 名前空間を `microclimate-pipeline-deployments`という名前で作成します。任意の名前でも結構です。
@@ -40,48 +43,46 @@
             - name: docker.io/jenkins/*
             - name: docker.io/docker:*
         ```
-        
-1. 認証情報の作成
-    1. ICPイメージ・レポジトリにアクセスするための認証情報 (handson名前空間用）<br>
-    Microclimate がICP内のイメージ・レポジトリにアクセスするための認証情報を Secretとして作成します。以下のコマンドで、Secret を作成します。
+
+## Microclimate 導入前準備： 認証情報の作成
+1. ICPイメージ・レポジトリにアクセスするための認証情報 (handson名前空間用）<br>
+Microclimate がICP内のイメージ・レポジトリにアクセスするための認証情報を Secretとして作成します。以下のコマンドで、Secret を作成します。
     ```
     kubectl create secret docker-registry microclimate-registry-secret --docker-server=mycluste.icp:8500 --docker-username=admin --docker-password=admin --docker-email=sample@address.mail -n handson
     ```
-    1. ICPイメージ・レポジトリにアクセスするための認証情報 (microclimate-pipeline-deployments名前空間用）<br>
-    Microclimateが Jenkinsパイプラインから、ICP内のイメージ・レポジトリにアクセスするための認証情報を Secretとして作成します。
+1. ICPイメージ・レポジトリにアクセスするための認証情報 (microclimate-pipeline-deployments名前空間用）<br>
+Microclimateが Jenkinsパイプラインから、ICP内のイメージ・レポジトリにアクセスするための認証情報を Secretとして作成します。
     ```
     kubectl create secret docker-registry microclimate-pipeline-secret --docker-server=mycluste.icp:8500 --docker-username=admin --docker-password=admin --docker-email=sample@address.mail -n microclimate-pipeline-deployments
     ```
-    1. HELMのTillerにアクセスするための認証情報<br>
-    Microclimate のJenkins Pipelineの中から、HELMコマンドを利用して実際にデプロイを行います。この際に、HELMのTillerにアクセスするための認証情報です。
-        1. 以下のコマンドでログインします。最後に、HEML_HOME が `Configuring helm: /root/.helm` のような形で、出力されていますので確認してください。
+1. HELMのTillerにアクセスするための認証情報<br>
+Microclimate のJenkins Pipelineの中から、HELMコマンドを利用して実際にデプロイを行います。この際に、HELMのTillerにアクセスするための認証情報です。
+    1. 以下のコマンドでログインします。最後に、HEML_HOME が `Configuring helm: /root/.helm` のような形で、出力されていますので確認してください。
        ```
        # cloudctl login -a https://mycluster.icp:8443
        ```
-       1. 環境変数 HELM_HOME を設定します
+   1. 環境変数 HELM_HOME を設定します
        ```
        # HELM_HOME="/root/.helm"
        ```
-        1. `ls -l $HELM_HOME`を実行し、当該ディレクトリに `ca.pem``cert.pem``key.pem`などの鍵があることを確認してください。
-        1. 以下のコマンドでSecret を作成します。
+   1. `ls -l $HELM_HOME`を実行し、当該ディレクトリに `ca.pem``cert.pem``key.pem`などの鍵があることを確認してください。
+   1. 以下のコマンドでSecret を作成します。
         ```
         kubectl create secret generic microclimate-helm-secret --from-file=cert.pem=$HELM_HOME/cert.pem --from-file=ca.pem=$HELM_HOME/ca.pem --from-file=key.pem=$HELM_HOME/key.pem
         ```
-    1. `default` サービス・アカウントに作成した Secret を関連付けます
+   1. `default` サービス・アカウントに作成した Secret を関連付けます
         ```
         # kubectl patch serviceaccount default --namespace microclimate-pipeline-deployments -p "{\"imagePullSecrets\": [{\"name\": \"microclimate-pipeline-secret\"}]}"
         ```
-
-1. Persistent Volumeの作成
+## Microclimate 導入前準備： Persitent Volumeの作成
     Microclimateは、２つのPersistence Volume を必要とします。
-    
-    1. ハンズオン環境では１VMしかないため、`HostPath`を PersitentVolumeとして利用します。以下のコマンドで、PersitentVolumeとして利用されるディレクトリを作成してください。
+1. ハンズオン環境では１VMしかないため、`HostPath`を PersitentVolumeとして利用します。以下のコマンドで、PersitentVolumeとして利用されるディレクトリを作成してください。
     ```
     # mkdir -p /work/lab8/microclimate
     # mkdir -p /work/lab8/jenkins
     ```
-    1. Microclimate用 Persitent Volume 定義の作成
-        以下の内容のyamlファイルを、ibm-microclimate-pv.yamlという名前で作成してください。
+1. Microclimate用 Persitent Volume 定義の作成
+     1. 以下の内容のyamlファイルを、ibm-microclimate-pv.yamlという名前で作成してください。
         ```
         apiVersion: v1
         kind: PersistentVolume
@@ -100,8 +101,8 @@
         ```
         kubectl apply -f /work/lab8/ibm-microclimate-pv.yaml
         ```
-     1. 同様に、 Microclimate Jenkins用 Persitent Volume 定義の作成
-         以下の内容のyamlファイルを、ibm-microclimate-jenkins-pv.yamlという名前で作成してください。
+1. 同様に、 Microclimate Jenkins用 Persitent Volume 定義の作成
+     1. 以下の内容のyamlファイルを、ibm-microclimate-jenkins-pv.yamlという名前で作成してください。
         ```
         apiVersion: v1
         kind: PersistentVolume
@@ -122,7 +123,7 @@
         ```
         
 1. Microclimateの導入
-
+    
     1. ICP GUIコンソール上の、Microclimate の HELMチャートに戻り「構成」のボタンをクリックします。以下を指定します。
          
          **構成**
