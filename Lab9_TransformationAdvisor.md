@@ -26,7 +26,7 @@
 1. 「IBM CLOUD TRANSFORMATION ADVISOR」のチャートに表示されている README を確認し、導入手順を確認します。導入手順は、HELMのリリースが上がった場合に追加のステップが必要となる可能性があります。ここでは、執筆時点の最新である v1.9.1 をもとに 導入手順を記載します。
     1. この手順では `default` 名前空間に払い出しを行います
     1. Transformation Advisor の 認証情報を、Kubernetes 上に Secret として 作成します。
-        1. 以下の内容を transadvsecret.yaml という名前でファイルにコピーします。
+        1. 以下の内容をコピーし、 transadvsecret.yaml という名前で、/work/lab9 ディレクトリに保管します。
         ```
         apiVersion: v1
         kind: Secret
@@ -40,12 +40,12 @@
             
          1. 以下のコマンドで、Secret を作成します
         ```
-        kubectl apply -f transadvsec -n default
+        # kubectl apply -f /work/lab9/transadvsecret.yaml  -n default
         ```
         
          1. 以下のコマンドで、Secret が作成されていることを確認してください。
         ```
-        kubectl get secrets -n default
+        # kubectl get secrets -n default
         ```
     1. ICP GUIコンソール上の、Transformation Advisor の HELMチャートに戻り「構成」のボタンをクリックします。以下を指定します。
          
