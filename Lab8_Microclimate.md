@@ -115,7 +115,7 @@ Microclimate のJenkins Pipelineの中から、HELMコマンドを利用して�
             - ReadWriteOnce
           persistentVolumeReclaimPolicy: Retain
           hostPath:
-            path: /work/lab8
+            path: /work/lab8/jenkins
          ```
       1. 以下のコマンドで、Microclimate用 Persitent Volumeを作成します     
          ```
