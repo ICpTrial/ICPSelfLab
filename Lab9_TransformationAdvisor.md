@@ -65,7 +65,7 @@
     1. 「インストール」ボタンをクリックします。HELMの導入が始まります。
     1. HELMインスタンスのページに移動し、４つの Deployment すべてが `利用可能` になっていることを確認します。
     
-    これで、Transformation Advisor の導入は完了です。
+    これで、`Transformation Advisor` の導入は完了です。
 
 ## Transformation Advisor 環境の確認
 
