@@ -35,7 +35,7 @@
 IBM Cloud Private内のプライベートDockerレジストリに、コンテナ・イメージをPUSHしていきます。
 
    1. アップロードするイメージの確認
-        `docker images` コマンドを入力し、Lab2. で作成した「mylibertyapp:1.0」のイメージがPCローカルのDockerレジストリーに存在することを確認します。
+        `docker images` コマンドを入力し、Lab3. で作成した「mylibertyapp:1.0」のイメージがPCローカルのDockerレジストリーに存在することを確認します。
         ```
         # docker images |  grep myliberty
         REPOSITORY                                   TAG                 IMAGE ID            CREATED             SIZE
