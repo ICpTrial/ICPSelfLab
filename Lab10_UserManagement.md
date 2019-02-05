@@ -1,7 +1,8 @@
-# Lab10. ICPでのユーザー管理
+# Lab10. ImagePolicy と ICPでのユーザー管理
 
 ICPで admin ユーザー以外を追加するためには、LDAPとの連携が必要になります。
 LDAPを通じてユーザーをICPに連携した上で、そのユーザーをチームに編成し、それぞれのユーザーのアクセス権限を設定します。
+また、あわせて ICP3.1.1からデフォルトで構成されている IBM ClusterImagePolicy / ImagePolicy の挙動も確認します。
 
 このLabでは、ICP環境とLDAPを連携させ、複数ユーザーで ICPを管理できるようにします。
 
@@ -15,33 +16,129 @@ LDAPを通じてユーザーをICPに連携した上で、そのユーザーを�
 ## ICP HELMテンプレートの作成とインポート
 
 1. openldap helmチャートの準備
-  1. 以下のコマンドで、openldap の helmチャートを入手してください。
-    ```
-    git clone https://github.com/ibm-cloud-architecture/icp-openldap.git
-    ```
-  1. helmチャートをパッケージします。
-    ```
-    helm package icp-openldap
-    Successfully packaged chart and saved it to: /work/icp-openldap-0.1.5.tgz
-    ```
-1. ICPのhelmレポジトリへの登録
-  1. ICPにログインしていなければログインしてください
-    ```
-    # cloudctl login -a https://mycluster.icp:8443
-    ```
-  1. icp-openldap の HELMチャートをアップロードします。
-    ```
-    # cloudctl catalog load-helm-chart -archive /work/icp-openldap-0.1.5.tgz
-    Helm チャートのロード中
-    ロードされた Helm チャート
 
-    チャートの同期
-    同期が開始されました
-    OK
+    1. 以下のコマンドで、openldap の helmチャートを入手してください。
+      ```
+      mkdi  r -p /work/lab10
+      cd /work/lab10
+      git clone https://github.com/ibm-cloud-architecture/icp-openldap.git 
+      ```
+    1. helmチャートをパッケージします。
+      ```
+      helm package icp-openldap
+      Successfully packaged chart and saved it to: /work/icp-openldap-0.1.5.tgz
+      ```
+1. ICPのhelmレポジトリへの登録
+
+    1. ICPにログインしていなければログインしてください。ネームスペースには、とりあえず`default` を選びます。
+      ```
+      # cloudctl login -a https://mycluster.icp:8443
+      ```
+    1. icp-openldap の HELMチャートをアップロードします。
+      ```
+      # cloudctl catalog load-helm-chart -archive /work/lab10/icp-openldap-0.1.5.tgz
+      Helm チャートのロード中
+      ロードされた Helm チャート
+
+      チャートの同期
+      同期が開始されました
+      OK
+      ```
+1. Cluster Image Policyの設定    
+    1. IBM Custer Image Policy の設定
+    icp-openldap のHELMチャートを導入していきますが、デフォルトではこの helmチャートで利用される イメージが許可されていないため以下のようなエラーが発生して、導入に失敗します。試しにHELMを実行して、エラーを確認してみましょう（確認したあとは 失敗したhelmインスタンスを削除しておきます）。
     ```
-   1. 以下のコマンドで icp-openldap のHELMチャートを導入します。
+    # helm install icp-openldap-0.1.5.tgz --name openldap --namespace default --tls
+    Error: release openldap failed: Internal error occurred: admission webhook    
+    "trust.hooks.securityenforcement.admission.cloud.ibm.com" denied the request:
+    Deny "docker.io/osixia/openldap:1.1.10", no matching repositories in ClusterImagePolicy and no ImagePolicies in the "default" namespace
+    # helm delete openldap --purge --tls
+    release "openldap" deleted
+    ```
+    1. Image Policy を確認します。ImagePolicy は クラスターレベルの ClusterImagePolicy と ネームスペースレベルの ImagePolicy があります。
+    ```
+    root@icp21master:/work/lab10# kubectl get clusterimagepolicy
+    NAME                                    AGE
+    ibmcloud-default-cluster-image-policy   135d
+    root@icp21master:/work/lab10# kubectl get imagepolicy -n default
+    No resources found.
+    ```
+    1. デフォルトの ClusterImagePolicy の設定を以下のコマンドで確認してみてください。
+    ```
+    # kubectl describe clusterimagepolicy
+    ```
+    1. ネームスペース・レベルの ImagePolicy を、以下の内容で yaml ファイルを定義します。
+    ```
+    apiVersion:  securityenforcement.admission.cloud.ibm.com/v1beta1
+    kind: ImagePolicy
+    metadata:
+      name: lab-image-policy
+    spec:
+      repositories:
+        - name:  docker.io/osixia/openldap:*
+        - name:  docker.io/osixia/phpldapadmin:*
+    ```
+    1. 実際にImagePolicyを作成します。
+    ```
+    # kubectl apply -f lab-image-policy.yaml -n default
+    imagepolicy.securityenforcement.admission.cloud.ibm.com/lab-image-policy created
+    ```
+    1. 作成された ImagePolixy を 確認してみましょう。
+    ```
+    root@icp21master:/work/lab10# kubectl get imagepolicy -n default
+    NAME               AGE
+    lab-image-policy   3m
+    root@icp21master:/work/lab10# kubectl describe imagepolicy lab-image-policy -n default
+    Name:         lab-image-policy
+    Namespace:    default
+    Labels:       <none>
+    Annotations:  kubectl.kubernetes.io/last-applied-configuration={"apiVersion":"securityenforcement.admission.cloud.ibm.com/v1beta1","kind":"ImagePolicy","metadata":{"annotations":{},"name":"lab-image-policy","namesp...
+    API Version:  securityenforcement.admission.cloud.ibm.com/v1beta1
+    Kind:         ImagePolicy
+    Metadata:
+      Creation Timestamp:  2019-02-05T02:22:37Z
+      Generation:          1
+      Resource Version:    29881155
+      Self Link:           /apis/securityenforcement.admission.cloud.ibm.com/v1beta1/namespaces/default/imagepolicies/lab-image-policy
+      UID:                 e7a204ea-28ec-11e9-bddb-06ab180ab7fe
+    Spec:
+      Repositories:
+        Name:  docker.io/osixia/openldap:*
+        Name:  docker.io/osixia/phpldapadmin:*
+    Events:    <none>
+    ```
+    
+1. OpenLDAP HelmChart の導入
+   1. 実際にHELMをインストールしていきます。    
     ```
     # helm install icp-openldap-0.1.5.tgz --name openldap --namespace default --tls
     ```
-   1.  
+   1. `helm status`コマンドで、正常に導入できたか確認しましょう。
+    ```
+    root@icp21master:/work/lab10# helm status openldap  --tls
+    LAST DEPLOYED: Tue Feb  5 02:32:31 2019
+    NAMESPACE: default
+    STATUS: DEPLOYED
+
+    RESOURCES:
+    ==> v1/ConfigMap
+    NAME                DATA  AGE
+    openldap-seedusers  1     56s
+
+    ==> v1/Service
+    NAME            TYPE       CLUSTER-IP  EXTERNAL-IP  PORT(S)       AGE
+    openldap        ClusterIP  10.0.0.174  <none>       389/TCP       56s
+    openldap-admin  NodePort   10.0.0.227  <none>       80:31080/TCP  56s
+
+    ==> v1beta1/Deployment
+    NAME            DESIRED  CURRENT  UP-TO-DATE  AVAILABLE  AGE
+    openldap        1        1        1           1          56s
+    openldap-admin  1        1        1           1          56s
+
+    ==> v1/Pod(related)
+    NAME                             READY  STATUS   RESTARTS  AGE
+    openldap-6bf68c67b9-p2x4b        1/1    Running  0         56s
+    openldap-admin-5f5d475bd8-9r8tg  1/1    Running  0         56s
+    ```
+   
     
