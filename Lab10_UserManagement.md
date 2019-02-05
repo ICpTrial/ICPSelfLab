@@ -19,7 +19,7 @@ LDAPを通じてユーザーをICPに連携した上で、そのユーザーを�
 
     1. 以下のコマンドで、openldap の helmチャートを入手してください。
       ```
-      mkdi  r -p /work/lab10
+      mkdir -p /work/lab10
       cd /work/lab10
       git clone https://github.com/ibm-cloud-architecture/icp-openldap.git 
       ```
