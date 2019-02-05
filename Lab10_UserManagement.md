@@ -66,7 +66,7 @@ LDAPを通じてユーザーをICPに連携した上で、そのユーザーを�
 
     1. ICPにログインしていなければログインしてください。ネームスペースには、とりあえず`default` を選びます。
       ```
-      # cloudctl login -a https://mycluster.icp:8443
+      # cloudctl login -a https://mycluster.icp:8443 --skip-ssl-validation
       ```
     1. icp-openldap の HELMチャートをアップロードします。
       ```
