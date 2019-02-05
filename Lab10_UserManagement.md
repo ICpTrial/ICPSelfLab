@@ -13,7 +13,7 @@ LDAPを通じてユーザーをICPに連携した上で、そのユーザーを�
 
 所用時間は、およそ20分です。
 
-## ICP HELMテンプレートの作成とインポート
+## ICP HELMテンプレートの作成とインポート、および IBM ImagePolicy の構成
 
 1. openldap helmチャートの準備
 
@@ -23,6 +23,40 @@ LDAPを通じてユーザーをICPに連携した上で、そのユーザーを�
       cd /work/lab10
       git clone https://github.com/ibm-cloud-architecture/icp-openldap.git 
       ```
+    1. デフォルトで作成されるユーザーなどが values.yaml に定義されていますので、必要に応じてパスワード変更、ユーザー追加を実施します。
+    ```
+    # cat /work/lab10/icp-openldap/values.yaml
+    OpenLdap:
+    Image: "docker.io/osixia/openldap"
+    ImagePullPolicy: "Always"
+    Component: "openldap"
+
+    Replicas: 1
+
+    Cpu: "512m"
+    Memory: "200Mi"
+
+    Domain: "local.io"                      ## 必要に応じて編集
+    AdminPassword: "admin"                  ## 必要に応じて編集
+    Https: "false"                          ## 必要に応じて編集
+    SeedUsers:
+    usergroup: "icpusers"                   ## 必要に応じて編集
+    userlist: "user1,user2,user3,user4"     ## 必要に応じて編集
+    initialPassword: "ChangeMe"             ## 必要に応じて編集
+
+    PhpLdapAdmin:
+    Image: "docker.io/osixia/phpldapadmin"
+    ImageTag: "0.7.0"
+    ImagePullPolicy: "Always"
+    Component: "phpadmin"
+
+    Replicas: 1
+
+    NodePort: 31080
+
+    Cpu: "512m"
+    Memory: "200Mi"
+    ```
     1. helmチャートをパッケージします。
       ```
       helm package icp-openldap
@@ -140,5 +174,15 @@ LDAPを通じてユーザーをICPに連携した上で、そのユーザーを�
     openldap-6bf68c67b9-p2x4b        1/1    Running  0         56s
     openldap-admin-5f5d475bd8-9r8tg  1/1    Running  0         56s
     ```
-   
     
+## LDAPの定義内容の確認
+ここは openldapの確認をしているだけですので、スキップ可能です。
+1. ICPのコンソールに入り、デプロイメントから `openldap-admin`を開きます。右上の`起動`ボタンをクリックします。
+1. Openldapデフォルトのphpの画面が開きますので、以下の情報でログインします。
+   ```
+   Login DN: cn=admin,dc=local,dc=io
+   Password: admin
+   ```
+1. LDAPで定義されている内容を確認してください。
+　　![phpLDAP管理画面]()
+  
