@@ -176,13 +176,16 @@ LDAPを通じてユーザーをICPに連携した上で、そのユーザーを�
     ```
     
 ## LDAPの定義内容の確認
-ここは openldapの確認をしているだけですので、スキップ可能です。
-1. ICPのコンソールに入り、デプロイメントから `openldap-admin`を開きます。右上の`起動`ボタンをクリックします。
-1. Openldapデフォルトのphpの画面が開きますので、以下の情報でログインします。
-   ```
-   Login DN: cn=admin,dc=local,dc=io
-   Password: admin
-   ```
-1. LDAPで定義されている内容を確認してください。
-　　![phpLDAP管理画面]()
+1. openldapの確認
+    ここは openldapの確認をしているだけですので、スキップ可能です。<br>
+    なお 今回は openldapに PVが定義されていないので、管理画面からアクセスしてユーザーを追加しても、Podが再起動された場合データは失います。
+    
+    1. ICPのコンソールに入り、デプロイメントから `openldap-admin`を開きます。右上の`起動`ボタンをクリックします。
+    1. Openldapデフォルトのphpの画面が開きますので、以下の情報でログインします。
+       ```
+       Login DN: cn=admin,dc=local,dc=io
+       Password: admin
+       ```
+    1. LDAPで定義されている内容を確認してください。<br>
+      ![phpLDAP管理画面](https://github.com/ICpTrial/ICPSelfLab/blob/master/images/Lab10/ldaptop.png)
   
