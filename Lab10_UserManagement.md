@@ -189,3 +189,16 @@ LDAPを通じてユーザーをICPに連携した上で、そのユーザーを�
     1. LDAPで定義されている内容を確認してください。<br>
       ![phpLDAP管理画面](https://github.com/ICpTrial/ICPSelfLab/blob/master/images/Lab10/ldaptop.png)
   
+## ICPとLDAPの連携
+1. LDAPの定義
+    1. ICPのコンソールにログインし、左のメニューから 管理 > IDおよびアクセス を開きます。
+    1. 認証を開き、中央の `接続のセットアップ`のリンクをクリックします。
+    1. 以下の情報をもちいて、LDAP接続の定義を構成します。
+        ```
+        ①LDAP接続　名前： labldap  タイプ：カスタム
+        ②LDAP認証　基本DN：dc=local,dc=io　バインドDN：cn=admin,dc=local,dc=io　DNパスワードの設定： admin
+        ③LDAPサーバー　URL： ldap://openldap:389
+        ④LDAPフィルター
+        ```
+1. LDAPの定義
+    
