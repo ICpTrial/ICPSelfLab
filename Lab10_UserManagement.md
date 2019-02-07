@@ -234,3 +234,4 @@ LDAPを通じてユーザーをICPに連携した上で、そのユーザーを�
     [KnowlegeCenter 役割ベースのアクセス制御](https://www.ibm.com/support/knowledgecenter/ja/SSBS6K_3.1.1/user_management/assign_role.html)
     
     
+以上で Lab10 は終了です。
