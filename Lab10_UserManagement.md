@@ -161,7 +161,7 @@ LDAPを通じてユーザーをICPに連携した上で、そのユーザーを�
 
     ==> v1/Service
     NAME            TYPE       CLUSTER-IP  EXTERNAL-IP  PORT(S)       AGE
-    openldap        ClusterIP  10.0.0.174  <none>       389/TCP       56s
+    openldap        ClusterIP  10.0.0.219  <none>       389/TCP       56s
     openldap-admin  NodePort   10.0.0.227  <none>       80:31080/TCP  56s
 
     ==> v1beta1/Deployment
@@ -193,12 +193,31 @@ LDAPを通じてユーザーをICPに連携した上で、そのユーザーを�
 1. LDAPの定義
     1. ICPのコンソールにログインし、左のメニューから 管理 > IDおよびアクセス を開きます。
     1. 認証を開き、中央の `接続のセットアップ`のリンクをクリックします。
-    1. 以下の情報をもちいて、LDAP接続の定義を構成します。
+    1. 以下の情報をもちいて、LDAP接続の定義を構成し、保管を行います。
         ```
         ①LDAP接続　名前： labldap  タイプ：カスタム
         ②LDAP認証　基本DN：dc=local,dc=io　バインドDN：cn=admin,dc=local,dc=io　DNパスワードの設定： admin
-        ③LDAPサーバー　URL： ldap://openldap:389
+        ③LDAPサーバー　URL： ldap://10.0.0.219:389      
+            HELMの一覧で表示された openldap の clsuterIPを指定します。
+            ここまで設定したら、「接続のテスト」をクリックして、接続が正しいか確認してください。
         ④LDAPフィルター
+         グループ・フィルター：(&(cn=%v)(objectclass=groupOfUniqueNames))
+         ユーザー・フィルター：(&(uid=%v)(objectclass=person))
+         グループID： *:cn
+         ユーザーID： *:uid
+         グループ・メンバー ID マップ：groupOfUniqueNames:uniquemember
         ```
-1. LDAPの定義
+1. ユーザーのインポートとチームへの編成
+    1. チームを開き、「チームの作成」をクリックします。
+    1. チーム名として `lab team`を指定します。
+    1. ユーザー・タブを開き、`user`と入力します。<br>
+       LDAPに登録されたユーザーがリストされますので、選択して、以下の通りそれぞれ役割を割り当て、「作成」をクリックします。
+       [ユーザー登録](
+    1. 作成された `lab team`のリンクを開き、`リソース`タブを開き「リソースの管理」をクリックします。
+    1. アクセスを許可する 名前スペースと helmレポジトリにチェックを入れます。<br>
+       ここでは 名前空間 `lab-space` と ibm-chartの中の `ibm-nodejs-sample` だけを設定します。
+    1. 設定を確認して、「保存」をクリックします。
+    
+
+    
     
