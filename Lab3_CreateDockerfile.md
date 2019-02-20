@@ -260,15 +260,15 @@ LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサ
     ```
     # cat Dockerfile
     FROM websphere-liberty:webProfile8
-    COPY Sum.war /config/dropins/
-    COPY server.xml /config/
+    COPY --chown=1001:0 Sum.war /config/dropins/
+    COPY --chown=1001:0 server.xml /config/
     RUN installUtility install --acceptLicense defaultServer
     ```
 1. `docker build` コマンドを実行することで、Dockerfileの内容に基づいて、Dockerイメージが生成されます。<br>
     - 1行目のFROMコマンドで、新しいDockerイメージの元になるDockerイメージを指定しています。この例では、先ほど、稼働確認、内容を確認した、websphere-liberty:webProfile8 のイメージをベースにしています。
-    - 2行目のCOPYコマンドで、ローカルPCのSum.warファイルを、新しいDockerコンテナーの /config/dropins/ ディレクトリーにコピーしています。つまり、warファイルのデプロイを行なっています。
-    - 3行目のCOPYコマンドでは、Libertyの設定ファイルであるserver.xmlを、新しいDockerコンテナーの/config/ ディレクトリーにコピーしています。つまり、Libertyの設定変更を行なっています。
-    - 最後の4行目のRUNコマンドでは、新しいDockerコンテナー上で、コマンド 'installUtility install --acceptLicense defaultServer' を実行しています。'installUtility install'は、Libertyのコマンドであり、server.xmlの記述に基づき、現在のLibertyのインストールに不足するLibertyフィーチャーを、インターネット上で提供されるLiberty repositoryにアクセスして、ダウンロード、インストールします。<br>
+    - 2行目のCOPYコマンドで、ローカルPCの`Sum.war`ファイルを、新しいDockerコンテナーの`/config/dropins/`ディレクトリーにコピーしています。つまり、warファイルのデプロイを行なっています。特に指定しない場合はrootがオーナーとしてファイルがコピーされますが、`--chown`オプションでファイルのオーナーを指定することが可能です。
+    - 3行目のCOPYコマンドでは、Libertyの設定ファイルである`server.xml`を、新しいDockerコンテナーの`/config/`ディレクトリーにコピーしています。つまり、Libertyの設定変更を行なっています。
+    - 最後の4行目のRUNコマンドでは、新しいDockerコンテナー上で、コマンド `installUtility install --acceptLicense defaultServer` を実行しています。`installUtility install`は、Libertyのコマンドであり、server.xmlの記述に基づき、現在のLibertyのインストールに不足するLibertyフィーチャーを、インターネット上で提供されるLiberty repositoryにアクセスして、ダウンロード、インストールします。<br>
     
 1. `docker build -f Dockerfile -t mylibertyapp:1.0 .` コマンドを入力し、Dockerイメージをビルドします。<br>
 <br>
