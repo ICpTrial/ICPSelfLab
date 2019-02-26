@@ -52,12 +52,12 @@ Microclimateの Helmは 比較的複雑です。その分作り込まれてい�
 1. ICPイメージ・レポジトリにアクセスするための認証情報 (handson名前空間用）<br>
 Microclimate および Jenkinsパイプラインが、`handson`名前空間にて、ICP内のイメージ・レポジトリにアクセスするための認証情報を Secretとして作成します。以下のコマンドで、Secret を作成します。
     ```
-    kubectl create secret docker-registry microclimate-registry-secret --docker-server=mycluste.icp:8500 --docker-username=admin --docker-password=admin --docker-email=sample@address.mail -n handson
+    kubectl create secret docker-registry microclimate-registry-secret --docker-server=mycluster.icp:8500 --docker-username=admin --docker-password=admin --docker-email=sample@address.mail -n handson
     ```
 1. ICPイメージ・レポジトリにアクセスするための認証情報 (microclimate-pipeline-deployments名前空間用）<br>
 Jenkinsパイプラインから、`microclimate-pipeline-deployments`名前空間にて、ICP内のイメージ・レポジトリにアクセスするための認証情報を Secretとして作成します。
     ```
-    kubectl create secret docker-registry microclimate-pipeline-secret --docker-server=mycluste.icp:8500 --docker-username=admin --docker-password=admin --docker-email=sample@address.mail -n microclimate-pipeline-deployments
+    kubectl create secret docker-registry microclimate-pipeline-secret --docker-server=mycluster.icp:8500 --docker-username=admin --docker-password=admin --docker-email=sample@address.mail -n microclimate-pipeline-deployments
     ```
 1. HELMのTillerにアクセスするための認証情報<br>
 Microclimate のJenkins Pipelineの中からHELMコマンドを利用して実際にデプロイを行います。この際にHELMのTillerにアクセスするための認証情報です。
