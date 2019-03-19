@@ -35,9 +35,10 @@
     ```
 1. ICP導入コンテナを取得し、ICP構成テンプレートを抽出します。
    以下の例では、ICP v3.1.1 を利用していますが、導入されたいバージョンに読み替えてください。
-    ```
+   ```
     # docker pull ibmcom/icp-inception:3.1.1
-    #
+   ```
+   ```
     # docker run -e LICENSE=accept -v "$(pwd)":/data ibmcom/icp-inception:3.1.1 cp -r cluster /data
     # ls
     cluster
