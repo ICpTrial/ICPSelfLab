@@ -1,4 +1,4 @@
 FROM websphere-liberty:webProfile8
-COPY Sum.war /config/dropins/
-COPY server.xml /config/
+COPY --chown=1001:0 Sum.war /config/dropins/
+COPY --chown=1001:0 server.xml /config/
 RUN installUtility install --acceptLicense defaultServer
