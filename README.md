@@ -7,7 +7,7 @@ Ubuntu環境で検証をしていますが、その他のサポート環境で�
 また、多少の問題があっても、自力で問題を解決できる技術者を想定しています。
 
 ハンズオン検証環境： Ubuntu v16.0.4 LTS (8vCPU, 16GB Memory, 100GB)<br>
-[講義資料](https://ibm.box.com/s/7kako74rhk7q54614t6nxdtrtuuuj29j)<br>
+[講義資料](https://ibm.box.com/s/2steo55pjlamv4zg5k2q0ez8u6htd8f8)<br>
 時間は目安ですが、一日で終わらせるのはなかなかたいへんだとは思います…
 
 |章|内容|時間|ハンズオン内容|
