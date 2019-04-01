@@ -58,7 +58,7 @@
     # mkdir /opt/icp3110
     # cd /opt/icp3110
     ```
-1. ICP導入コンテナから、ICP構成テンプレートを抽出します。
+1. ICP導入コンテナから、ICP構成テンプレートを抽出します。製品のバージョンはダウンロードしたモジュールにあわせ、適宜読み替えてください。
     ```
     # docker run -v $(pwd):/data -e LICENSE=accept ibmcom/icp-inception-amd64:3.1.1-ee cp -r cluster /data
     # ls
