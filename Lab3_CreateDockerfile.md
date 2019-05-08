@@ -34,7 +34,8 @@
 ## ハンズオン環境の準備
 
 1. このハンズオンでは、IBMのJavaEEアプリケーション・サーバーである **WebSphere Liberty** を利用します。<br>
-フルスタックのJavaEEをサポートしながらも、各種APIや機能がフィーチャーとしてモジュール化されているため、必要な機能のみを有効化し、より少ないリソースで利用していくことが可能な軽量アプリケーション・サーバーです。<br>
+フルスタックのJavaEEをサポートしながらも、各種APIや機能がフィーチャーとしてモジュール化されているため、必要な機能のみを有効化し、より少ないリソースで利用していくことが可能な軽量アプリケーション・サーバーです。<br><br>
+
 LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサポートするもの）やkernel（Libertyカーネルのみ）など、複数のタグ付けされたイメージが公開されています。また、これらのDockerイメージをビルドするのに利用されている Dockerfileもあわせて公開されています<br>
 以下のサイトを開き、製品として提供されている Dockerfileが どのように構成されているか確認してみます。<br>
     [docker store: IBM WebSphere Application Server Liberty](https://store.docker.com/images/websphere-liberty)
