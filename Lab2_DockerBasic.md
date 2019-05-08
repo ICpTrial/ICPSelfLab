@@ -51,7 +51,7 @@
 [dockerドキュメント日本語化プロジェクト](http://docs.docker.jp/engine/reference/commandline/index.html)
     
 ## Apache httpdイメージのPull(ダウンロード)
-1. `docker pull httpd` コマンドを入力し、Apache httpdのDockerイメージを、ローカルPCのDockerレジストリーにダウンロードします。
+1. `docker pull httpd` コマンドを入力し、Apache httpdの最新のDockerイメージを、ローカルPCのDockerレジストリーにダウンロードします。
     ```
     $ docker pull httpd
     Using default tag: latest
