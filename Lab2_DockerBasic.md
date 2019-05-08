@@ -47,6 +47,9 @@
 
     1. 単に `docker` コマンドを入力することで、dockerコマンドのヘルプが、`docker COMMAND --help` と入力することで、`docker run` や `docker build` コマンドのヘルプを表示することができます。
     
+    docker コマンドでできることを確認するには、以下のリンクを参考にしてください。<br>
+[dockerドキュメント日本語化プロジェクト](http://docs.docker.jp/engine/reference/commandline/index.html)
+    
 ## Apache httpdイメージのPull(ダウンロード)
 1. `docker pull httpd` コマンドを入力し、Apache httpdのDockerイメージを、ローカルPCのDockerレジストリーにダウンロードします。
     ```
@@ -285,8 +288,5 @@
     ```
 
 以上で、Lab2 は終了です。
-
-その他、docker コマンドでできることを確認するには、以下のリンクを参考にしてください。<br>
-[dockerドキュメント日本語化プロジェクト](http://docs.docker.jp/engine/reference/commandline/index.html)
 
 引き続き、Lab3では Dockerfile を利用して、オリジナルのコンテナー・イメージをビルドしていきます。
