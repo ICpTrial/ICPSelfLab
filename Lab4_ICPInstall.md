@@ -198,7 +198,7 @@
 1. `cluster`ディレクトリで IBM Cloud Private 導入コンテナをキックし、以下のコマンドでインストーラーを実行します。<br>
 `docker run --net=host -t -e LICENSE=accept -v "$(pwd)":/installer/cluster ibmcom/icp-inception-amd64:3.1.1-ee install`<br>
 このIBM Cloud Privateの導入には ３０分ほどかかります。
-なお、`-vvv` オプションすることで、冗長なログ・メッセージを出力することもできます。インストーラーのログは `cluser/logs`配下に出力されています。<br>
+なお、末尾に `-vvv` オプションすることで、冗長なログ・メッセージを出力することもできます。インストーラーのログは `cluser/logs`配下に出力されています。<br>
 
     ```
     # cd /opt/icp3110/cluster
