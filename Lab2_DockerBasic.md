@@ -280,7 +280,7 @@
     
     ```
     root@icp11master:~# docker images | grep httpd
-    httpd                                                                                                latest                         2a51bb06dc8b        5 weeks ago         132MB
+    httpd        latest       2a51bb06dc8b        5 weeks ago         132MB
     root@icp11master:~# docker rmi httpd
     Untagged: httpd:latest
     Untagged: httpd@sha256:9753aabc6b0b8cd0a39733ec13b7aad59e51069ce96d63c6617746272752738e
