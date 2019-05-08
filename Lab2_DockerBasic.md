@@ -209,21 +209,21 @@
     
     1. `pwd` や `ls` 、`hostname`、`uname -a` コマンドなど、任意のコマンドを実行してみてください。
     ```
-    $ docker exec -it 99a58c8b3bba pwd
+    # docker exec -it 99a58c8b3bba pwd
     /usr/local/apache2
-    $ docker exec -it 99a58c8b3bba ls
+    # docker exec -it 99a58c8b3bba ls
     bin  build  cgi-bin  conf  error  htdocs  icons  include  logs	modules
     ```
     
     1. 先ほどコンテナにログインした際のコマンド　`docker exec -it <CONTAINER ID> /bin/bash` は、指定されたコンテナで `/bin/bash` を実行しているイメージです。
     ```
-    $ docker exec -it 99a58c8b3bba /bin/bash
+    # docker exec -it 99a58c8b3bba /bin/bash
     root@99a58c8b3bba:/usr/local/apache2# 
     ```
     
     1. コンテナOSは、通常 コンテナ実行に必要な最低限のライブラリに限定されていますので、必ずしもホストOS側で使っていたすべてのコマンドが使えるわけではありません。必要なライブラリがない場合は、コンテナをビルドする際に `apt`コマンドでパッケージを追加してください。
     ```
-    docker exec -it 69a ifconfig
+    # docker exec -it 69a ifconfig
     OCI runtime exec failed: exec failed: container_linux.go:348: starting container process caused "exec: \"ifconfig\": executable file not found in $PATH": unknown
     ```
 
@@ -231,15 +231,15 @@
 
 1. `docker stop <CONTAINER ID>` コマンドで、起動中のコンテナーを停止します。`<CONTAINER ID>`の確認には、`docker ps`コマンドを入力してください。
     ```
-    $ docker stop 99a58c8b3bba
+    # docker stop 99a58c8b3bba
     99a58c8b3bba
-    $ 
+    # 
     ```
 1. `docker ps` コマンドで、起動中のコンテナーが存在せず、正しく停止されたことを確認します。
     ```
-    $ docker ps
+    # docker ps
     CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
-    $
+    #
     ```
     もし、コンテナーが正しく停止できなかった場合には、`docker kill <CONTAINER ID>` コマンドで、コンテナーを強制終了します。
     
@@ -247,7 +247,7 @@
     最初にフォアグラウンドで起動したコンテナと、バックグランドで起動した２つのコンテナの３つのコンテナが表示されます。
 
     ```
-    $ root@icp11master:~# docker ps -a | grep httpd
+    # root@icp11master:~# docker ps -a | grep httpd
     69a5a4d63140        httpd                                            "httpd-foreground"       2 hours ago         Exited (0) 2 seconds ago                       youthful_sammet
     9ac73561ced4        httpd                                            "httpd-foreground"       3 hours ago         Exited (0) 2 seconds ago                       hopeful_brattain
     dde28a828be8        httpd                                            "httpd-foreground"       3 hours ago         Exited (0) 3 hours ago                         hopeful_kowalevski
@@ -260,16 +260,16 @@
     
     1. コンテナ・インスタンスの削除
     ```
-    $ root@icp11master:~# docker rm 69a 9ac dde
+    # root@icp11master:~# docker rm 69a 9ac dde
     69a
     9ac
     dde
     ```
     1. `docker ps -a` コマンドで、停止中のコンテナーが存在しなくなったことを確認します。
     ```
-    $ docker ps -a
+    # docker ps -a
     CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
-    $
+    #
     ```
     
     1. コンテナ・イメージの削除
