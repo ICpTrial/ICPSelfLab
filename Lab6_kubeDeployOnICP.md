@@ -226,7 +226,6 @@ IBM Cloud Private内のプライベートDockerレジストリに、コンテナ
     ```
 ## kubectlコマンドを使用したデプロイメントの作成
 
-
 1. このLabの作業ディレクトリー (/work/lab6) に移動します。このディレクトリーには、先の手順で以下のファイルを配置しました。
     - mylibapp-deployment.yaml : デプロイメント作成時の定義ファイル
     - mylibapp-nodeportservice.yaml : サービス(NodePort)作成時の定義ファイル
@@ -286,7 +285,8 @@ IBM Cloud Private内のプライベートDockerレジストリに、コンテナ
 1. ICPコンソールからも確認してみます。ナビゲーション・メニューから[ワークロード]>[デプロイメント]を選択します。"mylibertyapp-deploy"のエントリーが表示され、デプロイメントの名前のハイパーリンクをクリックすることで、そのデプロイメントの詳細を確認できます。さらに、デプロイメントに含まれるポッドの詳細などのリンクもたどれます。
 ![DeploymentList](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab4/Lab4_05_DeploymentList.png)
 
-##　NodePortサービスの作成
+## NodePortサービスの作成
+
 1. サービスを公開するための NodePortサービスを作成する"mylibapp-nodeportservice.yaml"をcat で開き、内容を確認します。
     ```yaml:mylibapp-nodeportservice.yaml
     apiVersion: v1
@@ -327,7 +327,8 @@ IBM Cloud Private内のプライベートDockerレジストリに、コンテナ
 1. NodePortを作成することで、外部からアクセスできます。ブラウザーで、`http://(ICPのIP):30180/Sum/` と入力します。サンプル・アプリケーションにアクセスできることを確認します。
 ![NodePortAccess](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab4/Lab4_06_NodePortAccess.png)
 
-##　Ingressの作成
+## Ingressの作成
+
 1. Ingressを作成する"mylibapp-ingress.yaml"をcat で開き、内容を確認します。
     ```
     apiVersion: extensions/v1beta1
@@ -391,55 +392,6 @@ IBM Cloud Private内のプライベートDockerレジストリに、コンテナ
 1. ICPコンソールからも、ナビゲーション・メニューから[ネットワーク・アクセス]>[サービス]で、「入口」タブを選択することで確認できます。
 1. Ingressを作成することで、Proxyノード経由の外部から"/handson"のURLでアクセスできます。Proxy Nodeのデフォルトの構成である80番や443番のポートでアクセスできます。ブラウザーで、`http://(ICPのIP)/handson/Sum/` と入力します。サンプル・アプリケーションにアクセスできることを確認します。
 
-1. ingressの構成を編集して、適用してみます。Ingressの rewrite ターゲットの指定を / から /Sum に編集します。
-    ```
-    apiVersion: extensions/v1beta1
-    kind: Ingress
-    metadata:
-      annotations:
-        ingress.kubernetes.io/rewrite-target: /Sum　　## ここを編集
-      name: mylibetyapp-ingress
-      namespace: handson
-    spec:
-      rules:
-      - host:
-        http:
-          paths:
-          - path: /handson
-            backend:
-              serviceName: mylibertyapp-nodeport
-              servicePort: 9080
-    ```
-1. あらためて`kubectl apply`コマンドで 適用します。同じ定義を変更してapplyしているので定義が更新されます。
-    ```
-    root@icp11:/work/lab4# kubectl apply -f mylibapp-ingress.yaml
-    ingress.extensions/mylibetyapp-ingress configured
-    ```
-1. `kubectl describe ingresses ylibetyapp-ingress` コマンドを実行して、定義が更新されていることを確認します。    
-    ```
-    kubectl describe ingresses mylibetyapp-ingress
-    Name:             mylibetyapp-ingress
-    Namespace:        handson
-    Address:          165.192.65.171
-    Default backend:  default-http-backend:80 (<none>)
-    Rules:
-      Host  Path  Backends
-      ----  ----  --------
-      *
-            /handson   mylibertyapp-nodeport:9080 (<none>)
-    Annotations:
-      ingress.kubernetes.io/rewrite-target:              /Sum
-      kubectl.kubernetes.io/last-applied-configuration:  {"apiVersion":"extensions/v1beta1","kind":"Ingress","metadata":{"annotations":{"ingress.kubernetes.io/rewrite-target":"/Sum"},"name":"mylibetyapp-ingress","namespace":"handson"},"spec":{"rules":[{"host":null,"http":{"paths":[{"backend":{"serviceName":"mylibertyapp-nodeport","servicePort":9080},"path":"/handson"}]}}]}}
-
-    Events:
-      Type    Reason  Age              From                      Message
-      ----    ------  ----             ----                      -------
-      Normal  CREATE  9m               nginx-ingress-controller  Ingress handson/mylibetyapp-ingress
-      Normal  UPDATE  1m (x3 over 8m)  nginx-ingress-controller  Ingress handson/mylibetyapp-ingress    
-    ```
-1. ブラウザでアクセスして確認します。
-    今度は /handson/宛のリクエストが バックエンドの /Sum にマップされているので、`http://(ICPのIP)/handson/` でアクセスできます。
-    さきほどまでの `http://(ICPのIP)/handson/Sum`ではファイルがないため、エラーとなることを確認してください。
     
 以上で、Lab6は終了です。
 
