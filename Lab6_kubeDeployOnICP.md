@@ -14,20 +14,20 @@
 1. ハンズオン環境の作業ディレクトリを作成し、関連ファイルをアップロードしておきます。  
     
     1. 作業ディレクトリを作成します。
-    ```
-    # mkdir -p /work/lab6
-    ```
+        ```
+        # mkdir -p /work/lab6
+        ```
     1. ハンズオン・マテリアル lab6material.tar は[こちら](https://github.com/ICpTrial/ICPSelfLab/raw/master/lab6material.tar)にありますので、ダウンロードしてください。
     1. 作成した作業ディレクトリにアップロードします。
-    ```
-    (作業PCで実施）
-    $ scp lab6material.tar root@<machine_ip>:/work/lab6
-    ```
-    1.アップロードしたファイルを解凍します。
-    ```
-    # cd /work/lab6
-    # tar -xvf lab6material.tar
-    ```
+        ```
+        (作業PCで実施）
+        $ scp lab6material.tar root@<machine_ip>:/work/lab6
+        ```
+    1. アップロードしたファイルを解凍します。
+        ```
+        # cd /work/lab6
+        # tar -xvf lab6material.tar
+        ```
     
 ## ICPのDockerプライベート・レジストリーに イメージをPUSHします。
 
