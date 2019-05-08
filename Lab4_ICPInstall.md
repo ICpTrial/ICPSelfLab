@@ -136,8 +136,8 @@
             proxy_lb_address: <public ip address>
             ```
         1. リソースに余裕をもたせて、ハンズオンを快適に進めるために、ハンズオンで利用しないサービスを無効化します。<br>本来は monitoring （Prometheus/Graphaneの統合) metering (Product Insights)も、ICPの魅力の一つです。<br>リソースに余裕がある方（たとえば 16Core/32GB程度）はこの無効化を実施する必要はありません。
-           
-            management_service のエントリを探し、以下のように metering と monitoring を無効化してください。
+           リソースが少ない環境では、management_service のエントリを探し、以下のように metering と monitoring を無効化してください。
+  
             ```
             management_services:
               istio: disabled
