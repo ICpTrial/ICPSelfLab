@@ -271,10 +271,9 @@ LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサ
     - 最後の4行目のRUNコマンドでは、新しいDockerコンテナー上で、コマンド `installUtility install --acceptLicense defaultServer` を実行しています。`installUtility install`は、Libertyのコマンドであり、server.xmlの記述に基づき、現在のLibertyのインストールに不足するLibertyフィーチャーを、インターネット上で提供されるLiberty repositoryにアクセスして、ダウンロード、インストールします。<br>
     
 1. `docker build -f Dockerfile -t mylibertyapp:1.0 .` コマンドを入力し、Dockerイメージをビルドします。<br>
-<br>
-    `-f  Dockerfile` オプションで、ビルドに利用するDockerファイルを指定しあｍす
-    `-t  mylibertyapp:1.0` オプションで、作成するDockerイメージと名前(mylibertyapp)とタグ(1.0)を指定しています。<br>
-    `docker build` コマンドの最後の引数に DockerfileのパスまたはURLを指定します。今回は、ローカルのカレント・ディレクトリーが このコンテナをビルドする際のコンテキストとなるため、`.` を指定しています。`.`を忘れないでください。<br>
+`-f  Dockerfile` オプションで、ビルドに利用するDockerファイルを指定します。
+`-t  mylibertyapp:1.0` オプションで、作成するDockerイメージと名前(mylibertyapp)とタグ(1.0)を指定しています。<br>
+`docker build` コマンドの最後の引数に DockerfileのパスまたはURLを指定します。今回は、ローカルのカレント・ディレクトリーが このコンテナをビルドする際のコンテキストとなるため、`.` を指定しています。`.`を忘れないでください。<br>
     
     ```
     # docker build -f Dockerfile -t mylibertyapp:1.0 .
