@@ -51,6 +51,7 @@ Docker導入パッケージは、ICPライセンスをお持ちであれば、IC
     root@icp01:/work/lab1# docker --version
     Docker version 18.03.1-ce, build 9ee9f40
     ```
+以上で、Lab1 は終了です。  
   
 ## 2. Dockerイメージの導入（コミュニティ版）
 [Docker CEドキュメント](https://docs.docker.com/install/linux/docker-ce/ubuntu/)に従い、Ubuntuを導入します。
