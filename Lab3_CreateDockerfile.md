@@ -372,6 +372,34 @@ LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサ
    #
     ```
     
+## 更新されたイメージの用意
+あとのハンズオンで利用するために、アプリケーションが更新されたバージョンの コンテナ・イメージも作成しておきます。
+
+1. Dockerfile を複製して `Dockerfile2` を作成し、Dockerfile2 を編集し、デプロイするアプリケーションを Sum2.war に変更します。
+    ```
+    # cp Dockerfile Dockerfile2
+    # vi Dockerfile2
+    FROM websphere-liberty:webProfile8
+    COPY --chown=1001:0 Sum2.war /config/dropins/   ##この行を編集
+    COPY --chown=1001:0 server.xml /config/
+    RUN installUtility install --acceptLicense defaultServer
+    ```
+1. Dockerfile2 を使って、コンテナ・イメージを `mylibertyapp:2.0` としてビルドします。
+   ```
+    # docker build -f Dockerfile2 -t mylibertyapp:2.0 .
+   ```
+1. ビルドされたイメージを 19081番ポートにバインドして、名前を `mywlp2` として起動します。
+　　```
+   # docker run -d -p 19081:9080 --name=mywlp2 mylibertyapp:2.0
+   ```
+1. ブラウザーで、`http://<handon-server-IPaddress>:19081/Sum` にアクセスし、バックグラウンドの色が変更されたサンプル・アプリケーションが表示されることを確認します。
+
+1. 利用したイメージを停止します。
+   ```
+   # docker stop mywlp2
+    mywlp2
+   ```
+
 以上で、Lab3は終了です。<br>
 引き続き、Lab4で、このDocker環境上に IBM Cloud Private を導入していきます。
 
