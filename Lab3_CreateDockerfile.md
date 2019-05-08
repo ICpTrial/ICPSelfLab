@@ -95,7 +95,7 @@ LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサ
     LibertyのwebProfileには デフォルト・コンテキストルート(/) のページが準備されています。
     ブラウザーのアドレス欄に `http://<ハンズオン・サーバーIPアドレス>:19080/` を入力します。
     
-    デフォルト・コンテキストルートのページが表示され、Libertyのコンテナーが稼働していることが確認できます。
+    デフォルト・コンテキストルートのページが表示され、Libertyのコンテナーが稼働していることが確認できます。表示されるページのデザインは、リリースにより異なることがありますので、以下のイメージと変更になっているかもしれません。
     ![LibertyDefaultTop](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab2/Lab2_01_LibertyDefaultPage.png)
 
 
