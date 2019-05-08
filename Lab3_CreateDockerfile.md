@@ -222,7 +222,7 @@ LibertyのDockerイメージは、javaee8（JavaEEフルプロファイルをサ
     
 ## ユーザーのアプリをデプロイしたカスタマイズされたDockerイメージの作成（ビルド）
 
-1. /work にアプロードした サンプル・アプリケーション(Sum.war)、Libertyの構成ファイル(server.xml)、Dockerイメージのビルド・ファイル(Dockerfile) を利用して、カスタマイズした Docker イメージを作成していきます。
+1. /work/lab3 にアプロードした サンプル・アプリケーション(Sum.war)、Libertyの構成ファイル(server.xml)、Dockerイメージのビルド・ファイル(Dockerfile) を利用して、カスタマイズした（ユーザーのアプリケーションが導入された）Docker イメージを作成していきます。
  
     1. Sum.warは、Servlet 1ファイルとJSP 1ファイルから構成され、2つの数字の入力の足し算の結果を返す簡単なWebアプリケーションです。<br>
        /Sumのエンドポイントにアクセスすると下記の画面が表示され、数値を入力し、"Submit"ボタンを押すと、結果が表示されます。<br>
