@@ -329,7 +329,7 @@ IBM Cloud Private内のプライベートDockerレジストリに、コンテナ
 
 ##　Ingressの作成
 1. Ingressを作成する"mylibapp-ingress.yaml"をcat で開き、内容を確認します。
-    ```mylibapp-ingress.yaml
+    ```
     apiVersion: extensions/v1beta1
     kind: Ingress
     metadata:
@@ -369,24 +369,24 @@ IBM Cloud Private内のプライベートDockerレジストリに、コンテナ
 1. さらに詳細に確認するため `kubectl describe ingresses mylibetyapp-ingress` コマンドを実行します。
     ```
     $ kubectl describe ingresses mylibetyapp-ingress
-Name:             mylibetyapp-ingress
-Namespace:        handson
-Address:          161.202.248.83
-Default backend:  default-http-backend:80 (<none>)
-Rules:
-  Host  Path  Backends
-  ----  ----  --------
-  *
-        /handson   mylibertyapp-nodeport:9080 (<none>)
-Annotations:
-  ingress.kubernetes.io/rewrite-target:              /
-  kubectl.kubernetes.io/last-applied-configuration:  {"apiVersion":"extensions/v1beta1","kind":"Ingress","metadata":{"annotations":{"ingress.kubernetes.io/rewrite-target":"/"},"name":"mylibetyapp-ingress","namespace":"handson"},"spec":{"rules":[{"host":null,"http":{"paths":[{"backend":{"serviceName":"mylibertyapp-nodeport","servicePort":9080},"path":"/hoge"}]}}]}}
+    Name:             mylibetyapp-ingress
+    Namespace:        handson
+    Address:          161.202.248.83
+    Default backend:  default-http-backend:80 (<none>)
+    Rules:
+      Host  Path  Backends
+      ----  ----  --------
+      *
+            /handson   mylibertyapp-nodeport:9080 (<none>)
+    Annotations:
+      ingress.kubernetes.io/rewrite-target:              /
+      kubectl.kubernetes.io/last-applied-configuration:  {"apiVersion":"extensions/v1beta1","kind":"Ingress","metadata":{"annotations":{"ingress.kubernetes.io/rewrite-target":"/"},"name":"mylibetyapp-ingress","namespace":"handson"},"spec":{"rules":[{"host":null,"http":{"paths":[{"backend":{"serviceName":"mylibertyapp-nodeport","servicePort":9080},"path":"/hoge"}]}}]}}
 
-Events:
-  Type    Reason  Age   From                      Message
-  ----    ------  ----  ----                      -------
-  Normal  CREATE  1m    nginx-ingress-controller  Ingress handson/mylibetyapp-ingress
-  Normal  UPDATE  43s   nginx-ingress-controller  Ingress handson/mylibetyapp-ingress
+    Events:
+      Type    Reason  Age   From                      Message
+      ----    ------  ----  ----                      -------
+      Normal  CREATE  1m    nginx-ingress-controller  Ingress handson/mylibetyapp-ingress
+      Normal  UPDATE  43s   nginx-ingress-controller  Ingress handson/mylibetyapp-ingress
     ```
 1. ICPコンソールからも、ナビゲーション・メニューから[ネットワーク・アクセス]>[サービス]で、「入口」タブを選択することで確認できます。
 1. Ingressを作成することで、Proxyノード経由の外部から"/handson"のURLでアクセスできます。Proxy Nodeのデフォルトの構成である80番や443番のポートでアクセスできます。ブラウザーで、`http://(ICPのIP)/handson/Sum/` と入力します。サンプル・アプリケーションにアクセスできることを確認します。
