@@ -144,7 +144,7 @@
     1. 次に -v オプションで 作成したコンテンツをマウントさせて、起動します。
     なお、先ほどの10080 ポート はまだ使用されていますので、10081を指定しましょう。
     ```
-    $ ~# docker run -d -p 10081:80 -v "/work/lab1/contents/:/usr/local/apache2/htdocs/" httpd
+    # docker run -d -p 10081:80 -v "/work/lab1/contents/:/usr/local/apache2/htdocs/" httpd
     69a5a4d63140d87cf39b1d41e8d01c3c8827de30fa7b8a3027634f8a509ba159
     ```
 
