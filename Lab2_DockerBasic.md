@@ -208,6 +208,12 @@
     `docker exec` コマンドで、起動中のコンテナーOS上で、コマンドを実行することができます。
     
     1. `pwd` や `ls` 、`hostname`、`uname -a` コマンドなど、任意のコマンドを実行してみてください。
+    ```
+    $ docker exec -it 99a58c8b3bba pwd
+    /usr/local/apache2
+    $ docker exec -it 99a58c8b3bba ls
+    bin  build  cgi-bin  conf  error  htdocs  icons  include  logs	modules
+    ```
     
     1. 先ほどコンテナにログインした際のコマンド　`docker exec -it <CONTAINER ID> /bin/bash` は、指定されたコンテナで `/bin/bash` を実行しているイメージです。
     ```
