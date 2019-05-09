@@ -547,17 +547,17 @@ IBM Cloud Private内のプライベートDockerレジストリに、コンテナ
 
 1. 更新に問題があった場合に、更新を元に戻すための機能も Kubernetesとして提供しています。元の環境に手を入れているわけではないので、すぐに戻すことが可能です。
     1. 以下のコマンドで ロールアウト の履歴を確認します。まだ１度しか更新していないので、履歴は２です。
-    ```
-    # kubectl rollout history deployments/mylibertyapp-deploy
-    deployment.extensions/mylibertyapp-deploy
-    REVISION  CHANGE-CAUSE
-    1         <none>
-    2         <none>
-    ```   
+        ```
+        # kubectl rollout history deployments/mylibertyapp-deploy
+        deployment.extensions/mylibertyapp-deploy
+        REVISION  CHANGE-CAUSE
+        1         <none>
+        2         <none>
+        ```   
     1. 以下のコマンドで、直前の更新を取り消します。
-    ```
-    # kubectl rollout undo deployment/mylibertyapp-deploy
-    ```
+        ```
+        # kubectl rollout undo deployment/mylibertyapp-deploy
+        ```
     1. 実際に ブラウザーで、`http://(ICPのIP)/handson/Sum/` にアクセスして、アプリケーションの更新が元に戻されていることを確認します。
    
         
