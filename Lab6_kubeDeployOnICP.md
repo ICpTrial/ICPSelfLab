@@ -402,6 +402,34 @@ IBM Cloud Private内のプライベートDockerレジストリに、コンテナ
 1. ICPコンソールからも、ナビゲーション・メニューから[ネットワーク・アクセス]>[サービス]で、「入口」タブを選択することで確認できます。
 1. Ingressを作成することで、Proxyノード経由の外部から"/handson"のURLでアクセスできます。Proxy Nodeのデフォルトの構成である80番や443番のポートでアクセスできます。ブラウザーで、`http://(ICPのIP)/handson/Sum/` と入力します。サンプル・アプリケーションにアクセスできることを確認します。
 
+
+## Kubernetes 基本機能の確認１： スケーラビリティ
+
+1. Kubernetesにおいては、ポリシー・ベースで柔軟にアプリケーションをスケールさせることが可能です。現在は、１インスタンス動いている mylibertyapp のデプロイメントをスケールアウトしてみます。
+
+    1. 以下のコマンドで、現在の環境のデプロイメントの状況を確認します。
+        ```
+        kubectl get deployments/mylibertyapp-deploy
+        ```
+    1. 先ほど、デプロイメントの作成に使用したファイル `mylibapp-deployment.yaml` のインスタンス数のポリシーを変更して適用します。<br>あるべき姿をポリシーとして定義し適用することで、そのポリシーに沿うように Kubernetes が配置を行います。<br>mylibapp-deployment.yaml に定義されている spec.replicas のインスタンス数を 1 -> 3　に変更します。
+        ```
+            apiVersion: apps/v1
+                kind: Deployment
+                metadata:
+                  name: mylibertyapp-deploy
+                spec:
+                  replicas: 3               ##ここを編集
+                  selector:
+                    matchLabels:
+                      app: mylibertyapp
+            （後略）
+        ```
+    1. 以下のコマンドで編集されたポリシーを適用します。
+        ```
+        kubectl 
+    
+    
+    
     
 以上で、Lab6は終了です。
 
