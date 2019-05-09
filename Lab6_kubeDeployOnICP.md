@@ -93,6 +93,16 @@ IBM Cloud Private内のプライベートDockerレジストリに、コンテナ
    1. アップロードされたイメージをICPコンソールから確認します。ICPコンソールにログインし、ナビゲーション・メニューから、[コンテナー・イメージ]を選択します。名前が"handson/mylibertyapp"のエントリーがあることを確認します。
 ![Image](https://github.com/ICpTrial/ICPLab/blob/master/images/Lab4/Lab4_01_Image.png)
 
+   1. 同様に、mylibertyapp:2.0 のイメージも ICPのDockerプライベート・レジストリーにアップロードしておきましょう。
+        1. 以下のコマンドで、エイリアスを設定します
+            ```
+            docker tag mylibertyapp:2.0 mycluster.icp:8500/handson/mylibertyapp:2.0 
+            ```
+        1. イメージを push します
+            ```
+            docker push mycluster.icp:8500/handson/mylibertyapp:2.0
+            ```
+            
 
 ## [参考] LibertyイメージをICPのプライベート・レジストリーに ファイル転送でのアップロード
 ここでは、開発環境と本番環境など、直接ネットワークが接続できない環境でイメージを移動させる方法を記載します。参考にしてください。
