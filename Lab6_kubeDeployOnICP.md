@@ -409,7 +409,15 @@ IBM Cloud Private内のプライベートDockerレジストリに、コンテナ
 
     1. 以下のコマンドで、現在の環境のデプロイメントの状況を確認します。
         ```
-        kubectl get deployments/mylibertyapp-deploy
+        # kubectl get deployments/mylibertyapp-deploy
+        NAME                  DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+        mylibertyapp-deploy   1         1         1            1           18h
+        kubectl get pods
+        
+        # kubectl get pods
+        NAME                                        READY   STATUS    RESTARTS   AGE
+        liberty-default-helm-ibm-595757b554-tjl4f   1/1     Running   0          19h
+        mylibertyapp-deploy-74f4dc5f7d-8s2mp        1/1     Running   0          18h
         ```
     1. 先ほど、デプロイメントの作成に使用したファイル `mylibapp-deployment.yaml` のインスタンス数のポリシーを変更して適用します。<br>あるべき姿をポリシーとして定義し適用することで、そのポリシーに沿うように Kubernetes が配置を行います。<br>mylibapp-deployment.yaml に定義されている spec.replicas のインスタンス数を 1 -> 3　に変更します。
         ```
@@ -426,11 +434,133 @@ IBM Cloud Private内のプライベートDockerレジストリに、コンテナ
         ```
     1. 以下のコマンドで編集されたポリシーを適用します。
         ```
-        kubectl 
+        kubectl apply -f mylibapp-deployment.yaml
+        ```
+    1. 先ほどと同じコマンドで、状況を確認します。AGEの欄を確認すると、いつそのインスタンスが起動したかがわかります。
+        ```
+        # kubectl get deployments/mylibertyapp-deploy       
+        NAME                  DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+        mylibertyapp-deploy   3         3         3            3           18h
+        
+        # kubectl get pods
+        NAME                                        READY   STATUS    RESTARTS   AGE
+        liberty-default-helm-ibm-595757b554-tjl4f   1/1     Running   0          19h
+        mylibertyapp-deploy-74f4dc5f7d-28xbz        1/1     Running   0          91s
+        mylibertyapp-deploy-74f4dc5f7d-8s2mp        1/1     Running   0          18h
+        mylibertyapp-deploy-74f4dc5f7d-ksr98        1/1     Running   0          91s
+        ```
+ 
+## Kubernetes 基本機能の確認２： リカバリー
+    
+1. 障害が発生するなどし、ポリシーが満たされない状況になると、Kubernetesがポリシーを満たすように自動的にアクションが取られます。ここでは、先ほどのmylibertyapp の Podを１つ削除してみます。
+
+    1. 先ほど `kubectl get pods` で表示された３つの Pod インスタンスのうち、任意の一つを選んで削除してみます。
+        ```
+        # kubectl delete pods <podインスタンス名>
+        ```
+        上の例ですと `kubectl delete pods mylibertyapp-deploy-74f4dc5f7d-ksr98` で一番下のインスタンスを削除します。
+        
+    1.  再び ポッドの状況を確認してみてください。すぐに３つにリカバリーされているかもしれませんが、先ほどとは異なるインスタンスが稼働していることがわかるはずです。
+        ```
+        # kubectl get pods
+        NAME                                        READY   STATUS    RESTARTS   AGE
+        liberty-default-helm-ibm-595757b554-tjl4f   1/1     Running   0          19h
+        mylibertyapp-deploy-74f4dc5f7d-28xbz        1/1     Running   0          14m
+        mylibertyapp-deploy-74f4dc5f7d-8s2mp        1/1     Running   0          19h
+        mylibertyapp-deploy-74f4dc5f7d-lhbnk        1/1     Running   0          13s
+        ```
+        
+ ## Kubernetes 基本機能の確認３： ロールアウト・アップデート
+ 
+ 1. Kubernetes の標準機能として、ロールアウト・アップデート機能を持っています。この確認をしてみます。
+    
+    1. 以下の コマンドで、現在のデプロイメントの設定を確認します。中断にある StrategyTYpe と RollingUpdateStrategy を確認ください。
+        ```
+        # kubectl describe deployment mylibertyapp-deploy
+        Name:                   mylibertyapp-deploy
+        Namespace:              handson
+        CreationTimestamp:      Wed, 08 May 2019 09:13:28 +0000
+        Labels:                 <none>
+        Annotations:            deployment.kubernetes.io/revision: 1
+                                kubectl.kubernetes.io/last-applied-configuration:
+                                  {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"mylibertyapp-deploy","namespace":"handson"},"spec":{"repl...
+        Selector:               app=mylibertyapp
+        Replicas:               3 desired | 3 updated | 3 total | 3 available | 0 unavailable
+        StrategyType:           RollingUpdate
+        MinReadySeconds:        0
+        RollingUpdateStrategy:  25% max unavailable, 25% max surge
+        Pod Template:
+          Labels:  app=mylibertyapp
+          Containers:
+           myliberty-container:
+            Image:        mycluster.icp:8500/handson/mylibertyapp:1.0
+            Port:         9080/TCP
+            Host Port:    0/TCP
+            Environment:  <none>
+            Mounts:       <none>
+          Volumes:        <none>
+        Conditions:
+          Type           Status  Reason
+          ----           ------  ------
+          Progressing    True    NewReplicaSetAvailable
+          Available      True    MinimumReplicasAvailable
+        OldReplicaSets:  <none>
+        NewReplicaSet:   mylibertyapp-deploy-74f4dc5f7d (3/3 replicas created)
+        Events:
+          Type    Reason             Age                From                   Message
+          ----    ------             ----               ----                   -------
+          Normal  ScalingReplicaSet  56m                deployment-controller  Scaled down replica set mylibertyapp-deploy-74f4dc5f7d to 1
+          Normal  ScalingReplicaSet  18m (x2 over 18h)  deployment-controller  Scaled up replica set mylibertyapp-deploy-74f4dc5f7d to 3
+            mylibertyapp-deploy
+        ```
+    
+    1. 現在、`mylibertyapp:1.0` のイメージが利用されていますので、このイメージを `mylibertyapp:2.0` に更新します。<br>直後に ステータス確認のコマンドを実行してみてください。
+        ```
+        # kubectl set image  deployments/mylibertyapp-deploy myliberty-container=mycluster.icp:8500/handson/mylibertyapp:2.0
+        # kubectl rollout status deployment/mylibertyapp-deploy
+        Waiting for deployment "mylibertyapp-deploy" rollout to finish: 1 out of 3 new replicas have been updated...
+        Waiting for deployment "mylibertyapp-deploy" rollout to finish: 1 out of 3 new replicas have been updated...
+        Waiting for deployment "mylibertyapp-deploy" rollout to finish: 1 out of 3 new replicas have been updated...
+        Waiting for deployment "mylibertyapp-deploy" rollout to finish: 2 out of 3 new replicas have been updated...
+        Waiting for deployment "mylibertyapp-deploy" rollout to finish: 2 out of 3 new replicas have been updated...
+        Waiting for deployment "mylibertyapp-deploy" rollout to finish: 2 out of 3 new replicas have been updated...
+        Waiting for deployment "mylibertyapp-deploy" rollout to finish: 1 old replicas are pending termination...
+        Waiting for deployment "mylibertyapp-deploy" rollout to finish: 1 old replicas are pending termination...
+        deployment "mylibertyapp-deploy" successfully rolled out
+        ```
+        
+    1. kubetctl get pods コマンドで状況を確認します。 
+        ```
+        # kubectl get pods
+        NAME                                        READY   STATUS        RESTARTS   AGE
+        liberty-default-helm-ibm-595757b554-tjl4f   1/1     Running       0          19h
+        mylibertyapp-deploy-6dbb8b77bf-d6qkc        1/1     Running       0          16s
+        mylibertyapp-deploy-6dbb8b77bf-v5n7n        1/1     Running       0          14s
+        mylibertyapp-deploy-6dbb8b77bf-vkrfb        1/1     Running       0          18s
+        mylibertyapp-deploy-74f4dc5f7d-8s2mp        0/1     Terminating   0          19h
+        ```
+        
+    1. 実際に ブラウザーで、`http://(ICPのIP)/handson/Sum/` にアクセスして、アプリケーションが更新されていることを確認します。
     
     
-    
-    
+##  Kubernetes 基本機能の確認４： ロールバック
+
+1. 更新に問題があった場合に、更新を元に戻すための機能も Kubernetesとして提供しています。元の環境に手を入れているわけではないので、すぐに戻すことが可能です。
+    1. 以下のコマンドで ロールアウト の履歴を確認します。まだ１度しか更新していないので、履歴は２です。
+    ```
+    # kubectl rollout history deployments/mylibertyapp-deploy
+    deployment.extensions/mylibertyapp-deploy
+    REVISION  CHANGE-CAUSE
+    1         <none>
+    2         <none>
+    ```   
+    1. 以下のコマンドで、直前の更新を取り消します。
+    ```
+    # kubectl rollout undo deployment/mylibertyapp-deploy
+    ```
+    1. 実際に ブラウザーで、`http://(ICPのIP)/handson/Sum/` にアクセスして、アプリケーションの更新が元に戻されていることを確認します。
+   
+        
 以上で、Lab6は終了です。
 
 
