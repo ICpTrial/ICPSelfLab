@@ -174,7 +174,7 @@
     1. この SSH Keyを使って、ICPの`hosts`ファイルに指定した IPアドレスに パスワードなしでログインできるよう構成します
       　SSHでパスワードなしログインできるようになればOKです。
         ```
-        # ssh-copy-id -i ~/.ssh/id_rsa.pub root@<node_ip_address>
+        # ssh-copy-id -i ~/.ssh/id_rsa.pub root@<private_ip_address>
         /usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/root/.ssh/id_rsa.pub"
         /usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
         /usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
