@@ -128,7 +128,7 @@
             ```
         1. Ingressプロキシー用 IPアドレスの設定
         こちらは外部ユーザーがアクセスされるIPアドレスので、外部ネットワークからアクセスできるIPアドレスを指定します
-        以下のエントリを探し、cluster_lb_address にIPアドレスを指定してください。
+        以下のエントリを探し、proxy_lb_address にIPアドレスを指定してください。
             ```
             ## External loadbalancer IP or domain
             ## Or floating IP in OpenStack environment
