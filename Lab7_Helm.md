@@ -354,7 +354,7 @@
       ```
    
    1. 作成された helmパッケージを ICPの helmレポジトリに登録します。
-      ICP環境にログインしていなれけば cludctl login コマンドでログインしてください。
+      ICP環境にログインしていなれけば cloudctl login コマンドでログインしてください。
       ```
       cloudctl catalog load-helm-chart --archive mylibertyapp-0.1.0.tgz
       Loading helm chart
