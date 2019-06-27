@@ -7,7 +7,7 @@
 
 このLabでは、下記の準備を前提としています。
  - 任意のクラウドまたは仮想環境上に Ubuntu環境が導入されています。
- 　Ubunut環境のリソースは、あとでICP導入のため 8vCPU 16GB Memory 100GB Storageを想定します
+ 　Ubunut環境のリソースは、あとでICP導入のため 8vCPU 32GB Memory 100GB Storageを想定します
   （ハンズオンを限られたリソースで実施できるよう製品の公式なSystem Requirementは満たしていません）<br>
   参考 [Knowledge Center: ICPのシステム要件](https://www.ibm.com/support/knowledgecenter/ja/SSBS6K_3.1.0/supported_system_config/system_reqs.html)
  - UbuntuにSSHでログイン可能
