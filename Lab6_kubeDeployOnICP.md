@@ -514,9 +514,13 @@ IBM Cloud Private内のプライベートDockerレジストリに、コンテナ
             mylibertyapp-deploy
         ```
     
-    1. 現在、`mylibertyapp:1.0` のイメージが利用されていますので、このイメージを `mylibertyapp:2.0` に更新します。<br>直後に ステータス確認のコマンドを実行してみてください。
+    1. 現在、`mylibertyapp:1.0` のイメージが利用されていますので、このイメージを `mylibertyapp:2.0` に更新します。このコマンドは、Deployment定義の中のイメージのバージョンを変更しています。
+       ```# kubectl set image  deployments/mylibertyapp-deploy myliberty-container=mycluster.icp:8500/handson/mylibertyapp:2.0```
+
+直後に 以下のコマンドで、ステータスを確認してみてください。
+　　　　　``` # kubectl rollout status deployment/mylibertyapp-deploy```
+     
         ```
-        # kubectl set image  deployments/mylibertyapp-deploy myliberty-container=mycluster.icp:8500/handson/mylibertyapp:2.0
         # kubectl rollout status deployment/mylibertyapp-deploy
         Waiting for deployment "mylibertyapp-deploy" rollout to finish: 1 out of 3 new replicas have been updated...
         Waiting for deployment "mylibertyapp-deploy" rollout to finish: 1 out of 3 new replicas have been updated...
