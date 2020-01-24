@@ -261,14 +261,14 @@ IBM Cloud Private内のプライベートDockerレジストリに、コンテナ
         spec:
           containers:
           - name: myliberty-container
-            image: icpcluster01.icp:8500/handson/mylibertyapp:1.0
+            image: mycluster.icp:8500/handson/mylibertyapp:1.0
             ports:
             - containerPort: 9080
     ```
     上記のデプロイメントの定義ファイルでは、下記のような設定を記述しています。
     - 2行目の"kind: Deployment"で、デプロイメントの定義であることを指定
     - 6行目の"replicas: 1"で、ポッドの複製の数を指定
-    - 17行目の"image: icpcluster01.icp:8500/handson/mylibertyapp:1.0"で、コンテナーのイメージを指定
+    - 17行目の"image: muclsuter.icp:8500/handson/mylibertyapp:1.0"で、コンテナーのイメージを指定
 1. `kubectl apply -f mylibapp-deployment.yaml` コマンドを入力し、デプロイメントを作成します。
     ```
     $ kubectl apply -f mylibapp-deployment.yaml
